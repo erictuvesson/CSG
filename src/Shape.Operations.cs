@@ -11,7 +11,7 @@
 
     public partial class Shape
     {
-        public Shape Do(ShapeOperation operation, Shape other)
+        public GeneratedShape Do(ShapeOperation operation, Shape other)
         {
             switch (operation)
             {
@@ -22,30 +22,30 @@
             }
         }
 
-        public Shape Union(Shape other) => Union(this, other);
-        public Shape Subtract(Shape other) => Subtract(this, other);
-        public Shape Intersect(Shape other) => Intersect(this, other);
+        public GeneratedShape Union(Shape other) => Union(this, other);
+        public GeneratedShape Subtract(Shape other) => Subtract(this, other);
+        public GeneratedShape Intersect(Shape other) => Intersect(this, other);
 
-        public static Shape Union(Shape lhs, Shape rhs)
+        public static GeneratedShape Union(Shape lhs, Shape rhs)
         {
-            var a = new BSPNode(lhs.ToPolygons());
-            var b = new BSPNode(rhs.ToPolygons());
+            var a = new BSPNode(lhs.CreatePolygons());
+            var b = new BSPNode(rhs.CreatePolygons());
             var polygons = BSPNode.Union(a, b).AllPolygons();
             return new GeneratedShape(polygons);
         }
 
-        public static Shape Subtract(Shape lhs, Shape rhs)
+        public static GeneratedShape Subtract(Shape lhs, Shape rhs)
         {
-            var a = new BSPNode(lhs.ToPolygons());
-            var b = new BSPNode(rhs.ToPolygons());
+            var a = new BSPNode(lhs.CreatePolygons());
+            var b = new BSPNode(rhs.CreatePolygons());
             var polygons = BSPNode.Subtract(a, b).AllPolygons();
             return new GeneratedShape(polygons);
         }
 
-        public static Shape Intersect(Shape lhs, Shape rhs)
+        public static GeneratedShape Intersect(Shape lhs, Shape rhs)
         {
-            var a = new BSPNode(lhs.ToPolygons());
-            var b = new BSPNode(rhs.ToPolygons());
+            var a = new BSPNode(lhs.CreatePolygons());
+            var b = new BSPNode(rhs.CreatePolygons());
             var polygons = BSPNode.Intersect(a, b).AllPolygons();
             return new GeneratedShape(polygons);
         }

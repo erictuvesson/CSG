@@ -22,7 +22,10 @@
             OnBuild();
         }
 
-        public Polygon[] ToPolygons()
+        /// <summary>
+        /// Create polygons of the <see cref="Shape"/>.
+        /// </summary>
+        public virtual Polygon[] CreatePolygons()
         {
             var result = new Polygon[this.indices.Count / 3];
             for (int i = 0, vi = 0; vi < this.indices.Count; i++, vi += 3)
