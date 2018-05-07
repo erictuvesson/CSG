@@ -2,9 +2,17 @@ namespace CSG.Shapes
 {
     using System.Numerics;
     using Xunit;
+    using Xunit.Abstractions;
 
     public class CubeTest
     {
+        private readonly ITestOutputHelper output;
+
+        public CubeTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Theory]
         [InlineData(ShapeOperation.Intersect)]
         [InlineData(ShapeOperation.Subtract)]
@@ -17,6 +25,8 @@ namespace CSG.Shapes
 
             Assert.True(result.Cache.Vertices.Length > 0);
             Assert.True(result.Cache.Indices.Length > 0);
+
+            output.WriteLine($"Result Cache: {result.Cache.ToString()}");
         }
 
         [Theory]
@@ -31,6 +41,8 @@ namespace CSG.Shapes
 
             Assert.True(result.Cache.Vertices.Length > 0);
             Assert.True(result.Cache.Indices.Length > 0);
+
+            output.WriteLine($"Result Cache: {result.Cache.ToString()}");
         }
     }
 }

@@ -28,5 +28,7 @@
             }
             return result;
         }
+
+        public override string ToString() => $"Vertices: {Vertices.Length}, Indices: {Indices.Length}";
     }
 }

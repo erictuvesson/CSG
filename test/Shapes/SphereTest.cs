@@ -2,9 +2,17 @@
 {
     using System.Numerics;
     using Xunit;
+    using Xunit.Abstractions;
 
     public class SphereTest
     {
+        private readonly ITestOutputHelper output;
+
+        public SphereTest(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Theory]
         [InlineData(ShapeOperation.Intersect)]
         [InlineData(ShapeOperation.Subtract)]
@@ -17,6 +25,8 @@
 
             Assert.True(result.Cache.Vertices.Length > 0);
             Assert.True(result.Cache.Indices.Length > 0);
+
+            output.WriteLine($"Result Cache: {result.Cache.ToString()}");
         }
 
         [Theory]
@@ -31,6 +41,8 @@
 
             Assert.True(result.Cache.Vertices.Length > 0);
             Assert.True(result.Cache.Indices.Length > 0);
+
+            output.WriteLine($"Result Cache: {result.Cache.ToString()}");
         }
     }
 }
