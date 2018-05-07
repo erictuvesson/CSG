@@ -4,13 +4,13 @@
 
     public class Cube : Shape
     {
-        public Vector3 Center { get; set; }
+        public Vector3 Position { get; }
         public Vector3 Size { get; set; }
 
-        public Cube(Vector3? center = null, Vector3? size = null)
+        public Cube(Vector3? position = null, Vector3? size = null)
         {
-            this.Center = center ?? new Vector3(0, 0, 0);
-            this.Size = size ?? new Vector3(1, 1, 1);
+            this.Position = position ?? Vector3.Zero;
+            this.Size = size ?? Vector3.One;
 
             Build();
         }
@@ -27,7 +27,6 @@
                 new Vector3(+0, -1, +0),
             };
 
-            var polygons = new Polygon[normals.Length];
             for (int i = 0; i < normals.Length; i++)
             {
                 var normal = normals[i];
@@ -43,10 +42,10 @@
                 AddIndex(CurrentVertex + 2);
                 AddIndex(CurrentVertex + 3);
 
-                AddVertex(new Vertex(Center + ((normal - side1 - side2) / 2) * Size, normal, Vector2.Zero));
-                AddVertex(new Vertex(Center + ((normal - side1 + side2) / 2) * Size, normal, Vector2.UnitX));
-                AddVertex(new Vertex(Center + ((normal + side1 + side2) / 2) * Size, normal, Vector2.One));
-                AddVertex(new Vertex(Center + ((normal + side1 - side2) / 2) * Size, normal, Vector2.UnitY));
+                AddVertex(new Vertex(Position + ((normal - side1 - side2) / 2) * Size, normal, Vector2.Zero));
+                AddVertex(new Vertex(Position + ((normal - side1 + side2) / 2) * Size, normal, Vector2.UnitX));
+                AddVertex(new Vertex(Position + ((normal + side1 + side2) / 2) * Size, normal, Vector2.One));
+                AddVertex(new Vertex(Position + ((normal + side1 - side2) / 2) * Size, normal, Vector2.UnitY));
             }
         }
     }

@@ -3,7 +3,6 @@
     using System;
     using System.Numerics;
 
-    // TODO: Most things...
     public class Cylinder : Shape
     {
         public Vector3 Start { get; set; }
@@ -11,7 +10,6 @@
         public float RadiusStart { get; set; }
         public float RadiusEnd { get; set; }
         public float SectorAngle { get; set; }
-        public int Resolution { get; set; }
         public int Tessellation { get; set; }
 
         public Cylinder(Vector3 start, Vector3 end, 
@@ -24,7 +22,6 @@
             this.RadiusStart = radiusStart;
             this.RadiusEnd = radiusEnd;
             this.SectorAngle = sectorAngle;
-            this.Resolution = resolution;
             this.Tessellation = tessellation;
 
             Build();

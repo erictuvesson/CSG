@@ -46,13 +46,10 @@
 
         protected void AddVertex(Vector3 position, Vector3 normal)
         {
-            AddVertex(new Vertex()
-            {
-                Position = position,
-                Normal = normal,
-                TexCoords = new Vector2((float)(Math.Asin(normal.X) / Algorithms.Helpers.Pi + 0.5),
-                                        (float)(Math.Asin(normal.X) / Algorithms.Helpers.Pi + 0.5)),
-            });
+            var texCoords = new Vector2((float)(Math.Asin(normal.X) / Algorithms.Helpers.Pi + 0.5),
+                                        (float)(Math.Asin(normal.X) / Algorithms.Helpers.Pi + 0.5));
+
+            AddVertex(new Vertex(position, normal, texCoords, Vector4.One));
         }
 
         protected void AddIndex(int index)
@@ -64,9 +61,9 @@
         {
             for (int i = 0; i < vertices.Count; i++)
             {
-                var newVertex = vertices[i];
-                newVertex.Position = Vector3.Transform(newVertex.Position, quaternion);
-                vertices[i] = newVertex;
+                var vertex = vertices[i];
+                var newPosition = Vector3.Transform(vertex.Position, quaternion);
+                vertices[i] = new Vertex(newPosition, vertex.Normal, vertex.TexCoords, vertex.Color);
             }
         }
     }

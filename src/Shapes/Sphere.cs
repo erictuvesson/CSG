@@ -3,20 +3,19 @@
     using System;
     using System.Numerics;
 
-    // TODO: Center, Radius
     public class Sphere : Shape
     {
         readonly Vector3 XAxis = new Vector3(+1, +0, +0);
         readonly Vector3 YAxis = new Vector3(+0, -1, +0);
         readonly Vector3 ZAxis = new Vector3(+0, +0, +1);
 
-        public Vector3 Center { get; set; }
+        public Vector3 Position { get; }
         public float Radius { get; set; }
         public int Tessellation { get; set; }
 
-        public Sphere(Vector3 center, float radius = 1, int tessellation = 12)
+        public Sphere(Vector3? position = null, float radius = 1, int tessellation = 12)
         {
-            this.Center = center;
+            this.Position = position ?? Vector3.Zero;
             this.Radius = radius;
             this.Tessellation = tessellation;
 
@@ -29,7 +28,7 @@
             int horizontalSegments = Tessellation * 2;
 
             // Start with a single vertex at the bottom of the sphere.
-            AddVertex(-Vector3.UnitY, -Vector3.UnitY);
+            AddVertex(Position - Vector3.UnitY, -Vector3.UnitY);
 
             // Create rings of vertices at progressively higher latitudes.
             for (int i = 0; i < verticalSegments - 1; ++i)
@@ -48,14 +47,14 @@
                     float dx = (float)Math.Cos(longitude) * dxz;
                     float dz = (float)Math.Sin(longitude) * dxz;
 
-                    Vector3 normal = new Vector3(dx, dy, dz);
+                    Vector3 normal = new Vector3(dx, dy, dz) * Radius;
 
-                    AddVertex(normal, normal);
+                    AddVertex(Position + normal, normal);
                 }
             }
 
             // Finish with a single vertex at the top of the sphere.
-            AddVertex(Vector3.UnitY, Vector3.UnitY);
+            AddVertex(Position + Vector3.UnitY, Vector3.UnitY);
 
             // Create a fan connecting the bottom vertex to the bottom latitude ring.
             for (int i = 0; i < horizontalSegments; ++i)

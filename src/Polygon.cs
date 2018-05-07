@@ -37,9 +37,6 @@
             Plane.Flip();
         }
 
-        public override string ToString()
-        {
-            return $"Vertices: {Vertices.Count}, Plane: {Plane}";
-        }
+        public override string ToString() => $"Vertices: {Vertices.Count}, Plane: {Plane}";
     }
 }

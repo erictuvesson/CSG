@@ -16,9 +16,9 @@
             switch (operation)
             {
                 default:
-                case ShapeOperation.Intersect: return this.Intersect(other);
-                case ShapeOperation.Subtract: return this.Subtract(other);
-                case ShapeOperation.Union: return this.Union(other);
+                case ShapeOperation.Intersect:  return Intersect(other);
+                case ShapeOperation.Subtract:   return Subtract(other);
+                case ShapeOperation.Union:      return Union(other);
             }
         }
 
