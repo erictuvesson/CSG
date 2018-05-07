@@ -23,8 +23,6 @@
             this.RadiusEnd = radiusEnd;
             this.SectorAngle = sectorAngle;
             this.Tessellation = tessellation;
-
-            Build();
         }
 
         protected override void OnBuild()

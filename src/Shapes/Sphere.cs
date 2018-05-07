@@ -9,7 +9,7 @@
         readonly Vector3 YAxis = new Vector3(+0, -1, +0);
         readonly Vector3 ZAxis = new Vector3(+0, +0, +1);
 
-        public Vector3 Position { get; }
+        public Vector3 Position { get; set; }
         public float Radius { get; set; }
         public int Tessellation { get; set; }
 
@@ -18,8 +18,6 @@
             this.Position = position ?? Vector3.Zero;
             this.Radius = radius;
             this.Tessellation = tessellation;
-
-            Build();
         }
 
         protected override void OnBuild()
@@ -34,7 +32,7 @@
             for (int i = 0; i < verticalSegments - 1; ++i)
             {
                 float latitude = ((i + 1) * Algorithms.Helpers.Pi /
-                                            verticalSegments) - Algorithms.Helpers.PiOver2;
+                    verticalSegments) - Algorithms.Helpers.PiOver2;
 
                 float dy = (float)Math.Sin(latitude);
                 float dxz = (float)Math.Cos(latitude);

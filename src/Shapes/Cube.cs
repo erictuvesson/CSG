@@ -4,29 +4,27 @@
 
     public class Cube : Shape
     {
-        public Vector3 Position { get; }
+        static readonly Vector3[] normals = new Vector3[]
+        {
+            new Vector3(+0, +0, +1),
+            new Vector3(+0, +0, -1),
+            new Vector3(+1, +0, +0),
+            new Vector3(-1, +0, +0),
+            new Vector3(+0, +1, +0),
+            new Vector3(+0, -1, +0),
+        };
+
+        public Vector3 Position { get; set; }
         public Vector3 Size { get; set; }
 
         public Cube(Vector3? position = null, Vector3? size = null)
         {
             this.Position = position ?? Vector3.Zero;
             this.Size = size ?? Vector3.One;
-
-            Build();
         }
 
         protected override void OnBuild()
         {
-            var normals = new Vector3[]
-            {
-                new Vector3(+0, +0, +1),
-                new Vector3(+0, +0, -1),
-                new Vector3(+1, +0, +0),
-                new Vector3(-1, +0, +0),
-                new Vector3(+0, +1, +0),
-                new Vector3(+0, -1, +0),
-            };
-
             for (int i = 0; i < normals.Length; i++)
             {
                 var normal = normals[i];

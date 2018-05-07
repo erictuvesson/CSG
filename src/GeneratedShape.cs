@@ -20,11 +20,6 @@
         public GeneratedShape(IEnumerable<Polygon> polygons)
         {
             this.Polygons = polygons.ToArray();
-
-            // NOTE: If you chain a lot of operations, then building here is just wasting time!
-            //       Maybe we can find a way to only build when we need to.
-
-            Build();
         }
 
         public override Polygon[] CreatePolygons() => Polygons;
