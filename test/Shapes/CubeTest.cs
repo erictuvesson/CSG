@@ -44,8 +44,16 @@ namespace CSG.Shapes
                 return shape1.Do(operation, shape2);
             });
 
-            Assert.True(result.Cache.Vertices.Length > 0);
-            Assert.True(result.Cache.Indices.Length > 0);
+            if (operation == ShapeOperation.Subtract)
+            {
+                Assert.True(result.Cache.Vertices.Length == 0);
+                Assert.True(result.Cache.Indices.Length == 0);
+            }
+            else
+            {
+                Assert.True(result.Cache.Vertices.Length > 0);
+                Assert.True(result.Cache.Indices.Length > 0);
+            }
 
             output.WriteLine($"Result Cache: {result.Cache.ToString()}");
         }
