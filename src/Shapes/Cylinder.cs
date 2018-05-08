@@ -7,35 +7,30 @@
     {
         public Vector3 Start { get; set; }
         public Vector3 End { get; set; }
-        public float RadiusStart { get; set; }
-        public float RadiusEnd { get; set; }
-        public float SectorAngle { get; set; }
+        public float Radius { get; set; }
         public int Tessellation { get; set; }
 
-        public Cylinder(Vector3 start, Vector3 end, 
-            float radiusStart = 1, float radiusEnd = 1, 
-            float sectorAngle = 360, int resolution = 12, 
-            int tessellation = 32)
+        public Cylinder(Vector3? start = null, Vector3? end = null, 
+            float radius = 1, int tessellation = 32)
         {
-            this.Start = start;
-            this.End = end;
-            this.RadiusStart = radiusStart;
-            this.RadiusEnd = radiusEnd;
-            this.SectorAngle = sectorAngle;
+            this.Start = start ?? Vector3.UnitY;
+            this.End = end ?? -Vector3.UnitY;
+            this.Radius = radius;
             this.Tessellation = tessellation;
         }
 
         protected override void OnBuild()
         {
-            AddVertex(Vector3.UnitY * 0.5f, Vector3.UnitY);
-            AddVertex(-Vector3.UnitY * 0.5f, -Vector3.UnitY);
+            AddVertex(Start * 0.5f, Start);
+            AddVertex(-End * 0.5f, -End);
 
+            float diameter = Radius / 2;
             for (int i = 0; i < this.Tessellation; ++i)
             {
                 Vector3 normal = GetCircleVector(i, Tessellation);
 
-                AddVertex(normal + 0.5f * Vector3.UnitY, normal);
-                AddVertex(normal - 0.5f * Vector3.UnitY, normal);
+                AddVertex(normal + diameter * Start, normal);
+                AddVertex(normal - diameter * Start, normal);
 
                 AddIndex(0);
                 AddIndex(2 + i * 2);

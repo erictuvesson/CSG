@@ -163,7 +163,6 @@
             b.Invert();
             b.ClipTo(a);
             b.Invert();
-
             a.Build(b.AllPolygons());
 
             return new BSPNode(a.AllPolygons());
@@ -181,7 +180,6 @@
             b.ClipTo(a);
             b.Invert();
             a.Build(b.AllPolygons());
-            // a.Invert();
 
             return new BSPNode(a.AllPolygons());
         }

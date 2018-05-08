@@ -5,6 +5,20 @@
 
     public abstract partial class Shape
     {
+        public Vector4 Color
+        {
+            get => color;
+            set
+            {
+                if (this.color != value)
+                {
+                    this.color = value;
+                    Invalidate();
+                }
+            }
+        }
+        private Vector4 color = Vector4.One;
+
         public ShapeCache Cache => cache ?? (cache = BuildCache()).Value;
         private ShapeCache? cache = null;
 
@@ -31,6 +45,14 @@
         /// Create polygons of the <see cref="Shape"/>.
         /// </summary>
         public virtual Polygon[] CreatePolygons() => Cache.CreatePolygons();
+
+        /// <summary>
+        /// Invalidates the cache. This will force it to rebuild next time it is accessed.
+        /// </summary>
+        public void Invalidate()
+        {
+            this.cache = null;
+        }
 
         protected abstract void OnBuild();
 
