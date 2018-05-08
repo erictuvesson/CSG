@@ -1,8 +1,6 @@
 # Constructive solid geometry (CSG)
 Create geometry objects from boolean operations.
 
-This project was inspired by [pb_CSG](https://github.com/karl-/pb_CSG), which was designed for Unity. 
-
 ## Sample
 
 ```csharp
