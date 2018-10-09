@@ -6,7 +6,7 @@
     using System.Runtime.Serialization;
 
     [DataContract]
-    public abstract partial class Shape
+    public abstract partial class Shape : IEquatable<Shape>
     {
         [DataMember]
         public string Name { get; set; }
@@ -74,6 +74,11 @@
                 newVertex.Position = Vector3.Transform(newVertex.Position, quaternion);
                 vertices[i] = newVertex;
             }
+        }
+
+        public bool Equals(Shape other)
+        {
+            return Name == other.Name;
         }
     }
 }

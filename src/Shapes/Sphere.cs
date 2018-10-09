@@ -5,6 +5,7 @@
     using System.Runtime.Serialization;
 
     // TODO: Center, Radius
+    [DataContract]
     public class Sphere : Shape
     {
         // private readonly Vector3 XAxis = new Vector3(+1, +0, +0);

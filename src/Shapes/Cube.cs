@@ -1,9 +1,11 @@
 ﻿namespace CSG.Shapes
 {
+    using System;
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    public class Cube : Shape
+    [DataContract]
+    public class Cube : Shape, IEquatable<Cube>
     {
         [DataMember]
         public Vector3 Center { get; set; }
@@ -35,10 +37,10 @@
             for (int i = 0; i < normals.Length; i++)
             {
                 var normal = normals[i];
-                
+
                 Vector3 side1 = new Vector3(normal.Y, normal.Z, normal.X);
                 Vector3 side2 = Vector3.Cross(normal, side1);
-                
+
                 AddIndex(CurrentVertex + 0);
                 AddIndex(CurrentVertex + 1);
                 AddIndex(CurrentVertex + 2);
@@ -47,11 +49,16 @@
                 AddIndex(CurrentVertex + 2);
                 AddIndex(CurrentVertex + 3);
 
-                AddVertex(new Vertex(Center + ((normal - side1 - side2) / 2) * Size, normal, Vector2.Zero));
-                AddVertex(new Vertex(Center + ((normal - side1 + side2) / 2) * Size, normal, Vector2.UnitX));
-                AddVertex(new Vertex(Center + ((normal + side1 + side2) / 2) * Size, normal, Vector2.One));
-                AddVertex(new Vertex(Center + ((normal + side1 - side2) / 2) * Size, normal, Vector2.UnitY));
+                AddVertex(new Vertex(Center + (((normal - side1 - side2) / 2) * Size), normal, Vector2.Zero));
+                AddVertex(new Vertex(Center + (((normal - side1 + side2) / 2) * Size), normal, Vector2.UnitX));
+                AddVertex(new Vertex(Center + (((normal + side1 + side2) / 2) * Size), normal, Vector2.One));
+                AddVertex(new Vertex(Center + (((normal + side1 - side2) / 2) * Size), normal, Vector2.UnitY));
             }
+        }
+
+        public bool Equals(Cube other)
+        {
+            return base.Equals(other) && Center == other.Center && Size == other.Size;
         }
     }
 }

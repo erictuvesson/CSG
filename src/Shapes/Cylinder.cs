@@ -5,6 +5,7 @@
     using System.Runtime.Serialization;
 
     // TODO: Most things...
+    [DataContract]
     public class Cylinder : Shape
     {
         [DataMember]
