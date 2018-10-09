@@ -1,6 +1,7 @@
 ﻿namespace CSG.Serialization
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization;
     using System.Runtime.Serialization.Json;
@@ -10,52 +11,82 @@
     public abstract class SerializerStreamDataContract<TSerializer> : SerializerStream
         where TSerializer : XmlObjectSerializer
     {
+        protected SerializerStreamDataContract(IEnumerable<Type> knownTypes)
+            : base(knownTypes)
+        {
+
+        }
+
         public override T Deserialize<T>(byte[] value)
         {
-            using (var fs = new MemoryStream(value))
+            using (var stream = new MemoryStream(value))
             {
-                var reader = XmlDictionaryReader.CreateTextReader(fs,
-                    new XmlDictionaryReaderQuotas());
-                var ser = CreateSerializer<T>();
-                var obj = (T)ser.ReadObject(reader);
-                reader.Close();
-                return obj;
+                T result = default(T);
+                using (var reader = XmlDictionaryReader.CreateTextReader(stream,
+                    new XmlDictionaryReaderQuotas()))
+                {
+                    var ser = CreateSerializer<T>();
+                    result = ReadObject<T>(ser, reader);
+                }
+                return result;
             }
         }
 
         public override T DeserializeContent<T>(string value)
         {
-            return default(T);
+            var byteArray = Encoding.UTF8.GetBytes(value);
+            using (var stream = new MemoryStream(byteArray))
+            {
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                return (T)serializer.ReadObject(stream);
+            }
         }
 
         public override byte[] Serialize<T>(T value)
         {
-            using (var fs = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
-                var writer = XmlDictionaryWriter.CreateBinaryWriter(fs);
-                var ser = CreateSerializer<T>();
-                ser.WriteObject(writer, value);
-                writer.Close();
-                return fs.ToArray();
+                using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
+                {
+                    var serializer = CreateSerializer<T>();
+                    WriteObject(serializer, writer, value);
+                }
+                return stream.ToArray();
             }
         }
 
         public override string SerializeContent<T>(T value)
         {
-            using (var fs = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
-                var ser = CreateSerializer<T>();
-                ser.WriteObject(fs, value);
-                return Encoding.ASCII.GetString(fs.ToArray());
+                var serializer = CreateSerializer<T>();
+                serializer.WriteObject(stream, value);
+                return Encoding.ASCII.GetString(stream.ToArray());
             }
         }
 
-        private TSerializer CreateSerializer<T>()
+        protected virtual T ReadObject<T>(TSerializer serializer, XmlDictionaryReader stream)
         {
-            return (TSerializer)Activator.CreateInstance(typeof(TSerializer), typeof(T));
+            return (T)serializer.ReadObject(stream);
+        }
+
+        protected virtual void WriteObject<T>(TSerializer serializer,
+            XmlDictionaryWriter stream, T value)
+        {
+            serializer.WriteObject(stream, value);
+        }
+        
+        protected virtual TSerializer CreateSerializer<T>()
+        {
+            if (KnownTypes != null)
+            {
+                return (TSerializer)Activator.CreateInstance(typeof(TSerializer),
+                    typeof(T), KnownTypes);
+            }
+            else
+            {
+                return (TSerializer)Activator.CreateInstance(typeof(TSerializer), typeof(T));
+            }
         }
     }
-
-    public class SerializerStreamJson : SerializerStreamDataContract<DataContractJsonSerializer> {}
-    public class SerializerStreamXml : SerializerStreamDataContract<DataContractSerializer> { }
 }

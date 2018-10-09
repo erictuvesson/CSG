@@ -1,5 +1,6 @@
 ﻿namespace CSG
 {
+    using CSG.Serialization;
     using CSG.Shapes;
     using System.Numerics;
     using Xunit;
@@ -17,10 +18,14 @@
         public void SerializeSimpleCube()
         {
             var cube = new Cube(new Vector3(0, 1, 0), new Vector3(1));
-            var content = SerializationHelper.SerializeContent(cube);
-            var result = SerializationHelper.DeserializeContent<Cube>(content);
 
+            var ser = new SerializerStreamXml(null);
+
+            var content = ser.SerializeContent(cube);
             output.WriteLine(content);
+
+            var result = ser.DeserializeContent<Cube>(content);
+
             Assert.Equal(cube, result);
         }
 
@@ -32,10 +37,13 @@
                 new Cube(new Vector3(0, 0, 0), new Vector3(1, 0, 0))
             );
 
-            var content = SerializationHelper.SerializeContent(group);
-            var result = SerializationHelper.DeserializeContent<Group>(content);
+            var ser = new SerializerStreamXml(null);
 
+            var content = ser.SerializeContent(group);
             output.WriteLine(content);
+
+            var result = ser.DeserializeContent<Group>(content);
+
             Assert.Equal(group, result);
         }
     }
