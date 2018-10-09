@@ -75,7 +75,7 @@
         {
             serializer.WriteObject(stream, value);
         }
-        
+
         protected virtual TSerializer CreateSerializer<T>()
         {
             if (KnownTypes != null)

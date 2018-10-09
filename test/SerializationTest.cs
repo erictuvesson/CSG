@@ -19,12 +19,12 @@
         {
             var cube = new Cube(new Vector3(0, 1, 0), new Vector3(1));
 
-            var ser = new SerializerStreamXml(null);
+            var serializer = new SerializerStreamXml(null);
 
-            var content = ser.SerializeContent(cube);
+            var content = serializer.SerializeContent(cube);
             output.WriteLine(content);
 
-            var result = ser.DeserializeContent<Cube>(content);
+            var result = serializer.DeserializeContent<Cube>(content);
 
             Assert.Equal(cube, result);
         }
@@ -37,12 +37,12 @@
                 new Cube(new Vector3(0, 0, 0), new Vector3(1, 0, 0))
             );
 
-            var ser = new SerializerStreamXml(null);
+            var serializer = new SerializerStreamXml(null);
 
-            var content = ser.SerializeContent(group);
+            var content = serializer.SerializeContent(group);
             output.WriteLine(content);
 
-            var result = ser.DeserializeContent<Group>(content);
+            var result = serializer.DeserializeContent<Group>(content);
 
             Assert.Equal(group, result);
         }
