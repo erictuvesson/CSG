@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0-preview1-26216-02" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.0-preview1-27008-04" />
   </ItemGroup>
 
 </Project>

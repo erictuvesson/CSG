@@ -3,16 +3,21 @@
     using System;
     using System.Collections.Generic;
     using System.Numerics;
+    using System.Runtime.Serialization;
 
+    [DataContract]
     public abstract partial class Shape
     {
+        [DataMember]
+        public string Name { get; set; }
+
         public Vertex[] Vertices => vertices.ToArray();
         public ushort[] Indices => indices.ToArray();
 
         protected int CurrentVertex => vertices.Count;
 
-        private List<Vertex> vertices = new List<Vertex>();
-        private List<ushort> indices = new List<ushort>();
+        private readonly List<Vertex> vertices = new List<Vertex>();
+        private readonly List<ushort> indices = new List<ushort>();
 
         public void Build()
         {
@@ -50,8 +55,9 @@
             {
                 Position = position,
                 Normal = normal,
-                TexCoords = new Vector2((float)(Math.Asin(normal.X) / Algorithms.Helpers.Pi + 0.5),
-                                        (float)(Math.Asin(normal.X) / Algorithms.Helpers.Pi + 0.5)),
+                TexCoords = new Vector2(
+                    (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5),
+                    (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5)),
             });
         }
 

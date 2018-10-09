@@ -2,16 +2,22 @@
 {
     using System;
     using System.Numerics;
+    using System.Runtime.Serialization;
 
     // TODO: Center, Radius
     public class Sphere : Shape
     {
-        readonly Vector3 XAxis = new Vector3(+1, +0, +0);
-        readonly Vector3 YAxis = new Vector3(+0, -1, +0);
-        readonly Vector3 ZAxis = new Vector3(+0, +0, +1);
+        // private readonly Vector3 XAxis = new Vector3(+1, +0, +0);
+        // private readonly Vector3 YAxis = new Vector3(+0, -1, +0);
+        // private readonly Vector3 ZAxis = new Vector3(+0, +0, +1);
 
+        [DataMember]
         public Vector3 Center { get; set; }
+
+        [DataMember]
         public float Radius { get; set; }
+
+        [DataMember]
         public int Tessellation { get; set; }
 
         public Sphere(Vector3 center, float radius = 1, int tessellation = 12)
@@ -34,8 +40,8 @@
             // Create rings of vertices at progressively higher latitudes.
             for (int i = 0; i < verticalSegments - 1; ++i)
             {
-                float latitude = ((i + 1) * Algorithms.Helpers.Pi /
-                                            verticalSegments) - Algorithms.Helpers.PiOver2;
+                float latitude = ((i + 1) * Algorithms.Helpers.Pi
+                                            / verticalSegments) - Algorithms.Helpers.PiOver2;
 
                 float dy = (float)Math.Sin(latitude);
                 float dxz = (float)Math.Cos(latitude);
@@ -61,7 +67,7 @@
             for (int i = 0; i < horizontalSegments; ++i)
             {
                 AddIndex(0);
-                AddIndex(1 + (i + 1) % horizontalSegments);
+                AddIndex(1 + ((i + 1) % horizontalSegments));
                 AddIndex(1 + i);
             }
 
@@ -73,13 +79,13 @@
                     int nextI = i + 1;
                     int nextJ = (j + 1) % horizontalSegments;
 
-                    AddIndex(1 + i * horizontalSegments + j);
-                    AddIndex(1 + i * horizontalSegments + nextJ);
-                    AddIndex(1 + nextI * horizontalSegments + j);
+                    AddIndex(1 + (i * horizontalSegments) + j);
+                    AddIndex(1 + (i * horizontalSegments) + nextJ);
+                    AddIndex(1 + (nextI * horizontalSegments) + j);
 
-                    AddIndex(1 + i * horizontalSegments + nextJ);
-                    AddIndex(1 + nextI * horizontalSegments + nextJ);
-                    AddIndex(1 + nextI * horizontalSegments + j);
+                    AddIndex(1 + (i * horizontalSegments) + nextJ);
+                    AddIndex(1 + (nextI * horizontalSegments) + nextJ);
+                    AddIndex(1 + (nextI * horizontalSegments) + j);
                 }
             }
 
@@ -87,7 +93,7 @@
             for (int i = 0; i < horizontalSegments; ++i)
             {
                 AddIndex(CurrentVertex - 1);
-                AddIndex(CurrentVertex - 2 - (i + 1) % horizontalSegments);
+                AddIndex(CurrentVertex - 2 - ((i + 1) % horizontalSegments));
                 AddIndex(CurrentVertex - 2 - i);
             }
         }

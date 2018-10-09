@@ -2,21 +2,35 @@
 {
     using System;
     using System.Numerics;
+    using System.Runtime.Serialization;
 
     // TODO: Most things...
     public class Cylinder : Shape
     {
+        [DataMember]
         public Vector3 Start { get; set; }
+
+        [DataMember]
         public Vector3 End { get; set; }
+
+        [DataMember]
         public float RadiusStart { get; set; }
+
+        [DataMember]
         public float RadiusEnd { get; set; }
+
+        [DataMember]
         public float SectorAngle { get; set; }
+
+        [DataMember]
         public int Resolution { get; set; }
+
+        [DataMember]
         public int Tessellation { get; set; }
 
-        public Cylinder(Vector3 start, Vector3 end, 
-            float radiusStart = 1, float radiusEnd = 1, 
-            float sectorAngle = 360, int resolution = 12, 
+        public Cylinder(Vector3 start, Vector3 end,
+            float radiusStart = 1, float radiusEnd = 1,
+            float sectorAngle = 360, int resolution = 12,
             int tessellation = 32)
         {
             this.Start = start;
@@ -39,28 +53,28 @@
             {
                 Vector3 normal = GetCircleVector(i, Tessellation);
 
-                AddVertex(normal + 0.5f * Vector3.UnitY, normal);
-                AddVertex(normal - 0.5f * Vector3.UnitY, normal);
+                AddVertex(normal + (0.5f * Vector3.UnitY), normal);
+                AddVertex(normal - (0.5f * Vector3.UnitY), normal);
 
                 AddIndex(0);
-                AddIndex(2 + i * 2);
-                AddIndex(2 + (i * 2 + 2) % (Tessellation * 2));
+                AddIndex(2 + (i * 2));
+                AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
 
-                AddIndex(2 + i * 2);
-                AddIndex(2 + i * 2 + 1);
-                AddIndex(2 + (i * 2 + 2) % (Tessellation * 2));
+                AddIndex(2 + (i * 2));
+                AddIndex(2 + (i * 2) + 1);
+                AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
 
                 AddIndex(1);
-                AddIndex(2 + (i * 2 + 3) % (Tessellation * 2));
-                AddIndex(2 + i * 2 + 1);
+                AddIndex(2 + (((i * 2) + 3) % (Tessellation * 2)));
+                AddIndex(2 + (i * 2) + 1);
 
-                AddIndex(2 + i * 2 + 1);
-                AddIndex(2 + (i * 2 + 3) % (Tessellation * 2));
-                AddIndex(2 + (i * 2 + 2) % (Tessellation * 2));
+                AddIndex(2 + (i * 2) + 1);
+                AddIndex(2 + (((i * 2) + 3) % (Tessellation * 2)));
+                AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
             }
         }
 
-        static Vector3 GetCircleVector(int i, int tessellation)
+        private static Vector3 GetCircleVector(int i, int tessellation)
         {
             float angle = i * Algorithms.Helpers.TwoPi / tessellation;
 

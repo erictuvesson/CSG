@@ -1,10 +1,14 @@
 ﻿namespace CSG.Shapes
 {
     using System.Numerics;
+    using System.Runtime.Serialization;
 
     public class Cube : Shape
     {
+        [DataMember]
         public Vector3 Center { get; set; }
+
+        [DataMember]
         public Vector3 Size { get; set; }
 
         public Cube(Vector3? center = null, Vector3? size = null)
