@@ -12,19 +12,7 @@
 
         [DataMember]
         public Vector3 End { get; set; }
-
-        // [DataMember]
-        // public float RadiusStart { get; set; }
-
-        // [DataMember]
-        // public float RadiusEnd { get; set; }
-
-        // [DataMember]
-        // public float SectorAngle { get; set; }
-
-        // [DataMember]
-        // public int Resolution { get; set; }
-
+        
         [DataMember]
         public int Tessellation { get; set; }
 
@@ -39,14 +27,7 @@
             this.Radius = radius;
             this.Tessellation = tessellation;
         }
-
-        // public Cylinder(Vector3 start, Vector3 end,
-        //     float radiusStart = 1, float radiusEnd = 1,
-        //     float sectorAngle = 360, int resolution = 12,
-        //     int tessellation = 32)
-        // {
-        // }
-
+        
         protected override void OnBuild()
         {
             AddVertex(Start * 0.5f, Start);
@@ -57,8 +38,8 @@
             {
                 Vector3 normal = GetCircleVector(i, Tessellation);
 
-                AddVertex(normal + diameter * Start, normal);
-                AddVertex(normal - diameter * Start, normal);
+                AddVertex(normal + (diameter * Start), normal);
+                AddVertex(normal - (diameter * Start), normal);
 
                 AddIndex(0);
                 AddIndex(2 + (i * 2));

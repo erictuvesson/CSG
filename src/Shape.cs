@@ -101,7 +101,7 @@
 
         public bool Equals(Shape other)
         {
-            return Name == other.Name;
+            return Name == other.Name && Color == other.Color;
         }
     }
 }

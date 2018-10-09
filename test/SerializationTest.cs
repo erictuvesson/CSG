@@ -15,7 +15,7 @@
         }
 
         [Fact]
-        public void Serialize()
+        public void SerializeSimpleCube()
         {
             var cube = new Cube(new Vector3(0, 1, 0), new Vector3(1));
             var content = SerializationHelper.SerializeContent(cube);
