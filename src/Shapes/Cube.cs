@@ -7,33 +7,30 @@
     [DataContract]
     public class Cube : Shape, IEquatable<Cube>
     {
+        private static readonly Vector3[] normals = new Vector3[]
+        {
+            new Vector3(+0, +0, +1),
+            new Vector3(+0, +0, -1),
+            new Vector3(+1, +0, +0),
+            new Vector3(-1, +0, +0),
+            new Vector3(+0, +1, +0),
+            new Vector3(+0, -1, +0),
+        };
+
         [DataMember]
-        public Vector3 Center { get; set; }
+        public Vector3 Position { get; set; }
 
         [DataMember]
         public Vector3 Size { get; set; }
 
-        public Cube(Vector3? center = null, Vector3? size = null)
+        public Cube(Vector3? position = null, Vector3? size = null)
         {
-            this.Center = center ?? new Vector3(0, 0, 0);
-            this.Size = size ?? new Vector3(1, 1, 1);
-
-            Build();
+            this.Position = position ?? Vector3.Zero;
+            this.Size = size ?? Vector3.One;
         }
 
         protected override void OnBuild()
         {
-            var normals = new Vector3[]
-            {
-                new Vector3(+0, +0, +1),
-                new Vector3(+0, +0, -1),
-                new Vector3(+1, +0, +0),
-                new Vector3(-1, +0, +0),
-                new Vector3(+0, +1, +0),
-                new Vector3(+0, -1, +0),
-            };
-
-            var polygons = new Polygon[normals.Length];
             for (int i = 0; i < normals.Length; i++)
             {
                 var normal = normals[i];
@@ -49,16 +46,16 @@
                 AddIndex(CurrentVertex + 2);
                 AddIndex(CurrentVertex + 3);
 
-                AddVertex(new Vertex(Center + (((normal - side1 - side2) / 2) * Size), normal, Vector2.Zero));
-                AddVertex(new Vertex(Center + (((normal - side1 + side2) / 2) * Size), normal, Vector2.UnitX));
-                AddVertex(new Vertex(Center + (((normal + side1 + side2) / 2) * Size), normal, Vector2.One));
-                AddVertex(new Vertex(Center + (((normal + side1 - side2) / 2) * Size), normal, Vector2.UnitY));
+                AddVertex(new Vertex(Position + (((normal - side1 - side2) / 2) * Size), normal, Vector2.Zero));
+                AddVertex(new Vertex(Position + (((normal - side1 + side2) / 2) * Size), normal, Vector2.UnitX));
+                AddVertex(new Vertex(Position + (((normal + side1 + side2) / 2) * Size), normal, Vector2.One));
+                AddVertex(new Vertex(Position + (((normal + side1 - side2) / 2) * Size), normal, Vector2.UnitY));
             }
         }
 
         public bool Equals(Cube other)
         {
-            return base.Equals(other) && Center == other.Center && Size == other.Size;
+            return base.Equals(other) && Position == other.Position && Size == other.Size;
         }
     }
 }

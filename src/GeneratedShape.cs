@@ -3,16 +3,26 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    class GeneratedShape : Shape
+    /// <summary>
+    /// A <see cref="GeneratedShape"/> is a processed shape built from other <see cref="Shape"/>'s.
+    /// </summary>
+    public class GeneratedShape : Shape
     {
+        /// <summary>
+        /// <see cref="Polygon"/>'s that was generated from the other <see cref="Shape"/>'s.
+        /// </summary>
         public readonly Polygon[] Polygons;
 
+        /// <summary>
+        /// Initialize a new <see cref="GeneratedShape"/>.
+        /// </summary>
+        /// <param name="polygons"></param>
         public GeneratedShape(IEnumerable<Polygon> polygons)
         {
             this.Polygons = polygons.ToArray();
-
-            Build();
         }
+
+        public override Polygon[] CreatePolygons() => Polygons;
 
         protected override void OnBuild()
         {

@@ -1,0 +1,3 @@
+[submodule "samples/dep/veldrid"]
+	path = samples/dep/veldrid
+	url = https://github.com/mellinoe/veldrid.git

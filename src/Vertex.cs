@@ -2,14 +2,17 @@
 {
     using System.Numerics;
 
+    /// <summary>
+    /// Vertex with Position, Normal, Texture Coordinates and Color. 
+    /// </summary>
     public struct Vertex
     {
         public const uint SizeInBytes = 48;
 
-        public Vector3 Position;
-        public Vector3 Normal;
-        public Vector2 TexCoords;
-        public Vector4 Color;
+        public readonly Vector3 Position;
+        public readonly Vector3 Normal;
+        public readonly Vector2 TexCoords;
+        public readonly Vector4 Color;
 
         public Vertex(Vector3 position, Vector4 color)
             : this(position, Vector3.Zero, Vector2.Zero, color)
@@ -38,16 +41,10 @@
         }
 
         /// <summary>
-        /// Flip the <see cref="Vertex"/> normal.
+        /// Return a flipped <see cref="Vertex"/> normal.
         /// </summary>
-        public void Flip()
-        {
-            this.Normal *= -1f;
-        }
+        public Vertex Flip() => new Vertex(Position, Normal * -1, TexCoords, Color);
 
-        public override string ToString()
-        {
-            return $"Position: {Position}, Normal: {Normal}, TexCoords: {TexCoords}, Color: {Color}";
-        }
+        public override string ToString() => $"Position: {Position}, Normal: {Normal}, TexCoords: {TexCoords}, Color: {Color}";
     }
 }

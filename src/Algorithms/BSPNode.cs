@@ -64,9 +64,11 @@
 
             if (this.Plane == null || !this.Plane.Valid())
             {
-                this.Plane = new Plane();
-                this.Plane.Normal = list[0].Plane.Normal;
-                this.Plane.W = list[0].Plane.W;
+                this.Plane = new Plane
+                {
+                    Normal = list[0].Plane.Normal,
+                    W = list[0].Plane.W
+                };
             }
 
             if (this.Polygons == null)
@@ -84,22 +86,14 @@
             if (list_front.Count > 0)
             {
                 if (this.Front == null)
-                {
-                    this.Front = new BSPNode();
-                    this.Front.Parent = this;
-                }
-
+                    this.Front = new BSPNode { Parent = this };
                 this.Front.Build(list_front);
             }
 
             if (list_back.Count > 0)
             {
                 if (this.Back == null)
-                {
-                    this.Back = new BSPNode();
-                    this.Back.Parent = this;
-                }
-
+                    this.Back = new BSPNode { Parent = this };
                 this.Back.Build(list_back);
             }
         }
@@ -109,7 +103,6 @@
             if (!this.Plane.Valid())
                 return list;
 
-            // TODO: Optimize!
             var list_front = new List<Polygon>();
             var list_back = new List<Polygon>();
 
@@ -170,7 +163,6 @@
             b.Invert();
             b.ClipTo(a);
             b.Invert();
-
             a.Build(b.AllPolygons());
 
             return new BSPNode(a.AllPolygons());
@@ -188,7 +180,6 @@
             b.ClipTo(a);
             b.Invert();
             a.Build(b.AllPolygons());
-            // a.Invert();
 
             return new BSPNode(a.AllPolygons());
         }

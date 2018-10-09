@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
     <RootNamespace>CSG</RootNamespace>
+    <ParallelizeAssemblies>true</ParallelizeAssemblies>
+    <ParallelizeTestCollections>true</ParallelizeTestCollections>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JetBrains.DotMemoryUnit" Version="3.0.20171219.105559" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0-preview-20180924-03" />
     <PackageReference Include="xunit" Version="2.4.1-pre.build.4071" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1-pre.build.4071" />

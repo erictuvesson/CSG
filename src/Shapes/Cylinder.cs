@@ -4,7 +4,6 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    // TODO: Most things...
     [DataContract]
     public class Cylinder : Shape
     {
@@ -14,48 +13,52 @@
         [DataMember]
         public Vector3 End { get; set; }
 
-        [DataMember]
-        public float RadiusStart { get; set; }
+        // [DataMember]
+        // public float RadiusStart { get; set; }
 
-        [DataMember]
-        public float RadiusEnd { get; set; }
+        // [DataMember]
+        // public float RadiusEnd { get; set; }
 
-        [DataMember]
-        public float SectorAngle { get; set; }
+        // [DataMember]
+        // public float SectorAngle { get; set; }
 
-        [DataMember]
-        public int Resolution { get; set; }
+        // [DataMember]
+        // public int Resolution { get; set; }
 
         [DataMember]
         public int Tessellation { get; set; }
 
-        public Cylinder(Vector3 start, Vector3 end,
-            float radiusStart = 1, float radiusEnd = 1,
-            float sectorAngle = 360, int resolution = 12,
-            int tessellation = 32)
-        {
-            this.Start = start;
-            this.End = end;
-            this.RadiusStart = radiusStart;
-            this.RadiusEnd = radiusEnd;
-            this.SectorAngle = sectorAngle;
-            this.Resolution = resolution;
-            this.Tessellation = tessellation;
+        [DataMember]
+        public float Radius { get; set; }
 
-            Build();
+        public Cylinder(Vector3? start = null, Vector3? end = null,
+            float radius = 1, int tessellation = 32)
+        {
+            this.Start = start ?? Vector3.UnitY;
+            this.End = end ?? -Vector3.UnitY;
+            this.Radius = radius;
+            this.Tessellation = tessellation;
         }
+
+        // public Cylinder(Vector3 start, Vector3 end,
+        //     float radiusStart = 1, float radiusEnd = 1,
+        //     float sectorAngle = 360, int resolution = 12,
+        //     int tessellation = 32)
+        // {
+        // }
 
         protected override void OnBuild()
         {
-            AddVertex(Vector3.UnitY * 0.5f, Vector3.UnitY);
-            AddVertex(-Vector3.UnitY * 0.5f, -Vector3.UnitY);
+            AddVertex(Start * 0.5f, Start);
+            AddVertex(-End * 0.5f, -End);
 
+            float diameter = Radius / 2;
             for (int i = 0; i < this.Tessellation; ++i)
             {
                 Vector3 normal = GetCircleVector(i, Tessellation);
 
-                AddVertex(normal + (0.5f * Vector3.UnitY), normal);
-                AddVertex(normal - (0.5f * Vector3.UnitY), normal);
+                AddVertex(normal + diameter * Start, normal);
+                AddVertex(normal - diameter * Start, normal);
 
                 AddIndex(0);
                 AddIndex(2 + (i * 2));

@@ -11,69 +11,92 @@
         [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
+        public Vector4 Color
+        {
+            get => color;
+            set
+            {
+                if (this.color != value)
+                {
+                    this.color = value;
+                    Invalidate();
+                }
+            }
+        }
+
         public Vertex[] Vertices => vertices.ToArray();
         public ushort[] Indices => indices.ToArray();
 
-        protected int CurrentVertex => vertices.Count;
+        public ShapeCache Cache => cache ?? (cache = BuildCache()).Value;
 
+        protected int CurrentVertex => ShapeBuilder.CurrentBuilder().Vertices.Count;
+
+        private ShapeCache? cache = null;
+        private Vector4 color = Vector4.One;
         private readonly List<Vertex> vertices = new List<Vertex>();
         private readonly List<ushort> indices = new List<ushort>();
 
-        public void Build()
+        private ShapeCache BuildCache()
         {
-            this.vertices.Clear();
-            this.indices.Clear();
+            // Make sure that it is clean.
+            ShapeBuilder.CurrentBuilder().Clear();
 
+            // Build the shape.
             OnBuild();
+
+            // Generate the shape cache.
+            var cache = ShapeBuilder.CurrentBuilder().CreateCache();
+
+            // Clear the currently builder so we dont waste memory.
+            ShapeBuilder.CurrentBuilder().Clear();
+
+            return cache;
         }
 
-        public Polygon[] ToPolygons()
+        /// <summary>
+        /// Create polygons of the <see cref="Shape"/>.
+        /// </summary>
+        public virtual Polygon[] CreatePolygons() => Cache.CreatePolygons();
+
+        /// <summary>
+        /// Invalidates the cache. This will force it to rebuild next time it is accessed.
+        /// </summary>
+        public void Invalidate()
         {
-            var result = new Polygon[this.indices.Count / 3];
-            for (int i = 0, vi = 0; vi < this.indices.Count; i++, vi += 3)
-            {
-                result[i] = new Polygon(new[]
-                {
-                    Vertices[Indices[vi+0]],
-                    Vertices[Indices[vi+1]],
-                    Vertices[Indices[vi+2]]
-                });
-            }
-            return result;
+            this.cache = null;
         }
 
         protected abstract void OnBuild();
 
         protected void AddVertex(Vertex vertex)
         {
-            this.vertices.Add(vertex);
+            ShapeBuilder.CurrentBuilder().Vertices.Add(vertex);
         }
 
         protected void AddVertex(Vector3 position, Vector3 normal)
         {
-            AddVertex(new Vertex()
-            {
-                Position = position,
-                Normal = normal,
-                TexCoords = new Vector2(
-                    (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5),
-                    (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5)),
-            });
+            var texCoords = new Vector2(
+                (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5),
+                (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5));
+
+            AddVertex(new Vertex(position, normal, texCoords, Vector4.One));
         }
 
         protected void AddIndex(int index)
         {
-            this.indices.Add((ushort)index);
+            ShapeBuilder.CurrentBuilder().Indices.Add((ushort)index);
         }
 
         public void Rotate(Quaternion quaternion)
         {
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                var newVertex = vertices[i];
-                newVertex.Position = Vector3.Transform(newVertex.Position, quaternion);
-                vertices[i] = newVertex;
-            }
+            throw new NotImplementedException();
+            //for (int i = 0; i < vertices.Count; i++)
+            //{
+            //    var vertex = vertices[i];
+            //    var newPosition = Vector3.Transform(vertex.Position, quaternion);
+            //    vertices[i] = new Vertex(newPosition, vertex.Normal, vertex.TexCoords, vertex.Color);
+            //}
         }
 
         public bool Equals(Shape other)
