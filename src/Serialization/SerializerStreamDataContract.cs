@@ -37,7 +37,7 @@
             var byteArray = Encoding.UTF8.GetBytes(value);
             using (var stream = new MemoryStream(byteArray))
             {
-                var serializer = new DataContractJsonSerializer(typeof(T));
+                var serializer = CreateSerializer<T>();
                 return (T)serializer.ReadObject(stream);
             }
         }
