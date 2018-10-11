@@ -10,9 +10,9 @@
     {
         public readonly DataContractResolver Resolver;
 
-        public SerializerStreamXml(IEnumerable<Type> knownTypes,
+        public SerializerStreamXml(IEnumerable<Type> knownTypes = null,
             DataContractResolver resolver = null)
-            : base(knownTypes)
+            : base(knownTypes ?? SerializerHelper.GetSerializableTypes())
         {
             this.Resolver = resolver ?? new SerializerDataContractResolver(DefaultAssembly());
         }
