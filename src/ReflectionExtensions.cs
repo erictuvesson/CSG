@@ -12,7 +12,7 @@
 
         public static IEnumerable<Type> FindDerivedTypes(this Assembly assembly, Type baseType)
         {
-            return assembly.GetTypes().Where(t => t != baseType && baseType.IsAssignableFrom(t));
+            return assembly.GetTypes().Where((type) => type != baseType && baseType.IsAssignableFrom(type));
         }
 
         public static IEnumerable<Type> FindByAttribute<T>(this Assembly assembly)
@@ -20,13 +20,7 @@
 
         public static IEnumerable<Type> FindByAttribute(this Assembly assembly, Type findType)
         {
-            foreach (var type in assembly.GetTypes())
-            {
-                if (type.GetCustomAttributes(findType, true).Length > 0)
-                {
-                    yield return type;
-                }
-            }
+            return assembly.GetTypes().Where((type) => type.GetCustomAttributes(findType, true).Length > 0);
         }
     }
 }
