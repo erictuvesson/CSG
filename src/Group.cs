@@ -29,7 +29,7 @@
 
             return Value1.Do(Operation, Value2);
         }
-        
+
         public bool Equals(Group other)
         {
             return Value1.Equals(other.Value1) && Value2.Equals(other.Value2)
