@@ -29,7 +29,7 @@
             this.Size = size ?? Vector3.One;
         }
 
-        protected override void OnBuild()
+        protected override void OnBuild(IShapeBuilder builder)
         {
             for (int i = 0; i < normals.Length; i++)
             {
@@ -38,18 +38,18 @@
                 Vector3 side1 = new Vector3(normal.Y, normal.Z, normal.X);
                 Vector3 side2 = Vector3.Cross(normal, side1);
 
-                AddIndex(CurrentVertex + 0);
-                AddIndex(CurrentVertex + 1);
-                AddIndex(CurrentVertex + 2);
+                builder.AddIndex(builder.CurrentVertex + 0);
+                builder.AddIndex(builder.CurrentVertex + 1);
+                builder.AddIndex(builder.CurrentVertex + 2);
 
-                AddIndex(CurrentVertex + 0);
-                AddIndex(CurrentVertex + 2);
-                AddIndex(CurrentVertex + 3);
+                builder.AddIndex(builder.CurrentVertex + 0);
+                builder.AddIndex(builder.CurrentVertex + 2);
+                builder.AddIndex(builder.CurrentVertex + 3);
 
-                AddVertex(new Vertex(Position + (((normal - side1 - side2) / 2) * Size), normal, Vector2.Zero));
-                AddVertex(new Vertex(Position + (((normal - side1 + side2) / 2) * Size), normal, Vector2.UnitX));
-                AddVertex(new Vertex(Position + (((normal + side1 + side2) / 2) * Size), normal, Vector2.One));
-                AddVertex(new Vertex(Position + (((normal + side1 - side2) / 2) * Size), normal, Vector2.UnitY));
+                builder.AddVertex(new Vertex(Position + (((normal - side1 - side2) / 2) * Size), normal, Vector2.Zero));
+                builder.AddVertex(new Vertex(Position + (((normal - side1 + side2) / 2) * Size), normal, Vector2.UnitX));
+                builder.AddVertex(new Vertex(Position + (((normal + side1 + side2) / 2) * Size), normal, Vector2.One));
+                builder.AddVertex(new Vertex(Position + (((normal + side1 - side2) / 2) * Size), normal, Vector2.UnitY));
             }
         }
 

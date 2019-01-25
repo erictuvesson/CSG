@@ -2,10 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
 
-    public static class ReflectionExtensions
+    static class ReflectionExtensions
     {
         public static IEnumerable<Type> FindDerivedTypes<T>(this Assembly assembly)
             => assembly.FindDerivedTypes(typeof(T));
