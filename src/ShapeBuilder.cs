@@ -1,17 +1,28 @@
 ﻿namespace CSG
 {
+    using System;
     using System.Collections.Generic;
+    using System.Numerics;
 
-    class ShapeBuilder
+    class ShapeBuilder : IShapeBuilder
     {
         public readonly List<Vertex> Vertices;
         public readonly List<ushort> Indices;
 
-        public ShapeBuilder()
+        public int CurrentVertex => Vertices.Count;
+
+        public ShapeBuilder(int initialVertexCount = 256, int initialIndexCount = 512)
         {
-            this.Vertices = new List<Vertex>();
-            this.Indices = new List<ushort>();
+            this.Vertices = new List<Vertex>(initialIndexCount);
+            this.Indices = new List<ushort>(initialIndexCount);
         }
+
+        public void AddVertex(Vertex vertex) => Vertices.Add(vertex);
+        public void AddVertex(Vector3 position, Vector3 normal) => AddVertex(position, normal, Vector4.One);
+        public void AddVertex(Vector3 position, Vector3 normal, Vector4 color) => AddVertex(new Vertex(position, normal, CalculateTexCoordsFromNormal(normal), color));
+        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texCoords, Vector4 color) => AddVertex(new Vertex(position, normal, texCoords, color));
+
+        public void AddIndex(int index) => Indices.Add((ushort)index);
 
         public void Clear()
         {
@@ -21,15 +32,10 @@
 
         public ShapeCache CreateCache() => new ShapeCache(Vertices.ToArray(), Indices.ToArray());
 
-
-        private static Dictionary<int, ShapeBuilder> builders = new Dictionary<int, ShapeBuilder>();
-        private static int CurrentThread => System.Threading.Thread.CurrentThread.ManagedThreadId;
-
-        public static ShapeBuilder CurrentBuilder()
+        private static Vector2 CalculateTexCoordsFromNormal(Vector3 normal)
         {
-            if (!builders.ContainsKey(CurrentThread))
-                builders[CurrentThread] = new ShapeBuilder();
-            return builders[CurrentThread];
+            return new Vector2((float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5),
+                               (float)((Math.Asin(normal.X) / Algorithms.Helpers.Pi) + 0.5));
         }
     }
 }

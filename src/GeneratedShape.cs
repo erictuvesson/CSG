@@ -24,7 +24,7 @@
 
         public override Polygon[] CreatePolygons() => Polygons;
 
-        protected override void OnBuild()
+        protected override void OnBuild(IShapeBuilder builder)
         {
             int p = 0;
             for (int i = 0; i < Polygons.Length; i++)
@@ -32,14 +32,14 @@
                 var poly = Polygons[i];
                 for (int j = 2; j < poly.Vertices.Count; j++)
                 {
-                    AddVertex(poly.Vertices[0]);
-                    AddIndex(p++);
+                    builder.AddVertex(poly.Vertices[0]);
+                    builder.AddIndex(p++);
 
-                    AddVertex(poly.Vertices[j - 1]);
-                    AddIndex(p++);
+                    builder.AddVertex(poly.Vertices[j - 1]);
+                    builder.AddIndex(p++);
 
-                    AddVertex(poly.Vertices[j]);
-                    AddIndex(p++);
+                    builder.AddVertex(poly.Vertices[j]);
+                    builder.AddIndex(p++);
                 }
             }
         }

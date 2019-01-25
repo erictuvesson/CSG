@@ -7,10 +7,6 @@
     [DataContract]
     public class Sphere : Shape
     {
-        // private readonly Vector3 XAxis = new Vector3(+1, +0, +0);
-        // private readonly Vector3 YAxis = new Vector3(+0, -1, +0);
-        // private readonly Vector3 ZAxis = new Vector3(+0, +0, +1);
-
         [DataMember]
         public Vector3 Position { get; set; }
 
@@ -27,13 +23,13 @@
             this.Tessellation = tessellation;
         }
 
-        protected override void OnBuild()
+        protected override void OnBuild(IShapeBuilder builder)
         {
             int verticalSegments = Tessellation;
             int horizontalSegments = Tessellation * 2;
 
             // Start with a single vertex at the bottom of the sphere.
-            AddVertex(Position - Vector3.UnitY, -Vector3.UnitY);
+            builder.AddVertex(Position - Vector3.UnitY, -Vector3.UnitY);
 
             // Create rings of vertices at progressively higher latitudes.
             for (int i = 0; i < verticalSegments - 1; ++i)
@@ -54,19 +50,19 @@
 
                     Vector3 normal = new Vector3(dx, dy, dz) * Radius;
 
-                    AddVertex(Position + normal, normal);
+                    builder.AddVertex(Position + normal, normal);
                 }
             }
 
             // Finish with a single vertex at the top of the sphere.
-            AddVertex(Position + Vector3.UnitY, Vector3.UnitY);
+            builder.AddVertex(Position + Vector3.UnitY, Vector3.UnitY);
 
             // Create a fan connecting the bottom vertex to the bottom latitude ring.
             for (int i = 0; i < horizontalSegments; ++i)
             {
-                AddIndex(0);
-                AddIndex(1 + ((i + 1) % horizontalSegments));
-                AddIndex(1 + i);
+                builder.AddIndex(0);
+                builder.AddIndex(1 + ((i + 1) % horizontalSegments));
+                builder.AddIndex(1 + i);
             }
 
             // Fill the sphere body with triangles joining each pair of latitude rings.
@@ -77,22 +73,22 @@
                     int nextI = i + 1;
                     int nextJ = (j + 1) % horizontalSegments;
 
-                    AddIndex(1 + (i * horizontalSegments) + j);
-                    AddIndex(1 + (i * horizontalSegments) + nextJ);
-                    AddIndex(1 + (nextI * horizontalSegments) + j);
+                    builder.AddIndex(1 + (i * horizontalSegments) + j);
+                    builder.AddIndex(1 + (i * horizontalSegments) + nextJ);
+                    builder.AddIndex(1 + (nextI * horizontalSegments) + j);
 
-                    AddIndex(1 + (i * horizontalSegments) + nextJ);
-                    AddIndex(1 + (nextI * horizontalSegments) + nextJ);
-                    AddIndex(1 + (nextI * horizontalSegments) + j);
+                    builder.AddIndex(1 + (i * horizontalSegments) + nextJ);
+                    builder.AddIndex(1 + (nextI * horizontalSegments) + nextJ);
+                    builder.AddIndex(1 + (nextI * horizontalSegments) + j);
                 }
             }
 
             // Create a fan connecting the top vertex to the top latitude ring.
             for (int i = 0; i < horizontalSegments; ++i)
             {
-                AddIndex(CurrentVertex - 1);
-                AddIndex(CurrentVertex - 2 - ((i + 1) % horizontalSegments));
-                AddIndex(CurrentVertex - 2 - i);
+                builder.AddIndex(builder.CurrentVertex - 1);
+                builder.AddIndex(builder.CurrentVertex - 2 - ((i + 1) % horizontalSegments));
+                builder.AddIndex(builder.CurrentVertex - 2 - i);
             }
         }
     }

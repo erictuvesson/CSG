@@ -21,9 +21,9 @@
             {
                 result[i] = new Polygon(new[]
                 {
-                    Vertices[Indices[vi+0]],
-                    Vertices[Indices[vi+1]],
-                    Vertices[Indices[vi+2]]
+                    Vertices[Indices[vi + 0]],
+                    Vertices[Indices[vi + 1]],
+                    Vertices[Indices[vi + 2]]
                 });
             }
             return result;
