@@ -1,18 +1,17 @@
-﻿namespace CSG.Viewer.Core
+﻿namespace Veldrid.Host
 {
     using System;
     using System.Diagnostics;
-    using Veldrid;
     using Veldrid.Sdl2;
     using Veldrid.StartupUtilities;
     using Veldrid.Utilities;
 
     public class VeldridStartupWindow : IApplicationWindow
     {
-        public uint Width => (uint)_window.Width;
-        public uint Height => (uint)_window.Height;
+        public uint Width => (uint)window.Width;
+        public uint Height => (uint)window.Height;
 
-        public SamplePlatformType PlatformType => SamplePlatformType.Desktop;
+        public PlatformType PlatformType => PlatformType.Desktop;
 
         public event Action<float> Rendering;
         public event Action<GraphicsDevice, ResourceFactory, Swapchain> GraphicsDeviceCreated;
@@ -20,10 +19,10 @@
         public event Action Resized;
         public event Action<KeyEvent> KeyPressed;
 
-        private readonly Sdl2Window _window;
-        private GraphicsDevice _gd;
-        private DisposeCollectorResourceFactory _factory;
-        private bool _windowResized = true;
+        private readonly Sdl2Window window;
+        private GraphicsDevice graphicsDevice;
+        private DisposeCollectorResourceFactory resourceFactory;
+        private bool windowResized = true;
 
         public VeldridStartupWindow(string title)
         {
@@ -35,17 +34,15 @@
                 WindowHeight = 720,
                 WindowTitle = title,
             };
-            _window = VeldridStartup.CreateWindow(ref wci);
-            _window.Resized += () =>
-            {
-                _windowResized = true;
-            };
-            _window.KeyDown += OnKeyDown;
+
+            window = VeldridStartup.CreateWindow(ref wci);
+            window.Resized += () => windowResized = true;
+            window.KeyDown += OnKeyDown;
         }
 
         public void Run()
         {
-            GraphicsDeviceOptions options = new GraphicsDeviceOptions(
+            var options = new GraphicsDeviceOptions(
                 debug: false,
                 swapchainDepthFormat: PixelFormat.R16_UNorm,
                 syncToVerticalBlank: true,
@@ -56,28 +53,28 @@
             options.Debug = true;
 #endif
 
-            _gd = VeldridStartup.CreateGraphicsDevice(_window, options, GraphicsBackend.OpenGL);
-            _factory = new DisposeCollectorResourceFactory(_gd.ResourceFactory);
-            GraphicsDeviceCreated?.Invoke(_gd, _factory, _gd.MainSwapchain);
+            graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, options);
+            resourceFactory = new DisposeCollectorResourceFactory(graphicsDevice.ResourceFactory);
+            GraphicsDeviceCreated?.Invoke(graphicsDevice, resourceFactory, graphicsDevice.MainSwapchain);
 
-            Stopwatch sw = Stopwatch.StartNew();
-            double previousElapsed = sw.Elapsed.TotalSeconds;
+            var sw = Stopwatch.StartNew();
+            var previousElapsed = sw.Elapsed.TotalSeconds;
 
-            while (_window.Exists)
+            while (window.Exists)
             {
                 double newElapsed = sw.Elapsed.TotalSeconds;
                 float deltaSeconds = (float)(newElapsed - previousElapsed);
 
-                InputSnapshot inputSnapshot = _window.PumpEvents();
-                InputTracker.UpdateFrameInput(inputSnapshot);
+                InputSnapshot inputSnapshot = window.PumpEvents();
+                //InputTracker.UpdateFrameInput(inputSnapshot);
 
-                if (_window.Exists)
+                if (window.Exists)
                 {
                     previousElapsed = newElapsed;
-                    if (_windowResized)
+                    if (windowResized)
                     {
-                        _windowResized = false;
-                        _gd.ResizeMainWindow((uint)_window.Width, (uint)_window.Height);
+                        windowResized = false;
+                        graphicsDevice.ResizeMainWindow((uint)window.Width, (uint)window.Height);
                         Resized?.Invoke();
                     }
 
@@ -85,9 +82,10 @@
                 }
             }
 
-            _gd.WaitForIdle();
-            _factory.DisposeCollector.DisposeAll();
-            _gd.Dispose();
+            graphicsDevice.WaitForIdle();
+            resourceFactory.DisposeCollector.DisposeAll();
+            graphicsDevice.Dispose();
+
             GraphicsDeviceDestroyed?.Invoke();
         }
 

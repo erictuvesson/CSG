@@ -1,8 +1,7 @@
-﻿namespace CSG.Viewer.Core
+﻿namespace Veldrid
 {
     using System.Collections.Generic;
     using System.Numerics;
-    using Veldrid;
 
     public static class InputTracker
     {

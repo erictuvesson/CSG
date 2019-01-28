@@ -1,9 +1,8 @@
-﻿namespace CSG.Viewer.Core
+﻿namespace Veldrid.Host
 {
     using System;
-    using Veldrid;
 
-    public enum SamplePlatformType
+    public enum PlatformType
     {
         Desktop,
         Mobile,
@@ -11,7 +10,7 @@
 
     public interface IApplicationWindow
     {
-        SamplePlatformType PlatformType { get; }
+        PlatformType PlatformType { get; }
 
         event Action<float> Rendering;
         event Action<GraphicsDevice, ResourceFactory, Swapchain> GraphicsDeviceCreated;

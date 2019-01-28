@@ -1,27 +1,34 @@
-﻿namespace CSG.Viewer.Core
+﻿namespace Veldrid.Host
 {
-    using Veldrid;
+    using System;
+    using Veldrid.Content;
 
-    public abstract class SampleApplication
+    public abstract class Application : IDisposable
     {
-        protected Camera _camera;
-
         public IApplicationWindow Window { get; }
         public GraphicsDevice GraphicsDevice { get; private set; }
         public ResourceFactory ResourceFactory { get; private set; }
         public Swapchain MainSwapchain { get; private set; }
 
-        public SampleApplication(IApplicationWindow window)
+        public readonly ContentProvider ContentProvider;
+        public readonly TextureLoader TextureLoader;
+
+        public Application(IApplicationWindow window = null)
         {
-            Window = window;
+            Window = window ?? new VeldridStartupWindow(GetType().Name);
             Window.Resized += HandleWindowResize;
             Window.GraphicsDeviceCreated += OnGraphicsDeviceCreated;
             Window.GraphicsDeviceDestroyed += OnDeviceDestroyed;
-            Window.Rendering += PreDraw;
             Window.Rendering += Draw;
             Window.KeyPressed += OnKeyDown;
 
-            _camera = new Camera(Window.Width, Window.Height);
+            ContentProvider = new ContentProvider();
+            TextureLoader = new TextureLoader(ContentProvider);
+        }
+
+        public void Run()
+        {
+            Window.Run();
         }
 
         public void OnGraphicsDeviceCreated(GraphicsDevice gd, ResourceFactory factory, Swapchain sc)
@@ -40,24 +47,28 @@
             MainSwapchain = null;
         }
 
-        protected virtual string GetTitle() => GetType().Name;
-
         protected abstract void CreateResources(ResourceFactory factory);
 
-        protected virtual void CreateSwapchainResources(ResourceFactory factory) { }
-
-        private void PreDraw(float deltaSeconds)
+        protected virtual void CreateSwapchainResources(ResourceFactory factory)
         {
-            _camera.Update(deltaSeconds);
+
         }
 
         protected abstract void Draw(float deltaSeconds);
 
         protected virtual void HandleWindowResize()
         {
-            _camera.WindowResized(Window.Width, Window.Height);
+
         }
 
-        protected virtual void OnKeyDown(KeyEvent ke) { }
+        protected virtual void OnKeyDown(KeyEvent ke)
+        {
+
+        }
+
+        public void Dispose()
+        {
+
+        }
     }
 }

@@ -1,14 +1,11 @@
-﻿using CSG.Viewer.Core;
-
-namespace CSG.Viewer
+﻿namespace CSG.Viewer
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var window = new VeldridStartupWindow("CSG");
-            var app = new App(window);
-            window.Run();
+            using (var app = new App())
+                app.Run();
         }
     }
 }
