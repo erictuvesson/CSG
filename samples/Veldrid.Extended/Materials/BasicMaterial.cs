@@ -2,10 +2,9 @@
 {
     using System.Numerics;
     using System.Text;
-    using Veldrid.Host;
     using Veldrid.SPIRV;
 
-    public class BasicMaterial
+    public class BasicMaterial : Material
     {
         public Matrix4x4 Projection { get; set; } = Matrix4x4.Identity;
         public Matrix4x4 View { get; set; } = Matrix4x4.Identity;
@@ -21,15 +20,14 @@
         private DeviceBuffer _viewBuffer;
         private DeviceBuffer _worldBuffer;
 
-        public BasicMaterial(Application app)
+        public BasicMaterial(DrawingContext context, Texture2D texture)
         {
-            _projectionBuffer = app.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-            _viewBuffer = app.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
-            _worldBuffer = app.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
+            _projectionBuffer = context.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
+            _viewBuffer = context.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
+            _worldBuffer = context.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
 
-            var texture = app.TextureLoader.Load("v:checker").GetAwaiter().GetResult();
-            _surfaceTexture = texture.CreateDeviceTexture(app.GraphicsDevice, app.ResourceFactory, TextureUsage.Sampled);
-            _surfaceTextureView = app.ResourceFactory.CreateTextureView(_surfaceTexture);
+            _surfaceTexture = texture.CreateDeviceTexture(context.GraphicsDevice, context.ResourceFactory, TextureUsage.Sampled);
+            _surfaceTextureView = context.ResourceFactory.CreateTextureView(_surfaceTexture);
 
             ShaderSetDescription shaderSet = new ShaderSetDescription(
                 new[]
@@ -38,40 +36,40 @@
                         new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
                         new VertexElementDescription("TexCoords", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2))
                 },
-                app.ResourceFactory.CreateFromSpirv(
+                context.ResourceFactory.CreateFromSpirv(
                     new ShaderDescription(ShaderStages.Vertex, Encoding.UTF8.GetBytes(VertexCode), "main"),
                     new ShaderDescription(ShaderStages.Fragment, Encoding.UTF8.GetBytes(FragmentCode), "main")));
 
-            ResourceLayout projViewLayout = app.ResourceFactory.CreateResourceLayout(
+            ResourceLayout projViewLayout = context.ResourceFactory.CreateResourceLayout(
                 new ResourceLayoutDescription(
                     new ResourceLayoutElementDescription("Projection", ResourceKind.UniformBuffer, ShaderStages.Vertex),
                     new ResourceLayoutElementDescription("View", ResourceKind.UniformBuffer, ShaderStages.Vertex)));
 
-            ResourceLayout worldTextureLayout = app.ResourceFactory.CreateResourceLayout(
+            ResourceLayout worldTextureLayout = context.ResourceFactory.CreateResourceLayout(
                 new ResourceLayoutDescription(
                     new ResourceLayoutElementDescription("World", ResourceKind.UniformBuffer, ShaderStages.Vertex),
                     new ResourceLayoutElementDescription("SurfaceTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment),
                     new ResourceLayoutElementDescription("SurfaceSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
 
-            _pipeline = app.ResourceFactory.CreateGraphicsPipeline(new GraphicsPipelineDescription(
+            _pipeline = context.ResourceFactory.CreateGraphicsPipeline(new GraphicsPipelineDescription(
                 BlendStateDescription.SingleOverrideBlend,
                 DepthStencilStateDescription.DepthOnlyLessEqual,
                 RasterizerStateDescription.Default,
                 PrimitiveTopology.TriangleList,
                 shaderSet,
                 new[] { projViewLayout, worldTextureLayout },
-                app.MainSwapchain.Framebuffer.OutputDescription));
+                context.Swapchain.Framebuffer.OutputDescription));
 
-            _projViewSet = app.ResourceFactory.CreateResourceSet(new ResourceSetDescription(
+            _projViewSet = context.ResourceFactory.CreateResourceSet(new ResourceSetDescription(
                 projViewLayout,
                 _projectionBuffer,
                 _viewBuffer));
 
-            _worldTextureSet = app.ResourceFactory.CreateResourceSet(new ResourceSetDescription(
+            _worldTextureSet = context.ResourceFactory.CreateResourceSet(new ResourceSetDescription(
                 worldTextureLayout,
                 _worldBuffer,
                 _surfaceTextureView,
-                app.GraphicsDevice.Aniso4xSampler));
+                context.GraphicsDevice.Aniso4xSampler));
 
         }
 
@@ -84,6 +82,22 @@
             cl.SetPipeline(_pipeline);
             cl.SetGraphicsResourceSet(0, _projViewSet);
             cl.SetGraphicsResourceSet(1, _worldTextureSet);
+        }
+
+        protected override void OnBeginApply(DrawingContext context, Material previousMaterial)
+        {
+            context.CommandList.UpdateBuffer(_projectionBuffer, 0, Projection);
+            context.CommandList.UpdateBuffer(_viewBuffer, 0, View);
+            context.CommandList.UpdateBuffer(_worldBuffer, 0, World);
+
+            context.CommandList.SetPipeline(_pipeline);
+            context.CommandList.SetGraphicsResourceSet(0, _projViewSet);
+            context.CommandList.SetGraphicsResourceSet(1, _worldTextureSet);
+        }
+
+        protected override void OnEndApply(DrawingContext context)
+        {
+
         }
 
         private const string VertexCode = @"

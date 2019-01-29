@@ -29,12 +29,13 @@
         protected override void CreateResources(ResourceFactory factory)
         {
             _vertexBuffer = factory.CreateBuffer(new BufferDescription((uint)(VertexPositionTexture.SizeInBytes * _vertices.Length), BufferUsage.VertexBuffer));
-            GraphicsDevice.UpdateBuffer(_vertexBuffer, 0, _vertices);
-
             _indexBuffer = factory.CreateBuffer(new BufferDescription(sizeof(ushort) * (uint)_indices.Length, BufferUsage.IndexBuffer));
+
+            GraphicsDevice.UpdateBuffer(_vertexBuffer, 0, _vertices);
             GraphicsDevice.UpdateBuffer(_indexBuffer, 0, _indices);
 
-            basicMaterial = new BasicMaterial(this);
+            var texture = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
+            basicMaterial = new BasicMaterial(this, texture);
 
             _cl = factory.CreateCommandList();
         }
