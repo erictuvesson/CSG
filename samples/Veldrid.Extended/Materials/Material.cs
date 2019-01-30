@@ -5,28 +5,28 @@
         /// <summary>
         /// Applies all the shader parameters before drawing any primitives.
         /// </summary>
-        public void BeginApply(DrawingContext context)
+        public void BeginApply(CommandList commandList, DrawingContext context)
         {
-            OnBeginApply(context, context.PreviousMaterial);
+            OnBeginApply(commandList, context, context.PreviousMaterial);
         }
 
         /// <summary>
         /// Restores any shader parameters changes after drawing the primitives.
         /// </summary>
-        public void EndApply(DrawingContext context)
+        public void EndApply(CommandList commandList, DrawingContext context)
         {
-            OnEndApply(context);
+            OnEndApply(commandList, context);
             context.PreviousMaterial = this;
         }
 
         /// <summary>
         /// Applies all the shader parameters before drawing any primitives.
         /// </summary>
-        protected abstract void OnBeginApply(DrawingContext context, Material previousMaterial);
+        protected abstract void OnBeginApply(CommandList commandList, DrawingContext context, Material previousMaterial);
 
         /// <summary>
         /// Applies all the shader parameters before drawing any primitives.
         /// </summary>
-        protected abstract void OnEndApply(DrawingContext context);
+        protected abstract void OnEndApply(CommandList commandList, DrawingContext context);
     }
 }

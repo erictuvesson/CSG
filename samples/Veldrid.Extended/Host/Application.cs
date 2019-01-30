@@ -6,9 +6,7 @@
     public abstract class Application : IDisposable
     {
         public IApplicationWindow Window { get; }
-        public GraphicsDevice GraphicsDevice { get; private set; }
-        public ResourceFactory ResourceFactory { get; private set; }
-        public Swapchain MainSwapchain { get; private set; }
+        public DrawingContext DrawingContext { get; private set; }
 
         public readonly ContentProvider ContentProvider;
         public readonly TextureLoader TextureLoader;
@@ -17,8 +15,8 @@
         {
             Window = window ?? new VeldridStartupWindow(GetType().Name);
             Window.Resized += HandleWindowResize;
-            Window.GraphicsDeviceCreated += OnGraphicsDeviceCreated;
-            Window.GraphicsDeviceDestroyed += OnDeviceDestroyed;
+            Window.DrawingContextCreated += OnGraphicsDeviceCreated;
+            
             Window.Rendering += Draw;
             Window.KeyPressed += OnKeyDown;
 
@@ -31,20 +29,11 @@
             Window.Run();
         }
 
-        public void OnGraphicsDeviceCreated(GraphicsDevice gd, ResourceFactory factory, Swapchain sc)
+        public void OnGraphicsDeviceCreated(DrawingContext drawingContext)
         {
-            GraphicsDevice = gd;
-            ResourceFactory = factory;
-            MainSwapchain = sc;
-            CreateResources(factory);
-            CreateSwapchainResources(factory);
-        }
-
-        protected virtual void OnDeviceDestroyed()
-        {
-            GraphicsDevice = null;
-            ResourceFactory = null;
-            MainSwapchain = null;
+            this.DrawingContext = drawingContext;
+            CreateResources(DrawingContext.ResourceFactory);
+            CreateSwapchainResources(DrawingContext.ResourceFactory);
         }
 
         protected abstract void CreateResources(ResourceFactory factory);

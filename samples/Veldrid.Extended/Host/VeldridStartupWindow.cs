@@ -13,11 +13,14 @@
 
         public PlatformType PlatformType => PlatformType.Desktop;
 
-        public event Action<float> Rendering;
-        public event Action<GraphicsDevice, ResourceFactory, Swapchain> GraphicsDeviceCreated;
-        public event Action GraphicsDeviceDestroyed;
+        public DrawingContext DrawingContext { get; private set; }
+
+        public event Action<DrawingContext> DrawingContextCreated;
+        public event Action DrawingContextDestroyed;
+
         public event Action Resized;
         public event Action<KeyEvent> KeyPressed;
+        public event Action<float> Rendering;
 
         private readonly Sdl2Window window;
         private GraphicsDevice graphicsDevice;
@@ -55,7 +58,9 @@
 
             graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, options);
             resourceFactory = new DisposeCollectorResourceFactory(graphicsDevice.ResourceFactory);
-            GraphicsDeviceCreated?.Invoke(graphicsDevice, resourceFactory, graphicsDevice.MainSwapchain);
+
+            this.DrawingContext = new DrawingContext(graphicsDevice, resourceFactory);
+            DrawingContextCreated?.Invoke(DrawingContext);
 
             var sw = Stopwatch.StartNew();
             var previousElapsed = sw.Elapsed.TotalSeconds;
@@ -86,7 +91,7 @@
             resourceFactory.DisposeCollector.DisposeAll();
             graphicsDevice.Dispose();
 
-            GraphicsDeviceDestroyed?.Invoke();
+      DrawingContextDestroyed?.Invoke();
         }
 
         protected void OnKeyDown(KeyEvent keyEvent)

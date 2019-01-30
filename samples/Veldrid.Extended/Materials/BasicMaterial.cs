@@ -58,7 +58,7 @@
                 PrimitiveTopology.TriangleList,
                 shaderSet,
                 new[] { projViewLayout, worldTextureLayout },
-                context.Swapchain.Framebuffer.OutputDescription));
+                context.MainSwapchain.Framebuffer.OutputDescription));
 
             _projViewSet = context.ResourceFactory.CreateResourceSet(new ResourceSetDescription(
                 projViewLayout,
@@ -84,18 +84,18 @@
             cl.SetGraphicsResourceSet(1, _worldTextureSet);
         }
 
-        protected override void OnBeginApply(DrawingContext context, Material previousMaterial)
+        protected override void OnBeginApply(CommandList commandList, DrawingContext context, Material previousMaterial)
         {
-            context.CommandList.UpdateBuffer(_projectionBuffer, 0, Projection);
-            context.CommandList.UpdateBuffer(_viewBuffer, 0, View);
-            context.CommandList.UpdateBuffer(_worldBuffer, 0, World);
+            commandList.UpdateBuffer(_projectionBuffer, 0, Projection);
+            commandList.UpdateBuffer(_viewBuffer, 0, View);
+            commandList.UpdateBuffer(_worldBuffer, 0, World);
 
-            context.CommandList.SetPipeline(_pipeline);
-            context.CommandList.SetGraphicsResourceSet(0, _projViewSet);
-            context.CommandList.SetGraphicsResourceSet(1, _worldTextureSet);
+            commandList.SetPipeline(_pipeline);
+            commandList.SetGraphicsResourceSet(0, _projViewSet);
+            commandList.SetGraphicsResourceSet(1, _worldTextureSet);
         }
 
-        protected override void OnEndApply(DrawingContext context)
+        protected override void OnEndApply(CommandList commandList, DrawingContext context)
         {
 
         }

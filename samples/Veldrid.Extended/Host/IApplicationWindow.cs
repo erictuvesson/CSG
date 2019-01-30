@@ -12,14 +12,17 @@
     {
         PlatformType PlatformType { get; }
 
-        event Action<float> Rendering;
-        event Action<GraphicsDevice, ResourceFactory, Swapchain> GraphicsDeviceCreated;
-        event Action GraphicsDeviceDestroyed;
-        event Action Resized;
-        event Action<KeyEvent> KeyPressed;
-
         uint Width { get; }
         uint Height { get; }
+
+        DrawingContext DrawingContext { get; }
+
+        event Action<DrawingContext> DrawingContextCreated;
+        event Action DrawingContextDestroyed;
+
+        event Action Resized;
+        event Action<KeyEvent> KeyPressed;
+        event Action<float> Rendering;
 
         void Run();
     }

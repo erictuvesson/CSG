@@ -31,18 +31,13 @@
             _vertexBuffer = factory.CreateBuffer(new BufferDescription((uint)(VertexPositionTexture.SizeInBytes * _vertices.Length), BufferUsage.VertexBuffer));
             _indexBuffer = factory.CreateBuffer(new BufferDescription(sizeof(ushort) * (uint)_indices.Length, BufferUsage.IndexBuffer));
 
-            GraphicsDevice.UpdateBuffer(_vertexBuffer, 0, _vertices);
-            GraphicsDevice.UpdateBuffer(_indexBuffer, 0, _indices);
+            DrawingContext.GraphicsDevice.UpdateBuffer(_vertexBuffer, 0, _vertices);
+            DrawingContext.GraphicsDevice.UpdateBuffer(_indexBuffer, 0, _indices);
 
             var texture = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
-            basicMaterial = new BasicMaterial(this, texture);
+            basicMaterial = new BasicMaterial(DrawingContext, texture);
 
             _cl = factory.CreateCommandList();
-        }
-
-        protected override void OnDeviceDestroyed()
-        {
-            base.OnDeviceDestroyed();
         }
 
         protected override void Draw(float deltaSeconds)
@@ -55,7 +50,7 @@
             basicMaterial.World = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, (_ticks / 1000f)) * 
                                   Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, (_ticks / 3000f));
 
-            _cl.SetFramebuffer(MainSwapchain.Framebuffer);
+            _cl.SetFramebuffer(DrawingContext.MainSwapchain.Framebuffer);
             _cl.ClearColorTarget(0, RgbaFloat.Black);
             _cl.ClearDepthStencil(1f);
 
@@ -66,9 +61,10 @@
             _cl.DrawIndexed(36, 1, 0, 0, 0);
 
             _cl.End();
-            GraphicsDevice.SubmitCommands(_cl);
-            GraphicsDevice.SwapBuffers(MainSwapchain);
-            GraphicsDevice.WaitForIdle();
+
+            DrawingContext.GraphicsDevice.SubmitCommands(_cl);
+            DrawingContext.GraphicsDevice.SwapBuffers(DrawingContext.MainSwapchain);
+            DrawingContext.GraphicsDevice.WaitForIdle();
         }
 
         private static VertexPositionTexture[] GetCubeVertices()
