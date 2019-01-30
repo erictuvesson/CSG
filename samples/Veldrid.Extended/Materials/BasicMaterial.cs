@@ -33,8 +33,11 @@
                 new[]
                 {
                     new VertexLayoutDescription(
-                        new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float3),
-                        new VertexElementDescription("TexCoords", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2))
+                        new VertexElementDescription("Position", VertexElementSemantic.Position, VertexElementFormat.Float3),
+                        new VertexElementDescription("Normal", VertexElementSemantic.Normal, VertexElementFormat.Float3),
+                        new VertexElementDescription("TexCoords", VertexElementSemantic.TextureCoordinate, VertexElementFormat.Float2),
+                        new VertexElementDescription("Color", VertexElementSemantic.Color, VertexElementFormat.Float4)
+                    )
                 },
                 context.ResourceFactory.CreateFromSpirv(
                     new ShaderDescription(ShaderStages.Vertex, Encoding.UTF8.GetBytes(VertexCode), "main"),
@@ -119,7 +122,10 @@ layout(set = 1, binding = 0) uniform WorldBuffer
 };
 
 layout(location = 0) in vec3 Position;
-layout(location = 1) in vec2 TexCoords;
+layout(location = 1) in vec2 Normal;
+layout(location = 2) in vec2 TexCoords;
+layout(location = 3) in vec2 Color;
+
 layout(location = 0) out vec2 fsin_texCoords;
 
 void main()
