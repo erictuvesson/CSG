@@ -28,7 +28,7 @@
             _stoneTexData = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
 
             var shape1 = new Cube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            var shape2 = new Cube(new Vector3(1, 1, 0), new Vector3(1, 1, 1));
+            var shape2 = new Cube(new Vector3(0.8f, 0.8f, 0), new Vector3(1, 1, 1));
             shape = shape1.Do(ShapeOperation.Intersect, shape2);
             
             _vertices = shape.Cache.Vertices;
@@ -63,11 +63,11 @@
             _cl.ClearColorTarget(0, RgbaFloat.Black);
             _cl.ClearDepthStencil(1f);
 
-            basicMaterial.Apply(_cl);
-
             _cl.SetVertexBuffer(0, _vertexBuffer);
             _cl.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
-            _cl.DrawIndexed(36, 1, 0, 0, 0);
+
+            basicMaterial.Apply(_cl);
+            _cl.DrawIndexed((uint)_vertices.Length, 1, 0, 0, 0);
 
             _cl.End();
 
