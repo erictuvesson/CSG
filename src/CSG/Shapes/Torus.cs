@@ -10,6 +10,11 @@
         [DataMember]
         public int Tessellation { get; set; }
 
+        public Torus(int tessellation = 32)
+        {
+            this.Tessellation = tessellation;
+        }
+
         protected override void OnBuild(IShapeBuilder builder)
         {
             // First we loop around the main ring of the torus.
