@@ -8,7 +8,7 @@
     public struct Vertex
     {
         public const uint SizeInBytes = 48;
-
+    
         public readonly Vector3 Position;
         public readonly Vector3 Normal;
         public readonly Vector2 TexCoords;

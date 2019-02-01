@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Veldrid</RootNamespace>
+    <Authors>Eric Tuvesson</Authors>
+    <Description>High-level graphics rendering API on top of Veldrid.</Description>
+    <Copyright>MIT</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Veldrid" Version="4.5.0" />
+    <PackageReference Include="Veldrid.ImageSharp" Version="4.5.0" />
+    <PackageReference Include="Veldrid.SPIRV" Version="1.0.7" />
+    <PackageReference Include="Veldrid.StartupUtilities" Version="4.5.0" />
+    <PackageReference Include="Veldrid.Utilities" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

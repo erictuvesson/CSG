@@ -5,66 +5,17 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CSG.csproj" />
-    <ProjectReference Include="..\dep\veldrid\src\Veldrid.StartupUtilities\Veldrid.StartupUtilities.csproj" />
-    <ProjectReference Include="..\dep\veldrid\src\Veldrid.Utilities\Veldrid.Utilities.csproj" />
-    <ProjectReference Include="..\dep\veldrid\src\Veldrid\Veldrid.csproj" />
+    <PackageReference Include="Veldrid.ImGui" Version="5.67.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Shaders\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Shaders\compile-hlsl.cmd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\compile-spirv.cmd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.450.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.hlsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.hlsl.bytes">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.metal">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.metallib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Fragment.spv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.450.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.hlsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.hlsl.bytes">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.metal">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.metallib">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Shaders\Vertex.spv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <ProjectReference Include="..\..\src\CSG\CSG.csproj" />
+    <ProjectReference Include="..\Veldrid.Extended\Veldrid.Extended.csproj" />
   </ItemGroup>
 
 </Project>
