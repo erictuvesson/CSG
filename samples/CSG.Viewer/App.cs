@@ -10,41 +10,24 @@
 
     class App : Application
     {
-        private readonly Texture2D _stoneTexData;
-
-        private readonly Vertex[] _vertices;
-        private readonly ushort[] _indices;
-        
-        private DeviceBuffer _vertexBuffer;
-        private DeviceBuffer _indexBuffer;
         private CommandList _cl;
         private BasicMaterial basicMaterial;
+        private Geometry geometry;
+
         private float _ticks;
-
-        private Shape shape;
-
-        public App()
-        {
-            _stoneTexData = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
-
-            var shape1 = new Cube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            var shape2 = new Cube(new Vector3(0.8f, 0.8f, 0), new Vector3(1, 1, 1));
-            shape = shape1.Do(ShapeOperation.Intersect, shape2);
-            
-            _vertices = shape.Cache.Vertices;
-            _indices = shape.Cache.Indices;
-        }
 
         protected override void CreateResources(ResourceFactory factory)
         {
-            _vertexBuffer = factory.CreateBuffer(new BufferDescription((uint)(Vertex.SizeInBytes * _vertices.Length), BufferUsage.VertexBuffer));
-            _indexBuffer = factory.CreateBuffer(new BufferDescription(sizeof(ushort) * (uint)_indices.Length, BufferUsage.IndexBuffer));
-
-            DrawingContext.GraphicsDevice.UpdateBuffer(_vertexBuffer, 0, _vertices);
-            DrawingContext.GraphicsDevice.UpdateBuffer(_indexBuffer, 0, _indices);
-
             var texture = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
             basicMaterial = new BasicMaterial(DrawingContext, texture);
+
+            var shape1 = new Cube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            var shape2 = new Cube(new Vector3(0.8f, 0.8f, 0), new Vector3(1, 1, 1));
+            var shape = shape1.Do(ShapeOperation.Intersect, shape2);
+            
+            // var shape = new Torus();
+
+            geometry = new Geometry(DrawingContext, shape.Cache.Vertices, shape.Cache.Indices);
 
             _cl = factory.CreateCommandList();
         }
@@ -63,11 +46,8 @@
             _cl.ClearColorTarget(0, RgbaFloat.Black);
             _cl.ClearDepthStencil(1f);
 
-            _cl.SetVertexBuffer(0, _vertexBuffer);
-            _cl.SetIndexBuffer(_indexBuffer, IndexFormat.UInt16);
-
             basicMaterial.Apply(_cl);
-            _cl.DrawIndexed((uint)_vertices.Length, 1, 0, 0, 0);
+            geometry.Draw(_cl);
 
             _cl.End();
 
