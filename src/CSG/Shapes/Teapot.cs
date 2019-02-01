@@ -7,8 +7,20 @@
     [DataContract]
     public class Teapot : Bezier
     {
+        /// <summary>
+        /// Gets or sets the tessellation of this primitive.
+        /// </summary>
         [DataMember]
-        public int Tessellation { get; set; }
+        public int Tessellation
+        {
+            get => tessellation;
+            set
+            {
+                if (value < 3) throw new ArgumentOutOfRangeException(nameof(tessellation));
+                tessellation = value;
+            }
+        }
+        private int tessellation;
 
         public Teapot(int tessellation = 8)
         {
