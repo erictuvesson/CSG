@@ -21,11 +21,11 @@
             var texture = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
             basicMaterial = new BasicMaterial(DrawingContext, texture);
 
-            var shape1 = new Cube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
-            var shape2 = new Cube(new Vector3(0.8f, 0.8f, 0), new Vector3(1, 1, 1));
-            var shape = shape1.Do(ShapeOperation.Intersect, shape2);
+            // var shape1 = new Cube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
+            // var shape2 = new Cube(new Vector3(0.8f, 0.8f, 0), new Vector3(1, 1, 1));
+            // var shape = shape1.Do(ShapeOperation.Intersect, shape2);
             
-            // var shape = new Torus();
+            var shape = new Teapot();
 
             geometry = new Geometry(DrawingContext, shape.Cache.Vertices, shape.Cache.Indices);
 
