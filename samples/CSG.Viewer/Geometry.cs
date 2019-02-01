@@ -23,7 +23,9 @@ namespace CSG
     {
         private Vertex[] vertices;
         private ushort[] indices;
+
         private uint vertexCount;
+        private uint indexCount;
         
         private DeviceBuffer vertexBuffer;
         private DeviceBuffer indexBuffer;
@@ -42,8 +44,10 @@ namespace CSG
         public void Update(Vertex[] vertices, ushort[] indices)
         {
             this.vertices = vertices;
-            this.vertexCount = (uint)vertices.Length;
             this.indices = indices;
+
+            this.vertexCount = (uint)vertices.Length;
+            this.indexCount = (uint)indices.Length;
 
             drawingContext.GraphicsDevice.UpdateBuffer(vertexBuffer, 0, vertices);
 
@@ -60,7 +64,7 @@ namespace CSG
             if (indices.Length > 0) 
             {
                 commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
-                commandList.DrawIndexed(vertexCount, 1, 0, 0, 0);
+                commandList.DrawIndexed(indexCount, 1, 0, 0, 0);
             }
         }
 
