@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CSG.csproj" />
+    <ProjectReference Include="..\..\src\CSG\CSG.csproj" />
     <ProjectReference Include="..\Veldrid.Extended\Veldrid.Extended.csproj" />
   </ItemGroup>
 
