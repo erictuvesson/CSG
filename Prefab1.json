@@ -1,0 +1,20 @@
+{
+  "name": "2 Cubes",
+  "operations": [
+    {
+      "operation": "Intersect",
+      "args": [
+        {
+          "type": "Cube",
+          "position": "0, 0, 0",
+          "size": "1, 1, 1"
+        },
+        {
+          "type": "Cube",
+          "position": "0.8, 0.8, 0",
+          "size": "1, 1, 1"
+        }
+      ]
+    }
+  ]
+}
