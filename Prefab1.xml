@@ -1,0 +1,6 @@
+<Prefab name="2 Cubes">
+  <Operation Action="Intersect">
+    <Cube position="0, 0, 0" size="1" />
+    <Cube position="0.8, 0.8, 0" size="1" />
+  </Operation>
+</Prefab>
