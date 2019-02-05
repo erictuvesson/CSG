@@ -1,6 +1,7 @@
 namespace CSG
 {
     using System;
+    using System.Runtime.InteropServices;
     using Veldrid;
 
     /// <summary>
@@ -19,10 +20,12 @@ namespace CSG
         // bool TryGetTriangles(out Vector3[] vertices, out ushort[] indices);
     }
 
-    public class Geometry : IGeometry
+    public class Geometry<TVertex, TIndex> : IGeometry
+        where TVertex : struct
+        where TIndex : struct, IComparable<TIndex>
     {
-        private Vertex[] vertices;
-        private ushort[] indices;
+        private TVertex[] vertices;
+        private TIndex[] indices;
 
         private uint vertexCount;
         private uint indexCount;
@@ -33,7 +36,7 @@ namespace CSG
         private readonly DrawingContext drawingContext;
 
         public Geometry(DrawingContext drawingContext,
-                        Vertex[] vertices, ushort[] indices) 
+                        TVertex[] vertices, TIndex[] indices) 
         {
             this.drawingContext = drawingContext;
 
@@ -41,7 +44,7 @@ namespace CSG
             Update(vertices, indices);
         }
 
-        public void Update(Vertex[] vertices, ushort[] indices)
+        public void Update(TVertex[] vertices, TIndex[] indices)
         {
             this.vertices = vertices;
             this.indices = indices;
@@ -66,6 +69,10 @@ namespace CSG
                 commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
                 commandList.DrawIndexed(indexCount, 1, 0, 0, 0);
             }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private void CreateBuffers(uint vertexCount, uint indexCount)
@@ -75,7 +82,8 @@ namespace CSG
                 // throw new RuntimeException($"{vertexCount} must be higher than 1");
             }
 
-            var vBufferDesc = new BufferDescription((uint)(Vertex.SizeInBytes * vertexCount), BufferUsage.VertexBuffer);
+            var vertexSize = Marshal.SizeOf(default(TVertex));
+            var vBufferDesc = new BufferDescription((uint)(vertexSize * vertexCount), BufferUsage.VertexBuffer);
             vertexBuffer = drawingContext.ResourceFactory.CreateBuffer(vBufferDesc);
 
             if (indexCount > 0)
