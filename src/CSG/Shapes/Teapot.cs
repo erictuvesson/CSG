@@ -81,7 +81,6 @@
             public readonly int[] Indices;
             public readonly bool MirrorZ;
 
-
             public TeapotPatch(bool mirrorZ, int[] indices)
             {
                 // Debug.Assert(indices.Length == 16);
