@@ -1,9 +1,6 @@
 {
 	"folders": [
 		{
-			"path": "samples/Veldrid.Extended"
-		},
-		{
 			"path": "samples/CSG.Viewer"
 		},
 		{
@@ -11,6 +8,9 @@
 		},
 		{
 			"path": "src/CSG"
+		},
+		{
+			"path": "dep/Veldrid.Extended/src/Veldrid.Extended"
 		}
 	]
 }

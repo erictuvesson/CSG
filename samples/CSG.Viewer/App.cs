@@ -6,13 +6,14 @@
     using Veldrid.Host;
     using Veldrid.Materials;
     using Veldrid.SPIRV;
+    using Veldrid.Rendering;
     using CSG.Shapes;
 
     class App : Application
     {
         private CommandList commandList;
         private BasicMaterial basicMaterial;
-        private Geometry geometry;
+        private Geometry<Vertex, ushort> geometry;
 
         private float _ticks;
 
@@ -27,7 +28,7 @@
             
             var shape = new Teapot();
 
-            geometry = new Geometry(DrawingContext, shape.Cache.Vertices, shape.Cache.Indices);
+            geometry = new Geometry<Vertex, ushort>(DrawingContext, shape.Cache.Vertices, shape.Cache.Indices);
 
             commandList = factory.CreateCommandList();
         }

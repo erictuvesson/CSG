@@ -1,3 +1,6 @@
 [submodule "samples/dep/veldrid"]
 	path = samples/dep/veldrid
 	url = https://github.com/mellinoe/veldrid.git
+[submodule "dep/Veldrid.Extended"]
+	path = dep/Veldrid.Extended
+	url = https://github.com/erictuvesson/Veldrid.Extended.git
