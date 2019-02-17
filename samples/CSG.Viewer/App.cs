@@ -38,7 +38,7 @@
             _ticks += deltaSeconds * 1000f;
             commandList.Begin();
 
-            basicMaterial.Projection = Matrix4x4.CreatePerspectiveFieldOfView(1.0f, (float)Window.Width / Window.Height, 0.5f, 100f);
+            basicMaterial.Projection = Matrix4x4.CreatePerspectiveFieldOfView(1.0f, HostAspectRatio, 0.5f, 100f);
             basicMaterial.View = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
             basicMaterial.World = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, (_ticks / 1000f)) * 
                                   Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, (_ticks / 3000f));

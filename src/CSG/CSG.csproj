@@ -10,7 +10,6 @@
     <RepositoryUrl>https://github.com/erictuvesson/CSG</RepositoryUrl>
     <PackageTags>csg, geometry</PackageTags>
     <PackageId>CSGeometry</PackageId>
-    <license type="file">MIT-LICENSE</license>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
