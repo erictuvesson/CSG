@@ -25,15 +25,28 @@
             }
         }
 
-        public Vertex[] Vertices => vertices.ToArray();
-        public ushort[] Indices => indices.ToArray();
+        public Vertex[] Vertices => Cache.Vertices;
+        public ushort[] Indices => Cache.Indices;
 
         public ShapeCache Cache => cache ?? (cache = BuildCache()).Value;
 
         private ShapeCache? cache = null;
         private Vector4 color = Vector4.One;
-        private readonly List<Vertex> vertices = new List<Vertex>();
-        private readonly List<ushort> indices = new List<ushort>();
+
+        /// <summary>
+        /// Create polygons of the <see cref="Shape"/>.
+        /// </summary>
+        public virtual Polygon[] CreatePolygons() => Cache.CreatePolygons();
+
+        /// <summary>
+        /// Invalidates the cache. This will force it to rebuild next time it is accessed.
+        /// </summary>
+        public void Invalidate()
+        {
+            this.cache = null;
+        }
+        
+        protected abstract void OnBuild(IShapeBuilder builder);
 
         private ShapeCache BuildCache()
         {
@@ -53,21 +66,6 @@
 
             return cache;
         }
-
-        /// <summary>
-        /// Create polygons of the <see cref="Shape"/>.
-        /// </summary>
-        public virtual Polygon[] CreatePolygons() => Cache.CreatePolygons();
-
-        /// <summary>
-        /// Invalidates the cache. This will force it to rebuild next time it is accessed.
-        /// </summary>
-        public void Invalidate()
-        {
-            this.cache = null;
-        }
-
-        protected abstract void OnBuild(IShapeBuilder builder);
 
         public bool Equals(Shape other) => Name == other.Name && Color == other.Color;
     }

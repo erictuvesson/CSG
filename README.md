@@ -8,8 +8,8 @@ var shape1 = new Cube(position: new Vector3(0, 0, 0), size: new Vector3(0.50f, 0
 var shape2 = new Cube(position: new Vector3(1, 1, 0), size: new Vector3(0.50f, 0.50f, 0.50f));
 var result = shape1.Intersect(shape2);
 
-// result.Cache.Vertices => Vertex[];
-// result.Cache.Indices => ushort[];
+// result.Vertices => Vertex[];
+// result.Indices => ushort[];
 // then you have the vertices and indices in result.
 ```
 
