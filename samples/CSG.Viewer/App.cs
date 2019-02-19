@@ -6,13 +6,14 @@
     using Veldrid.Host;
     using Veldrid.Materials;
     using Veldrid.SPIRV;
+    using Veldrid.Rendering;
     using CSG.Shapes;
 
     class App : Application
     {
         private CommandList commandList;
         private BasicMaterial basicMaterial;
-        private Geometry geometry;
+        private ShapeGeometry shapeGeometry;
 
         private float _ticks;
 
@@ -27,7 +28,7 @@
             
             var shape = new Teapot();
 
-            geometry = new Geometry(DrawingContext, shape.Cache.Vertices, shape.Cache.Indices);
+            shapeGeometry = new ShapeGeometry(DrawingContext, shape);
 
             commandList = factory.CreateCommandList();
         }
@@ -37,7 +38,7 @@
             _ticks += deltaSeconds * 1000f;
             commandList.Begin();
 
-            basicMaterial.Projection = Matrix4x4.CreatePerspectiveFieldOfView(1.0f, (float)Window.Width / Window.Height, 0.5f, 100f);
+            basicMaterial.Projection = Matrix4x4.CreatePerspectiveFieldOfView(1.0f, HostAspectRatio, 0.5f, 100f);
             basicMaterial.View = Matrix4x4.CreateLookAt(Vector3.UnitZ * 2.5f, Vector3.Zero, Vector3.UnitY);
             basicMaterial.World = Matrix4x4.CreateFromAxisAngle(Vector3.UnitY, (_ticks / 1000f)) * 
                                   Matrix4x4.CreateFromAxisAngle(Vector3.UnitX, (_ticks / 3000f));
@@ -47,7 +48,7 @@
             commandList.ClearDepthStencil(1f);
 
             basicMaterial.Apply(commandList);
-            geometry.Draw(commandList);
+            shapeGeometry.Draw(commandList);
 
             commandList.End();
 

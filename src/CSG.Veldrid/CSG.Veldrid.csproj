@@ -8,13 +8,14 @@
     <PackageLicenseUrl>https://github.com/erictuvesson/CSG/blob/master/MIT-LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/erictuvesson/CSG</PackageProjectUrl>
     <RepositoryUrl>https://github.com/erictuvesson/CSG</RepositoryUrl>
-    <PackageTags>csg, geometry</PackageTags>
-    <PackageId>CSGeometry</PackageId>
+    <PackageTags>csg, geometry, veldrid, 3D, graphics</PackageTags>
+    <PackageId>CSGeometry.Veldrid</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+    <ProjectReference Include="..\CSG\CSG.csproj" />
+    <ProjectReference Include="..\..\dep\Veldrid.Extended\src\Veldrid.Extended\Veldrid.Extended.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{7078
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSG.Viewer", "samples\CSG.Viewer\CSG.Viewer.csproj", "{03CAA5E6-357F-4851-A209-941AEF3AC8CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid.Extended", "samples\Veldrid.Extended\Veldrid.Extended.csproj", "{235EC8DF-F154-4042-AAB3-DC80C1DD45D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid.Extended", "dep\Veldrid.Extended\src\Veldrid.Extended\Veldrid.Extended.csproj", "{235EC8DF-F154-4042-AAB3-DC80C1DD45D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
