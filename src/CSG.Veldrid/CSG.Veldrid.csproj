@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Eric Tuvesson</Authors>
+    <Description>Create geometry objects from boolean operations.</Description>
+    <Copyright>MIT</Copyright>
+    <PackageLicenseUrl>https://github.com/erictuvesson/CSG/blob/master/MIT-LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/erictuvesson/CSG</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/erictuvesson/CSG</RepositoryUrl>
+    <PackageTags>csg, geometry, veldrid, 3D, graphics</PackageTags>
+    <PackageId>CSGeometry.Veldrid</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSG\CSG.csproj" />
+    <ProjectReference Include="..\..\dep\Veldrid.Extended\src\Veldrid.Extended\Veldrid.Extended.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\CSG\CSG.csproj" />
-    <ProjectReference Include="..\..\dep\Veldrid.Extended\src\Veldrid.Extended\Veldrid.Extended.csproj" />
+    <ProjectReference Include="..\..\src\CSG.Veldrid\CSG.Veldrid.csproj" />
   </ItemGroup>
 
 </Project>

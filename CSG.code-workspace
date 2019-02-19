@@ -11,6 +11,9 @@
 		},
 		{
 			"path": "dep/Veldrid.Extended/src/Veldrid.Extended"
+		},
+		{
+			"path": "src/CSG.Veldrid"
 		}
 	]
 }

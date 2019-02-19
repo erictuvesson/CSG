@@ -13,7 +13,7 @@
     {
         private CommandList commandList;
         private BasicMaterial basicMaterial;
-        private Geometry<Vertex, ushort> geometry;
+        private ShapeGeometry shapeGeometry;
 
         private float _ticks;
 
@@ -28,7 +28,7 @@
             
             var shape = new Teapot();
 
-            geometry = new Geometry<Vertex, ushort>(DrawingContext, shape.Cache.Vertices, shape.Cache.Indices);
+            shapeGeometry = new ShapeGeometry(DrawingContext, shape);
 
             commandList = factory.CreateCommandList();
         }
@@ -48,7 +48,7 @@
             commandList.ClearDepthStencil(1f);
 
             basicMaterial.Apply(commandList);
-            geometry.Draw(commandList);
+            shapeGeometry.Draw(commandList);
 
             commandList.End();
 
