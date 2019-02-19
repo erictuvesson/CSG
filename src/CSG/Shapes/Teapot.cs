@@ -4,13 +4,12 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class Teapot : Bezier
     {
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
-        [DataMember]
         public int Tessellation
         {
             get => tessellation;

@@ -1,6 +1,7 @@
 ﻿namespace CSG.Serialization
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     public abstract class SerializerStream
@@ -9,7 +10,7 @@
 
         protected SerializerStream(IEnumerable<Type> knownTypes)
         {
-            this.KnownTypes = knownTypes;
+            this.KnownTypes = knownTypes.Concat(SerializerHelper.DependencyTypes());
         }
 
         public abstract T Deserialize<T>(byte[] value);

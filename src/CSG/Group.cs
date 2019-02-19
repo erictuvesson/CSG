@@ -6,13 +6,10 @@
     [DataContract]
     public class Group : IEquatable<Group>
     {
-        [DataMember]
         public ShapeOperation Operation { get; set; }
 
-        [DataMember]
         public Shape Value1 { get; set; }
 
-        [DataMember]
         public Shape Value2 { get; set; }
 
         public Group(ShapeOperation operation, Shape value1, Shape value2)

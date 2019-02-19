@@ -7,6 +7,15 @@
 
     public static class SerializerHelper
     {
+        public static IEnumerable<Type> DependencyTypes()
+        {
+            return new Type[] {
+                typeof(System.Numerics.Vector2),
+                typeof(System.Numerics.Vector3),
+                typeof(System.Numerics.Vector4),
+            };
+        }
+
         public static IEnumerable<Type> GetShapeTypes(Assembly assembly = null)
         {
             return (assembly ?? ThisAssembly()).FindDerivedTypes<Shape>();
@@ -14,9 +23,9 @@
 
         public static IEnumerable<Type> GetSerializableTypes(Assembly assembly = null)
         {
-            return (assembly ?? ThisAssembly()).FindByAttribute<DataContractAttribute>();
+            return (assembly ?? ThisAssembly()).FindByAttribute<SerializableAttribute>();
         }
 
-        private static Assembly ThisAssembly() => Assembly.GetAssembly(typeof(Shape));
+        internal static Assembly ThisAssembly() => Assembly.GetAssembly(typeof(Shape));
     }
 }

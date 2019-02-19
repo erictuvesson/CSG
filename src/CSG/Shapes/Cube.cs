@@ -4,7 +4,7 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class Cube : Shape, IEquatable<Cube>
     {
         private static readonly Vector3[] normals = new Vector3[]
@@ -17,10 +17,8 @@
             new Vector3(+0, -1, +0),
         };
 
-        [DataMember]
         public Vector3 Position { get; set; }
 
-        [DataMember]
         public Vector3 Size { get; set; }
 
         public Cube(Vector3? position = null, Vector3? size = null)

@@ -4,19 +4,16 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class Sphere : Shape
     {
-        [DataMember]
         public Vector3 Position { get; set; }
 
-        [DataMember]
         public float Radius { get; set; }
 
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
-        [DataMember]
         public int Tessellation
         {
             get => tessellation;

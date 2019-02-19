@@ -3,6 +3,7 @@ namespace CSG.Shapes
     using System;
     using System.Numerics;
 
+    [Serializable]
     public abstract class Bezier : Shape
     {
         /// <summary>

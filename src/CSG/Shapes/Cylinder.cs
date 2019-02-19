@@ -4,19 +4,16 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class Cylinder : Shape
     {
-        [DataMember]
         public Vector3 Start { get; set; }
 
-        [DataMember]
         public Vector3 End { get; set; }
         
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
-        [DataMember]
         public int Tessellation 
         {
             get => tessellation;
@@ -28,7 +25,6 @@
         }
         private int tessellation;
 
-        [DataMember]
         public float Radius { get; set; }
 
         public Cylinder(Vector3? start = null, Vector3? end = null,
