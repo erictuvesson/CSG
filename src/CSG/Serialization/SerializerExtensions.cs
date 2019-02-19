@@ -8,5 +8,13 @@
         {
             return (T)info.GetValue(name, typeof(T));
         }
+
+        public static void TryAddValue(this SerializationInfo info, string name, object obj)
+        {
+            if (obj != null)
+            {
+                info.AddValue(name, obj);
+            }
+        }
     }
 }

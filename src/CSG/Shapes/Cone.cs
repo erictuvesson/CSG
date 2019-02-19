@@ -5,7 +5,7 @@
     using System.Runtime.Serialization;
 
     [Serializable]
-    public class Cone : Shape
+    public class Cone : Shape, IEquatable<Cone>
     {
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
@@ -24,6 +24,12 @@
         public Cone(int tessellation = 32)
         {
             this.Tessellation = tessellation;
+        }
+
+        public Cone(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.Tessellation = info.GetInt32("tessellation");
         }
 
         protected override void OnBuild(IShapeBuilder builder)
@@ -47,6 +53,17 @@
                 builder.AddIndex(2 + (i + 1) % Tessellation);
                 builder.AddIndex(2 + i);
             }
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("tessellation", Tessellation);
+        }
+
+        public bool Equals(Cone other)
+        {
+            return base.Equals(other) && Tessellation == other.Tessellation;
         }
 
         // <summary>

@@ -3,9 +3,10 @@
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
+    using CSG.Serialization;
 
     [Serializable]
-    public class Sphere : Shape
+    public class Sphere : Shape, IEquatable<Sphere>
     {
         public Vector3 Position { get; set; }
 
@@ -30,6 +31,14 @@
             this.Position = position ?? Vector3.Zero;
             this.Radius = radius;
             this.Tessellation = tessellation;
+        }
+
+        public Sphere(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.Position = info.GetValue<Vector3>("position");
+            this.Radius = info.GetInt32("radius");
+            this.Tessellation = info.GetInt32("tessellation");
         }
 
         protected override void OnBuild(IShapeBuilder builder)
@@ -99,6 +108,22 @@
                 builder.AddIndex(builder.CurrentVertex - 2 - ((i + 1) % horizontalSegments));
                 builder.AddIndex(builder.CurrentVertex - 2 - i);
             }
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("position", Position);
+            info.AddValue("radius", Radius);
+            info.AddValue("tessellation", Tessellation);
+        }
+
+        public bool Equals(Sphere other)
+        {
+            return base.Equals(other) &&
+                Position == other.Position &&
+                Radius == other.Radius &&
+                Tessellation == other.Tessellation;
         }
     }
 }

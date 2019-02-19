@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Numerics;
     using System.Runtime.Serialization;
+    using CSG.Serialization;
 
     [Serializable]
     public abstract partial class Shape : IEquatable<Shape>, ISerializable
@@ -38,7 +39,8 @@
 
         protected Shape(SerializationInfo info, StreamingContext context)
         {
-
+            this.Name = info.GetString("name");
+            this.Color = info.GetValue<Vector4>("color");
         }
 
         /// <summary>
@@ -78,7 +80,7 @@
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("name", Name);
-            info.AddValue("Color", color);
+            info.AddValue("color", color);
         }
 
         public bool Equals(Shape other) => Name == other.Name && Color == other.Color;
