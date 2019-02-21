@@ -12,7 +12,7 @@
         where TSerializer : XmlObjectSerializer
     {
         protected SerializerStreamDataContract(IEnumerable<Type> knownTypes)
-            : base(knownTypes)
+            : base(knownTypes ?? SerializerHelper.GetSerializableTypes())
         {
 
         }
@@ -52,6 +52,15 @@
                     WriteObject(serializer, writer, value);
                 }
                 return stream.ToArray();
+            }
+        }
+
+        public override void Serialize<T>(T value, ref Stream stream)
+        {
+            using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
+            {
+                var serializer = CreateSerializer<T>();
+                WriteObject(serializer, writer, value);
             }
         }
 

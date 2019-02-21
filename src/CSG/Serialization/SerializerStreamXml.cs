@@ -12,7 +12,7 @@
 
         public SerializerStreamXml(IEnumerable<Type> knownTypes = null,
             DataContractResolver resolver = null)
-            : base(knownTypes ?? SerializerHelper.GetSerializableTypes())
+            : base(knownTypes)
         {
             this.Resolver = resolver ?? new SerializerDataContractResolver(DefaultAssembly());
         }
