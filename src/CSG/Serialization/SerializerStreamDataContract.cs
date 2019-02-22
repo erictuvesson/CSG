@@ -55,7 +55,7 @@
             }
         }
 
-        public override void Serialize<T>(T value, ref Stream stream)
+        public override void Serialize<T>(T value, Stream stream)
         {
             using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
             {

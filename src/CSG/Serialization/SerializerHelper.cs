@@ -13,6 +13,10 @@
                 typeof(System.Numerics.Vector2),
                 typeof(System.Numerics.Vector3),
                 typeof(System.Numerics.Vector4),
+                typeof(System.Numerics.Matrix3x2),
+                typeof(System.Numerics.Matrix4x4),
+                typeof(System.Numerics.Quaternion),
+                typeof(System.Numerics.Plane)
             };
         }
 
@@ -27,57 +31,5 @@
         }
 
         internal static Assembly ThisAssembly() => Assembly.GetAssembly(typeof(Shape));
-
-        internal static byte[] ReadToEnd(this System.IO.Stream stream)
-        {
-            long originalPosition = 0;
-
-            if (stream.CanSeek)
-            {
-                originalPosition = stream.Position;
-                stream.Position = 0;
-            }
-
-            try
-            {
-                byte[] readBuffer = new byte[4096];
-
-                int totalBytesRead = 0;
-                int bytesRead;
-
-                while ((bytesRead = stream.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0)
-                {
-                    totalBytesRead += bytesRead;
-
-                    if (totalBytesRead == readBuffer.Length)
-                    {
-                        int nextByte = stream.ReadByte();
-                        if (nextByte != -1)
-                        {
-                            byte[] temp = new byte[readBuffer.Length * 2];
-                            Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                            Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
-                            readBuffer = temp;
-                            totalBytesRead++;
-                        }
-                    }
-                }
-
-                byte[] buffer = readBuffer;
-                if (readBuffer.Length != totalBytesRead)
-                {
-                    buffer = new byte[totalBytesRead];
-                    Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
-                }
-                return buffer;
-            }
-            finally
-            {
-                if (stream.CanSeek)
-                {
-                    stream.Position = originalPosition; 
-                }
-            }
-        }
     }
 }

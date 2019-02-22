@@ -29,8 +29,9 @@
 
         public bool Equals(Group other)
         {
-            return Value1.Equals(other.Value1) && Value2.Equals(other.Value2)
-                   && Operation == other.Operation;
+            return Value1.Equals(other.Value1) && 
+                   Value2.Equals(other.Value2) && 
+                   Operation == other.Operation;
         }
     }
 }

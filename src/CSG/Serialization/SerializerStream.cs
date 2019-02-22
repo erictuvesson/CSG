@@ -1,7 +1,6 @@
 ﻿namespace CSG.Serialization
 {
     using System;
-    using System.IO;
     using System.Linq;
     using System.Collections.Generic;
 
@@ -18,7 +17,7 @@
         public abstract T DeserializeContent<T>(string value);
 
         public abstract byte[] Serialize<T>(T value);
-        public abstract void Serialize<T>(T value, ref Stream stream);
+        public abstract void Serialize<T>(T value, System.IO.Stream stream);
         public abstract string SerializeContent<T>(T value);
     }
 }

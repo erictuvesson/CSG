@@ -27,10 +27,9 @@ namespace CSG.Serialization
             if (binary)
             {
                 using (var fileStream = new FileStream(filepath, FileMode.Create))
+                using (Stream stream = new GZipStream(fileStream, CompressionMode.Compress))
                 {
-                    Stream stream = new GZipStream(fileStream, CompressionMode.Compress);
-                    SerializerStream.Serialize(value, ref stream);
-                    stream.Close();
+                    SerializerStream.Serialize(value, stream);
                 }
             }
             else
@@ -61,12 +60,14 @@ namespace CSG.Serialization
 
         private byte[] DeserializeBinary(string filepath)
         {
+            using (var memoryStream = new MemoryStream())
             using (var fileStream = new FileStream(filepath, FileMode.Open))
             {
                 using (var stream = new GZipStream(fileStream, CompressionMode.Decompress))
                 {
-                    return stream.ReadToEnd();
+                    stream.CopyTo(memoryStream);
                 }
+                return memoryStream.ToArray();
             }
         }
 
