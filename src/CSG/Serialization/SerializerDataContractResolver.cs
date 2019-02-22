@@ -5,44 +5,51 @@
     using System.Reflection;
     using System.Runtime.Serialization;
     using System.Xml;
+    using System.Linq;
 
     public class SerializerDataContractResolver : DataContractResolver
     {
-        private readonly Dictionary<string, XmlDictionaryString> dictionary = new Dictionary<string, XmlDictionaryString>();
-        private readonly Assembly assembly;
+        private readonly IEnumerable<Assembly> assemblies;
 
-        public SerializerDataContractResolver(Assembly assembly)
+        public SerializerDataContractResolver(IEnumerable<Assembly> assemblies = null)
         {
-            this.assembly = assembly;
+            this.assemblies = (assemblies ?? new Assembly[0]).Concat(SerializerHelper.DependencyAssemblies());
         }
 
         public override Type ResolveName(string typeName, string typeNamespace,
             Type declaredType, DataContractResolver knownTypeResolver)
         {
-            if (dictionary.TryGetValue(typeName, out XmlDictionaryString tName)
-                && dictionary.TryGetValue(typeNamespace, out XmlDictionaryString tNamespace))
-            {
-                return this.assembly.GetType($"${tNamespace.Value}.${tName.Value}");
-            }
-            return null;
+            return TryGetType($"{typeNamespace}.{typeName}");
         }
 
         public override bool TryResolveType(Type type, Type declaredType, DataContractResolver knownTypeResolver,
             out XmlDictionaryString typeName, out XmlDictionaryString typeNamespace)
         {
-            string name = type.Name;
-            string namesp = type.Namespace;
-            typeName = new XmlDictionaryString(XmlDictionary.Empty, name, 0);
-            typeNamespace = new XmlDictionaryString(XmlDictionary.Empty, namesp, 0);
-            if (!dictionary.ContainsKey(type.Name))
+            if (TryGetType($"{type.Namespace}.{type.Name}") != null)
             {
-                dictionary.Add(name, typeName);
+                typeName = new XmlDictionaryString(XmlDictionary.Empty, type.Name, 0);
+                typeNamespace = new XmlDictionaryString(XmlDictionary.Empty, type.Namespace, 0);
+                return true;
             }
-            if (!dictionary.ContainsKey(type.Namespace))
+            else
             {
-                dictionary.Add(namesp, typeNamespace);
+                typeName = null;
+                typeNamespace = null;
+                return false;
             }
-            return true;
+        }
+
+        private Type TryGetType(string typeName)
+        {
+            foreach (var assembly in this.assemblies)
+            {
+                Type type = assembly.GetType(typeName);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+            return null;
         }
     }
 }

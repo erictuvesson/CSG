@@ -17,19 +17,16 @@
 
         }
 
-        public override T Deserialize<T>(byte[] value)
+        public override T Deserialize<T>(System.IO.Stream stream)
         {
-            using (var stream = new MemoryStream(value))
+            T result = default(T);
+            using (var reader = XmlDictionaryReader.CreateBinaryReader(stream,
+                XmlDictionaryReaderQuotas.Max))
             {
-                T result = default(T);
-                using (var reader = XmlDictionaryReader.CreateTextReader(stream,
-                    new XmlDictionaryReaderQuotas()))
-                {
-                    var ser = CreateSerializer<T>();
-                    result = ReadObject<T>(ser, reader);
-                }
-                return result;
+                var ser = CreateSerializer<T>();
+                result = ReadObject<T>(ser, reader);
             }
+            return result;
         }
 
         public override T DeserializeContent<T>(string value)
@@ -76,7 +73,7 @@
 
         protected virtual T ReadObject<T>(TSerializer serializer, XmlDictionaryReader stream)
         {
-            return (T)serializer.ReadObject(stream);
+            return (T)serializer.ReadObject(stream, true);
         }
 
         protected virtual void WriteObject<T>(TSerializer serializer,

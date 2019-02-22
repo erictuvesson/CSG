@@ -7,6 +7,16 @@
 
     public static class SerializerHelper
     {
+        public static IEnumerable<Assembly> DependencyAssemblies()
+        {
+            return new Assembly[] {
+                Assembly.GetEntryAssembly(),
+                typeof(SerializerHelper).Assembly,
+                typeof(System.Numerics.Vector2).Assembly,
+                typeof(System.String).Assembly
+            };
+        }
+
         public static IEnumerable<Type> DependencyTypes()
         {
             return new Type[] {

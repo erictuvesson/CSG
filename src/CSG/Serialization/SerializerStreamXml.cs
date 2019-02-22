@@ -14,7 +14,7 @@
             DataContractResolver resolver = null)
             : base(knownTypes)
         {
-            this.Resolver = resolver ?? new SerializerDataContractResolver(DefaultAssembly());
+            this.Resolver = resolver ?? new SerializerDataContractResolver();
         }
 
         protected override T ReadObject<T>(DataContractSerializer serializer,
@@ -28,7 +28,5 @@
         {
             serializer.WriteObject(stream, value, Resolver);
         }
-
-        private static Assembly DefaultAssembly() => Assembly.GetEntryAssembly();
     }
 }
