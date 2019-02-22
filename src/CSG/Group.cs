@@ -3,7 +3,7 @@
     using System;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class Group : IEquatable<Group>
     {
         public ShapeOperation Operation { get; set; }
