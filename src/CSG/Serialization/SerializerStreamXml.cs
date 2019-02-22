@@ -10,11 +10,16 @@
     {
         public readonly DataContractResolver Resolver;
 
-        public SerializerStreamXml(IEnumerable<Type> knownTypes = null,
-            DataContractResolver resolver = null)
-            : base(knownTypes)
+        public SerializerStreamXml(IEnumerable<Assembly> assemblies = null)
+            : this(new SerializerDataContractResolver(assemblies))
         {
-            this.Resolver = resolver ?? new SerializerDataContractResolver();
+            
+        }
+
+        public SerializerStreamXml(DataContractResolver resolver)
+            : base(null)
+        {
+            this.Resolver = resolver;
         }
 
         protected override T ReadObject<T>(DataContractSerializer serializer,
