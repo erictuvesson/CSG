@@ -4,13 +4,12 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    [DataContract]
-    public class Teapot : Bezier
+    [Serializable]
+    public class Teapot : Bezier, IEquatable<Teapot>
     {
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
-        [DataMember]
         public int Tessellation
         {
             get => tessellation;
@@ -25,6 +24,23 @@
         public Teapot(int tessellation = 8)
         {
             this.Tessellation = tessellation;
+        }
+
+        public Teapot(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.Tessellation = info.GetInt32("tessellation");
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("tessellation", Tessellation);
+        }
+
+        public bool Equals(Teapot other)
+        {
+            return base.Equals(other) && Tessellation == other.Tessellation;
         }
 
         protected override void OnBuild(IShapeBuilder builder)
@@ -80,7 +96,6 @@
         {
             public readonly int[] Indices;
             public readonly bool MirrorZ;
-
 
             public TeapotPatch(bool mirrorZ, int[] indices)
             {

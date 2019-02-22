@@ -3,16 +3,13 @@
     using System;
     using System.Runtime.Serialization;
 
-    [DataContract]
+    [Serializable]
     public class Group : IEquatable<Group>
     {
-        [DataMember]
         public ShapeOperation Operation { get; set; }
 
-        [DataMember]
         public Shape Value1 { get; set; }
 
-        [DataMember]
         public Shape Value2 { get; set; }
 
         public Group(ShapeOperation operation, Shape value1, Shape value2)
@@ -32,8 +29,9 @@
 
         public bool Equals(Group other)
         {
-            return Value1.Equals(other.Value1) && Value2.Equals(other.Value2)
-                   && Operation == other.Operation;
+            return Value1.Equals(other.Value1) && 
+                   Value2.Equals(other.Value2) && 
+                   Operation == other.Operation;
         }
     }
 }

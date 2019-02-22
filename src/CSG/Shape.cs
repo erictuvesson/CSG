@@ -4,14 +4,13 @@
     using System.Collections.Generic;
     using System.Numerics;
     using System.Runtime.Serialization;
+    using CSG.Serialization;
 
-    [DataContract]
-    public abstract partial class Shape : IEquatable<Shape>
+    [Serializable]
+    public abstract partial class Shape : IEquatable<Shape>, ISerializable
     {
-        [DataMember]
         public string Name { get; set; }
 
-        [DataMember]
         public Vector4 Color
         {
             get => color;
@@ -32,6 +31,17 @@
 
         private ShapeCache? cache = null;
         private Vector4 color = Vector4.One;
+
+        protected Shape()
+        {
+
+        }
+
+        protected Shape(SerializationInfo info, StreamingContext context)
+        {
+            this.Name = info.GetString("name");
+            this.Color = info.GetValue<Vector4>("color");
+        }
 
         /// <summary>
         /// Create polygons of the <see cref="Shape"/>.
@@ -65,6 +75,12 @@
             builder.Clear();
 
             return cache;
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("name", Name);
+            info.AddValue("color", color);
         }
 
         public bool Equals(Shape other) => Name == other.Name && Color == other.Color;

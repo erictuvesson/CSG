@@ -3,20 +3,18 @@
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
+    using CSG.Serialization;
 
-    [DataContract]
-    public class Cylinder : Shape
+    [Serializable]
+    public class Cylinder : Shape, IEquatable<Cylinder>
     {
-        [DataMember]
         public Vector3 Start { get; set; }
 
-        [DataMember]
         public Vector3 End { get; set; }
         
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
-        [DataMember]
         public int Tessellation 
         {
             get => tessellation;
@@ -28,7 +26,6 @@
         }
         private int tessellation;
 
-        [DataMember]
         public float Radius { get; set; }
 
         public Cylinder(Vector3? start = null, Vector3? end = null,
@@ -40,6 +37,15 @@
             this.Tessellation = tessellation;
         }
         
+        public Cylinder(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.Start = info.GetValue<Vector3>("start");
+            this.End = info.GetValue<Vector3>("end");
+            this.Radius = info.GetSingle("radius");
+            this.Tessellation = info.GetInt32("tessellation");
+        }
+
         protected override void OnBuild(IShapeBuilder builder)
         {
             builder.AddVertex(Start * 0.5f, Start);
@@ -69,6 +75,22 @@
                 builder.AddIndex(2 + (((i * 2) + 3) % (Tessellation * 2)));
                 builder.AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
             }
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("start", Start);
+            info.AddValue("end", End);
+            info.AddValue("radius", Radius);
+            info.AddValue("tessellation", Tessellation);
+        }
+
+        public bool Equals(Cylinder other)
+        {
+            return base.Equals(other) &&
+                Start == other.Start && End == other.End &&
+                Radius == other.Radius && Tessellation == other.Tessellation;
         }
 
         private static Vector3 GetCircleVector(int i, int tessellation)

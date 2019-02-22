@@ -18,5 +18,15 @@
             //     vertices[i] = new Vertex(newPosition, vertex.Normal, vertex.TexCoords, vertex.Color);
             // }
         }
+
+        public static ShapeCache Translate(this ShapeCache shape, Vector3 position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static ShapeCache Transform(this ShapeCache shape, Matrix4x4 transform)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

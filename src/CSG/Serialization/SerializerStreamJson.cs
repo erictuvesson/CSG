@@ -6,7 +6,7 @@
 
     public class SerializerStreamJson : SerializerStreamDataContract<DataContractJsonSerializer>
     {
-        public SerializerStreamJson(IEnumerable<Type> knownTypes)
+        public SerializerStreamJson(IEnumerable<Type> knownTypes = null)
             : base(knownTypes)
         {
 

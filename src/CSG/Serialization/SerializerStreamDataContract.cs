@@ -12,24 +12,21 @@
         where TSerializer : XmlObjectSerializer
     {
         protected SerializerStreamDataContract(IEnumerable<Type> knownTypes)
-            : base(knownTypes)
+            : base(knownTypes ?? SerializerHelper.GetSerializableTypes())
         {
 
         }
 
-        public override T Deserialize<T>(byte[] value)
+        public override T Deserialize<T>(System.IO.Stream stream)
         {
-            using (var stream = new MemoryStream(value))
+            T result = default(T);
+            using (var reader = XmlDictionaryReader.CreateBinaryReader(stream,
+                XmlDictionaryReaderQuotas.Max))
             {
-                T result = default(T);
-                using (var reader = XmlDictionaryReader.CreateTextReader(stream,
-                    new XmlDictionaryReaderQuotas()))
-                {
-                    var ser = CreateSerializer<T>();
-                    result = ReadObject<T>(ser, reader);
-                }
-                return result;
+                var ser = CreateSerializer<T>();
+                result = ReadObject<T>(ser, reader);
             }
+            return result;
         }
 
         public override T DeserializeContent<T>(string value)
@@ -55,6 +52,15 @@
             }
         }
 
+        public override void Serialize<T>(T value, Stream stream)
+        {
+            using (var writer = XmlDictionaryWriter.CreateBinaryWriter(stream))
+            {
+                var serializer = CreateSerializer<T>();
+                WriteObject(serializer, writer, value);
+            }
+        }
+
         public override string SerializeContent<T>(T value)
         {
             using (var stream = new MemoryStream())
@@ -67,7 +73,7 @@
 
         protected virtual T ReadObject<T>(TSerializer serializer, XmlDictionaryReader stream)
         {
-            return (T)serializer.ReadObject(stream);
+            return (T)serializer.ReadObject(stream, true);
         }
 
         protected virtual void WriteObject<T>(TSerializer serializer,

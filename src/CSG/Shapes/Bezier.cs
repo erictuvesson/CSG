@@ -2,9 +2,22 @@ namespace CSG.Shapes
 {
     using System;
     using System.Numerics;
+    using System.Runtime.Serialization;
 
+    [Serializable]
     public abstract class Bezier : Shape
     {
+        protected Bezier()
+        {
+
+        }
+        
+        protected Bezier(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            
+        }
+
         /// <summary>
         /// Creates indices for a patch that is tessellated at the specified level.
         /// </summary>
@@ -43,7 +56,6 @@ namespace CSG.Shapes
                 }
             }
         }
-
 
         /// <summary>
         /// Creates vertices for a patch that is tessellated at the specified level.
@@ -119,7 +131,6 @@ namespace CSG.Shapes
             }
         }
 
-
         /// <summary>
         /// Performs a cubic bezier interpolation between four scalar control
         /// points, returning the value at the specified time (t ranges 0 to 1).
@@ -131,7 +142,6 @@ namespace CSG.Shapes
                    p3 * 3 * t * t * (1 - t) +
                    p4 * t * t * t;
         }
-
 
         /// <summary>
         /// Performs a cubic bezier interpolation between four Vector3 control
@@ -148,7 +158,6 @@ namespace CSG.Shapes
             return result;
         }
 
-
         /// <summary>
         /// Computes the tangent of a cubic bezier curve at the specified time,
         /// when given four scalar control points.
@@ -160,7 +169,6 @@ namespace CSG.Shapes
                    p3 * (2 * t - 3 * t * t) +
                    p4 * (t * t);
         }
-
 
         /// <summary>
         /// Computes the tangent of a cubic bezier curve at the specified time,

@@ -4,13 +4,12 @@
     using System.Numerics;
     using System.Runtime.Serialization;
 
-    [DataContract]
-    public class Torus : Shape
+    [Serializable]
+    public class Torus : Shape, IEquatable<Torus>
     {
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
-        [DataMember]
         public int Tessellation
         {
             get => tessellation;
@@ -25,6 +24,23 @@
         public Torus(int tessellation = 32)
         {
             this.Tessellation = tessellation;
+        }
+
+        public Torus(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            this.Tessellation = info.GetInt32("tessellation");
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("tessellation", Tessellation);
+        }
+
+        public bool Equals(Torus other)
+        {
+            return base.Equals(other) && Tessellation == other.Tessellation;
         }
 
         protected override void OnBuild(IShapeBuilder builder)
