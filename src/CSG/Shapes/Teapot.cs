@@ -50,6 +50,11 @@
             return (obj != null || GetType() != obj.GetType()) && Equals(obj as Teapot);
         }
         
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ Tessellation.GetHashCode();
+        }
+
         protected override void OnBuild(IShapeBuilder builder)
         {
             foreach (var patch in TeapotPatches)
