@@ -1,11 +1,12 @@
 ﻿namespace CSG
 {
+    using System;
     using System.Numerics;
 
     /// <summary>
     /// Vertex with Position, Normal, Texture Coordinates and Color. 
     /// </summary>
-    public struct Vertex
+    public struct Vertex : IEquatable<Vertex>
     {
         public const uint SizeInBytes = 48;
     
@@ -38,6 +39,14 @@
             this.Normal = normal;
             this.TexCoords = texCoords;
             this.Color = color;
+        }
+
+        public bool Equals(Vertex other)
+        {
+            return this.Position == other.Position &&
+                   this.Normal == other.Normal &&
+                   this.TexCoords == other.TexCoords &&
+                   this.Color == other.Color;
         }
 
         /// <summary>

@@ -1,9 +1,11 @@
 ﻿namespace CSG
 {
+    using System;
+
     /// <summary>
     /// Stores all the vertices and indicies that are generated from a <see cref="Shape"/>.
     /// </summary>
-    public struct ShapeCache
+    public struct ShapeCache : IEquatable<ShapeCache>
     {
         public readonly Vertex[] Vertices;
         public readonly ushort[] Indices;
@@ -27,6 +29,12 @@
                 });
             }
             return result;
+        }
+
+        public bool Equals(ShapeCache other)
+        {
+            return this.Vertices == other.Vertices &&
+                   this.Indices == other.Indices;
         }
 
         public override string ToString() => $"Vertices: {Vertices.Length}, Indices: {Indices.Length}";

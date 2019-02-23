@@ -68,7 +68,9 @@
 
         public bool Equals(Cube other)
         {
-            return base.Equals(other) && Position == other.Position && Size == other.Size;
+            return base.Equals(other as Shape) && 
+                   Position == other.Position && 
+                   Size == other.Size;
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
+    using System.Diagnostics;
 
     [Serializable]
     public class Teapot : Bezier, IEquatable<Teapot>
@@ -40,7 +41,8 @@
 
         public bool Equals(Teapot other)
         {
-            return base.Equals(other) && Tessellation == other.Tessellation;
+            return base.Equals(other as Shape) && 
+                   Tessellation == other.Tessellation;
         }
 
         protected override void OnBuild(IShapeBuilder builder)
@@ -99,7 +101,7 @@
 
             public TeapotPatch(bool mirrorZ, int[] indices)
             {
-                // Debug.Assert(indices.Length == 16);
+                Debug.Assert(indices.Length == 16);
 
                 this.Indices = indices;
                 this.MirrorZ = mirrorZ;

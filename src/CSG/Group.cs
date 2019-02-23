@@ -22,7 +22,9 @@
         public GeneratedShape Do()
         {
             if (Value1 == null || Value2 == null)
+            {
                 return null;
+            }
 
             return Value1.Do(Operation, Value2);
         }

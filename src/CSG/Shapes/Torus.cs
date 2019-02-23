@@ -40,7 +40,8 @@
 
         public bool Equals(Torus other)
         {
-            return base.Equals(other) && Tessellation == other.Tessellation;
+            return base.Equals(other as Shape) && 
+                   Tessellation == other.Tessellation;
         }
 
         protected override void OnBuild(IShapeBuilder builder)

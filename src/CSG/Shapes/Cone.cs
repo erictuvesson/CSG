@@ -63,7 +63,8 @@
 
         public bool Equals(Cone other)
         {
-            return base.Equals(other) && Tessellation == other.Tessellation;
+            return base.Equals(other as Shape) && 
+                   Tessellation == other.Tessellation;
         }
 
         // <summary>

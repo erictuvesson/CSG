@@ -3,6 +3,7 @@ namespace CSG.Shapes
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
+    using System.Diagnostics;
 
     [Serializable]
     public abstract class Bezier : Shape
@@ -62,7 +63,7 @@ namespace CSG.Shapes
         /// </summary>
         protected void CreatePatchVertices(IShapeBuilder builder, Vector3[] patch, int tessellation, bool isMirrored)
         {
-            // Debug.Assert(patch.Length == 16);
+            Debug.Assert(patch.Length == 16);
 
             for (int i = 0; i <= tessellation; ++i)
             {
@@ -103,7 +104,9 @@ namespace CSG.Shapes
 
                         // If this patch is mirrored, we must invert the normal.
                         if (isMirrored)
+                        {
                             normal = -normal;
+                        }
                     }
                     else
                     {
@@ -120,9 +123,13 @@ namespace CSG.Shapes
                         // it's good enough to make the teapot work correctly!
 
                         if (position.Y > 0)
+                        {
                             normal = Vector3.UnitY;
+                        }
                         else
+                        {
                             normal = -Vector3.UnitY;
+                        }
                     }
 
                     // Create the vertex.

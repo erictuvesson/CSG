@@ -120,10 +120,10 @@
 
         public bool Equals(Sphere other)
         {
-            return base.Equals(other) &&
-                Position == other.Position &&
-                Radius == other.Radius &&
-                Tessellation == other.Tessellation;
+            return base.Equals(other as Shape) &&
+                   Position == other.Position &&
+                   Radius == other.Radius &&
+                   Tessellation == other.Tessellation;
         }
     }
 }

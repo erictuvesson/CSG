@@ -46,7 +46,9 @@
         public void Invert()
         {
             for (int i = 0; i < this.Polygons.Count; i++)
+            {
                 this.Polygons[i].Flip();
+            }
 
             this.Plane.Flip();
             this.Front?.Invert();
@@ -86,14 +88,18 @@
             if (list_front.Count > 0)
             {
                 if (this.Front == null)
+                {
                     this.Front = new BSPNode { Parent = this };
+                }
                 this.Front.Build(list_front);
             }
 
             if (list_back.Count > 0)
             {
                 if (this.Back == null)
+                {
                     this.Back = new BSPNode { Parent = this };
+                }
                 this.Back.Build(list_back);
             }
         }

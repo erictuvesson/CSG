@@ -42,6 +42,7 @@
             var (type, types) = PossibleTypes(polygon);
             switch (type)
             {
+            default:
             case PolygonType.Coplanar:
                 {
                     if (Vector3.Dot(this.Normal, polygon.Plane.Normal) > 0)

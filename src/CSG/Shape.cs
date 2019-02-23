@@ -83,6 +83,10 @@
             info.AddValue("color", color);
         }
 
-        public bool Equals(Shape other) => Name == other.Name && Color == other.Color;
+        public bool Equals(Shape other)
+        {
+            return Name == other.Name && 
+                   Color == other.Color;
+        }
     }
 }

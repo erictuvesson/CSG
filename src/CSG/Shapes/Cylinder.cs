@@ -88,9 +88,9 @@
 
         public bool Equals(Cylinder other)
         {
-            return base.Equals(other) &&
-                Start == other.Start && End == other.End &&
-                Radius == other.Radius && Tessellation == other.Tessellation;
+            return base.Equals(other as Shape) &&
+                   Start == other.Start && End == other.End &&
+                   Radius == other.Radius && Tessellation == other.Tessellation;
         }
 
         private static Vector3 GetCircleVector(int i, int tessellation)

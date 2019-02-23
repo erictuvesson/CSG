@@ -58,7 +58,7 @@ namespace CSG.Serialization
             }
         }
 
-        private byte[] DeserializeBinary(string filepath)
+        private static byte[] DeserializeBinary(string filepath)
         {
             using (var memoryStream = new MemoryStream())
             using (var fileStream = new FileStream(filepath, FileMode.Open))
