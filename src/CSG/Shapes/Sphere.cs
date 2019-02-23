@@ -125,5 +125,16 @@
                    Radius == other.Radius &&
                    Tessellation == other.Tessellation;
         }
+
+        public override bool Equals(object obj)
+        {
+            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Sphere);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ Position.GetHashCode() ^ 
+                   Radius.GetHashCode() ^ Tessellation.GetHashCode();
+        }
     }
 }

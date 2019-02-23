@@ -72,5 +72,15 @@
                    Position == other.Position && 
                    Size == other.Size;
         }
+
+        public override bool Equals(object obj)
+        {
+            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Cube);
+        }
+        
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ Position.GetHashCode() ^ Size.GetHashCode();
+        }
     }
 }

@@ -44,6 +44,16 @@
                    Tessellation == other.Tessellation;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Torus);
+        }
+        
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ Tessellation.GetHashCode();
+        }
+
         protected override void OnBuild(IShapeBuilder builder)
         {
             // First we loop around the main ring of the torus.

@@ -93,6 +93,18 @@
                    Radius == other.Radius && Tessellation == other.Tessellation;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Cylinder);
+        }
+        
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ 
+                   Start.GetHashCode() ^ End.GetHashCode() ^ 
+                   Radius.GetHashCode() ^ Tessellation.GetHashCode();
+        }
+
         private static Vector3 GetCircleVector(int i, int tessellation)
         {
             float angle = i * Algorithms.Helpers.TwoPi / tessellation;

@@ -45,6 +45,11 @@
                    Tessellation == other.Tessellation;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Teapot);
+        }
+        
         protected override void OnBuild(IShapeBuilder builder)
         {
             foreach (var patch in TeapotPatches)

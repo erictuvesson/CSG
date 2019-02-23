@@ -67,6 +67,16 @@
                    Tessellation == other.Tessellation;
         }
 
+        public override bool Equals(object obj)
+        {
+            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Cone);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode() ^ Tessellation.GetHashCode();
+        }
+
         // <summary>
         /// Helper method computes a point on a circle.
         /// </summary>
