@@ -19,14 +19,12 @@
 
         public override T Deserialize<T>(System.IO.Stream stream)
         {
-            T result = default(T);
             using (var reader = XmlDictionaryReader.CreateBinaryReader(stream,
                 XmlDictionaryReaderQuotas.Max))
             {
                 var ser = CreateSerializer<T>();
-                result = ReadObject<T>(ser, reader);
+                return ReadObject<T>(ser, reader);
             }
-            return result;
         }
 
         public override T DeserializeContent<T>(string value)

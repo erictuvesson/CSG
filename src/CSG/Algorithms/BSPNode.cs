@@ -62,7 +62,9 @@
         public void Build(List<Polygon> list)
         {
             if (list.Count < 1)
+            {
                 return;
+            }
 
             if (this.Plane == null || !this.Plane.Valid())
             {
@@ -74,7 +76,9 @@
             }
 
             if (this.Polygons == null)
+            {
                 this.Polygons = new List<Polygon>();
+            }
 
             // TODO: Optimize!
             var list_front = new List<Polygon>();

@@ -15,8 +15,8 @@
 
     public class Polygon
     {
-        public List<Vertex> Vertices;
-        public Plane Plane;
+        public List<Vertex> Vertices { get; private set; }
+        public Plane Plane { get; private set; }
 
         public Polygon(IEnumerable<Vertex> vertices)
         {

@@ -7,8 +7,8 @@
     {
         const float EPSILON = 0.00001f;
 
-        public Vector3 Normal;
-        public float W;
+        public Vector3 Normal { get; set; }
+        public float W { get; set; }
 
         public Plane()
         {
