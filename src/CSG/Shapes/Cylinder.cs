@@ -3,7 +3,6 @@
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
-    using CSG.Serialization;
 
     [Serializable]
     public class Cylinder : Shape, IEquatable<Cylinder>
@@ -40,8 +39,8 @@
         public Cylinder(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.Start = info.GetValue<Vector3>("start");
-            this.End = info.GetValue<Vector3>("end");
+            this.Start = (Vector3)info.GetValue("start", typeof(Vector3));
+            this.End = (Vector3)info.GetValue("end", typeof(Vector3));
             this.Radius = info.GetSingle("radius");
             this.Tessellation = info.GetInt32("tessellation");
         }

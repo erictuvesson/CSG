@@ -3,7 +3,6 @@
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
-    using CSG.Serialization;
 
     [Serializable]
     public class Cube : Shape, IEquatable<Cube>
@@ -31,8 +30,8 @@
         public Cube(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.Position = info.GetValue<Vector3>("position");
-            this.Size = info.GetValue<Vector3>("size");
+            this.Position = (Vector3)info.GetValue("position", typeof(Vector3));
+            this.Size = (Vector3)info.GetValue("size", typeof(Vector3));
         }
 
         protected override void OnBuild(IShapeBuilder builder)

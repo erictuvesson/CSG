@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Numerics;
     using System.Runtime.Serialization;
-    using CSG.Serialization;
 
     [Serializable]
     public abstract partial class Shape : IEquatable<Shape>, ISerializable
@@ -40,7 +39,7 @@
         protected Shape(SerializationInfo info, StreamingContext context)
         {
             this.Name = info.GetString("name");
-            this.Color = info.GetValue<Vector4>("color");
+            this.Color = (Vector4)info.GetValue("color", typeof(Vector4));
         }
 
         /// <summary>

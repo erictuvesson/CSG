@@ -3,7 +3,6 @@
     using System;
     using System.Numerics;
     using System.Runtime.Serialization;
-    using CSG.Serialization;
 
     [Serializable]
     public class Sphere : Shape, IEquatable<Sphere>
@@ -36,7 +35,7 @@
         public Sphere(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.Position = info.GetValue<Vector3>("position");
+            this.Position = (Vector3)info.GetValue("position", typeof(Vector3));
             this.Radius = info.GetInt32("radius");
             this.Tessellation = info.GetInt32("tessellation");
         }
