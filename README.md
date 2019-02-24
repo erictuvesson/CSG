@@ -3,6 +3,8 @@
 
 Create geometry objects from boolean operations.
 
+Support serialization with [Mallos.Serialization](https://github.com/erictuvesson/Mallos.Serialization)
+
 ## Sample
 
 ```csharp
