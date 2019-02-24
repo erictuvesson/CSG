@@ -8,7 +8,7 @@
     /// </summary>
     public struct Vertex : IEquatable<Vertex>
     {
-        public const uint SizeInBytes = 48;
+        public static readonly uint SizeInBytes = 48;
     
         public readonly Vector3 Position;
         public readonly Vector3 Normal;

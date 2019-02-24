@@ -94,9 +94,10 @@
 
         public override bool Equals(object obj)
         {
-            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Cylinder);
+            if (obj == null || GetType() != obj.GetType()) return false;
+            return Equals(obj as Cylinder);
         }
-        
+
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ 

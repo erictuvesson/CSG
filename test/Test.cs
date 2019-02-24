@@ -9,7 +9,7 @@
     {
         protected readonly ITestOutputHelper output;
 
-        public Test(ITestOutputHelper output)
+        protected Test(ITestOutputHelper output)
         {
             this.output = output;
             DotMemoryUnitTestOutput.SetOutputMethod(output.WriteLine);

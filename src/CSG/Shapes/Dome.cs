@@ -17,7 +17,8 @@
 
         public override bool Equals(object obj)
         {
-            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Dome);
+            if (obj == null || GetType() != obj.GetType()) return false;
+            return Equals(obj as Dome);
         }
 
         public override int GetHashCode()

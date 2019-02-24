@@ -46,7 +46,8 @@
 
         public override bool Equals(object obj)
         {
-            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Torus);
+            if (obj == null || GetType() != obj.GetType()) return false;
+            return Equals(obj as Torus);
         }
         
         public override int GetHashCode()

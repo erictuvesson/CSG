@@ -7,7 +7,7 @@
     [Serializable]
     public class Cube : Shape, IEquatable<Cube>
     {
-        private static readonly Vector3[] normals = new Vector3[]
+        private static readonly Vector3[] normals = new []
         {
             new Vector3(+0, +0, +1),
             new Vector3(+0, +0, -1),
@@ -74,7 +74,8 @@
 
         public override bool Equals(object obj)
         {
-            return (obj != null || GetType() != obj.GetType()) && Equals(obj as Cube);
+            if (obj == null || GetType() != obj.GetType()) return false;
+            return Equals(obj as Cube);
         }
         
         public override int GetHashCode()

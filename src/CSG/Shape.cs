@@ -68,12 +68,12 @@
             OnBuild(builder);
 
             // Generate the shape cache.
-            var cache = builder.CreateCache();
+            var tmpCache = builder.CreateCache();
 
             // Clear the currently builder so we dont waste memory.
             builder.Clear();
 
-            return cache;
+            return tmpCache;
         }
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
