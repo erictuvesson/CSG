@@ -11,13 +11,15 @@
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
+        /// <remarks>
+        /// Minimum value is 3.
+        /// </remarks>
         public int Tessellation
         {
             get => tessellation;
             set
             {
-                if (value < 3) throw new ArgumentOutOfRangeException(nameof(tessellation));
-                tessellation = value;
+                tessellation = CSG.Algorithms.Helpers.Clamp(value, 3);
             }
         }
         private int tessellation;
