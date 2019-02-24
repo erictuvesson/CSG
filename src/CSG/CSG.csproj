@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>1.1.0</Version>
     <Authors>Eric Tuvesson</Authors>
     <Description>Create geometry objects from boolean operations.</Description>
     <Copyright>MIT</Copyright>
