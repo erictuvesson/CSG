@@ -1,5 +1,5 @@
 # Constructive solid geometry (CSG)
-[![NuGet Badge](https://buildstats.info/nuget/CSGeometry)](https://www.nuget.org/packages/CSGeometry/)
+[![NuGet Badge](https://buildstats.info/nuget/CSGeometry)](https://www.nuget.org/packages/CSGeometry/) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3ca20ee0dab4a5287dfca8fc41326d8)](https://www.codacy.com/app/eric-tuvesson/CSG?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=erictuvesson/CSG&amp;utm_campaign=Badge_Grade)
 
 Create geometry objects from boolean operations.
 
