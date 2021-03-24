@@ -163,7 +163,7 @@
         }
 
 
-        public static BSPNode Union(BSPNode a1, BSPNode b1)
+        public static BSPNode Intersect(BSPNode a1, BSPNode b1)
         {
             var a = a1.Clone();
             var b = b1.Clone();
@@ -194,7 +194,7 @@
             return new BSPNode(a.AllPolygons());
         }
 
-        public static BSPNode Intersect(BSPNode a1, BSPNode b1)
+        public static BSPNode Union(BSPNode a1, BSPNode b1)
         {
             var a = a1.Clone();
             var b = b1.Clone();
