@@ -1,10 +1,10 @@
 ﻿namespace CSG
 {
-    using System.Collections.Generic;
+    using System.Collections.Concurrent;
 
     static class ShapeBuilderPool
     {
-        private static Dictionary<int, ShapeBuilder> builders = new Dictionary<int, ShapeBuilder>();
+        private static readonly ConcurrentDictionary<int, ShapeBuilder> builders = new ConcurrentDictionary<int, ShapeBuilder>();
         private static int CurrentThread => System.Threading.Thread.CurrentThread.ManagedThreadId;
 
         public static ShapeBuilder CurrentBuilder()
