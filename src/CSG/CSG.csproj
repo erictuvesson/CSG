@@ -2,13 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Version>1.1.0</Version>
-    <Authors>Eric Tuvesson</Authors>
     <Description>Create geometry objects from boolean operations.</Description>
-    <Copyright>MIT</Copyright>
-    <PackageLicenseUrl>https://github.com/erictuvesson/CSG/blob/master/MIT-LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/erictuvesson/CSG</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/erictuvesson/CSG</RepositoryUrl>
     <PackageTags>csg, geometry</PackageTags>
     <PackageId>CSGeometry</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

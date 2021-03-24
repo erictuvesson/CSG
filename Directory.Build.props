@@ -1,0 +1,15 @@
+<Project>
+
+  <PropertyGroup>
+    <Authors>Eric Tuvesson</Authors>
+    <Copyright>MIT</Copyright>
+    <PackageLicenseUrl>https://github.com/erictuvesson/CSG/blob/master/MIT-LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/erictuvesson/CSG</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/erictuvesson/CSG</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
