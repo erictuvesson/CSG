@@ -1,0 +1,21 @@
+name: Publish NuGet Packages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    name: Unit Testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.1.0
+      - name: Tests
+        run: dotnet test
+      - name: Build
+        run: dotnet build -c Release
+      - name: Pack
+        run: dotnet pack -c Release -o build
+      - name: Publish NuGet Packages to GitHub
+        run: dotnet nuget push ./build/*.nupkg --skip-duplicate --no-symbols true -s https://nuget.pkg.github.com/erictuvesson/index.json -k ${{ secrets.GITHUB_TOKEN }}
