@@ -11,8 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.1.0
-      - name: Tests
-        run: dotnet test
+      - run: dotnet test
+  publish:
+    name: Publish NuGet Packages
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v2.1.0
       - name: Build
         run: dotnet build -c Release
       - name: Pack
