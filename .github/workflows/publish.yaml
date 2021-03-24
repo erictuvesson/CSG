@@ -22,5 +22,9 @@ jobs:
         run: dotnet build -c Release
       - name: Pack
         run: dotnet pack -c Release -o build
+
       - name: Publish NuGet Packages to GitHub
         run: dotnet nuget push ./build/*.nupkg --skip-duplicate --no-symbols true -s https://nuget.pkg.github.com/erictuvesson/index.json -k ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish NuGet Packages to NuGet
+        run: dotnet nuget push ./build/*.nupkg --skip-duplicate --no-symbols true -s https://api.nuget.org/v3/index.json -k ${{ secrets.NUGET_TOKEN }}
