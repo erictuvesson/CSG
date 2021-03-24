@@ -3,8 +3,6 @@
 
 Create geometry objects from boolean operations.
 
-Support serialization with [Mallos.Serialization](https://github.com/erictuvesson/Mallos.Serialization)
-
 ## Sample
 
 ```csharp
@@ -18,7 +16,7 @@ var result = shape1.Intersect(shape2);
 ```
 
 ## Contributing
-Contribution directions go here.
+Contributions are always welcome.
 
 ## License
 The project is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
