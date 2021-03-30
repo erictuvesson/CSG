@@ -1,7 +1,7 @@
-namespace CSG
+namespace CSG.Viewer
 {
-    using Veldrid;
-    using Veldrid.Rendering;
+    using CSG.Viewer.Framework;
+    using CSG.Viewer.Framework.Rendering;
 
     public class ShapeGeometry : Geometry<Vertex, ushort>
     {
