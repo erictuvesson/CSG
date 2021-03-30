@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9BE1E439-B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSG.Test", "test\CSG.Test.csproj", "{543B445F-A1D8-485A-A7B1-D88FC5503015}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSG.Viewer", "src\CSG.Viewer\CSG.Viewer.csproj", "{049F76AA-0268-4857-9817-22BC982768D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{543B445F-A1D8-485A-A7B1-D88FC5503015}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{543B445F-A1D8-485A-A7B1-D88FC5503015}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{543B445F-A1D8-485A-A7B1-D88FC5503015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{049F76AA-0268-4857-9817-22BC982768D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{049F76AA-0268-4857-9817-22BC982768D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{049F76AA-0268-4857-9817-22BC982768D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{049F76AA-0268-4857-9817-22BC982768D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{220444F8-81D7-42B6-AB99-5FB2E916A669} = {BA829E52-D95F-4EF3-AEA0-81A8F30217E7}
 		{543B445F-A1D8-485A-A7B1-D88FC5503015} = {9BE1E439-BB77-4A80-9803-C65291639E24}
+		{049F76AA-0268-4857-9817-22BC982768D4} = {BA829E52-D95F-4EF3-AEA0-81A8F30217E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F1EC6F1-BA01-4D71-A90A-B541DC2CB434}
