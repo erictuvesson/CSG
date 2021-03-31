@@ -16,6 +16,8 @@
 
         public DrawingContext DrawingContext { get; private set; }
 
+        public InputSnapshot InputSnapshot { get; private set; }
+
         public event Action<DrawingContext> DrawingContextCreated;
         public event Action DrawingContextDestroyed;
 
@@ -71,7 +73,7 @@
                 double newElapsed = sw.Elapsed.TotalSeconds;
                 float deltaSeconds = (float)(newElapsed - previousElapsed);
 
-                InputSnapshot inputSnapshot = window.PumpEvents();
+                this.InputSnapshot = window.PumpEvents();
                 //InputTracker.UpdateFrameInput(inputSnapshot);
 
                 if (window.Exists)

@@ -18,6 +18,8 @@
 
         DrawingContext DrawingContext { get; }
 
+        InputSnapshot InputSnapshot { get; }
+
         event Action<DrawingContext> DrawingContextCreated;
         event Action DrawingContextDestroyed;
 

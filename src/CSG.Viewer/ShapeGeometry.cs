@@ -23,7 +23,7 @@ namespace CSG.Viewer
         public ShapeGeometry(DrawingContext drawingContext, Shape shape)
             : base(drawingContext, shape.Vertices, shape.Indices)
         {
-
+            this.shape = shape;
         }
 
         public void Rebuild()

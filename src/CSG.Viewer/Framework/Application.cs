@@ -15,6 +15,8 @@
         public readonly ContentProvider ContentProvider;
         public readonly TextureLoader TextureLoader;
 
+        public ImGuiRenderer ImGuiRenderer;
+
         public Application(IGraphicsHost host = null)
         {
             Host = host ?? new VeldridHost(GetType().Name);
@@ -38,6 +40,13 @@
             this.DrawingContext = drawingContext;
             CreateResources(DrawingContext.ResourceFactory);
             CreateSwapchainResources(DrawingContext.ResourceFactory);
+
+            this.ImGuiRenderer = new ImGuiRenderer(
+                this.DrawingContext.GraphicsDevice,
+                this.DrawingContext.GraphicsDevice.MainSwapchain.Framebuffer.OutputDescription,
+                (int)this.Host.Width,
+                (int)this.Host.Height
+            );
         }
 
         protected abstract void CreateResources(ResourceFactory factory);
@@ -51,7 +60,7 @@
 
         protected virtual void HandleHostResize()
         {
-
+            this.ImGuiRenderer.WindowResized((int)this.Host.Width, (int)this.Host.Height);
         }
 
         protected virtual void OnKeyDown(KeyEvent ke)

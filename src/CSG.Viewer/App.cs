@@ -3,6 +3,7 @@
     using CSG.Shapes;
     using CSG.Viewer.Framework;
     using CSG.Viewer.Framework.Materials;
+    using ImGuiNET;
     using System.Numerics;
     using Veldrid;
 
@@ -32,6 +33,24 @@
 
         protected override void Draw(float deltaSeconds)
         {
+            ImGuiRenderer.Update(deltaSeconds, this.Host.InputSnapshot);
+
+            if (ImGui.Begin(
+                "Stats",
+                ImGuiWindowFlags.NoSavedSettings
+              | ImGuiWindowFlags.NoTitleBar
+              | ImGuiWindowFlags.NoResize
+              | ImGuiWindowFlags.NoMove
+              | ImGuiWindowFlags.NoBackground
+                ))
+            {
+                ImGui.SetWindowSize(new Vector2(200, 100));
+                ImGui.SetWindowPos(new Vector2(10, 10));
+
+                ImGui.TextColored(new Vector4(0, 0, 0, 1), "Vertices: " + this.shapeGeometry.Shape.Vertices.Length);
+                ImGui.TextColored(new Vector4(0, 0, 0, 1), "Indices: " + this.shapeGeometry.Shape.Indices.Length);
+            }
+
             _ticks += deltaSeconds * 1000f;
             commandList.Begin();
 
@@ -46,6 +65,8 @@
 
             basicMaterial.Apply(commandList);
             shapeGeometry.Draw(commandList);
+
+            ImGuiRenderer.Render(DrawingContext.GraphicsDevice, commandList);
 
             commandList.End();
 
