@@ -33,10 +33,11 @@
         public void Flip()
         {
             this.Vertices.Reverse();
-            this.Vertices.ForEach(vertex => vertex.Flip());
+            this.Vertices.ForEach(vertex => vertex.FlipNormal());
             Plane.Flip();
         }
 
-        public override string ToString() => $"Vertices: {Vertices.Count}, Plane: {Plane}";
+        public override string ToString()
+            => $"Vertices: {Vertices.Count}, Plane: {Plane}";
     }
 }
