@@ -66,7 +66,7 @@ namespace CSG.Viewer.Framework.Rendering
 
             if (indices.Length > 0) 
             {
-                commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt16);
+                commandList.SetIndexBuffer(indexBuffer, IndexFormat.UInt32);
                 commandList.DrawIndexed(indexCount, 1, 0, 0, 0);
             }
             else
