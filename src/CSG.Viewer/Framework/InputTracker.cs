@@ -12,7 +12,7 @@
         private static HashSet<MouseButton> _currentlyPressedMouseButtons = new HashSet<MouseButton>();
         private static HashSet<MouseButton> _newMouseButtonsThisFrame = new HashSet<MouseButton>();
 
-        public static Vector2 MousePosition;
+        public static Vector2 MousePosition { get; private set; }
         public static InputSnapshot FrameSnapshot { get; private set; }
 
         public static bool GetKey(Key key)

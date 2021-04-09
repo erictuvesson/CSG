@@ -15,7 +15,7 @@
         public readonly ContentProvider ContentProvider;
         public readonly TextureLoader TextureLoader;
 
-        public ImGuiRenderer ImGuiRenderer;
+        public ImGuiRenderer ImGuiRenderer { get; private set; }
 
         public Application(IGraphicsHost host = null)
         {
