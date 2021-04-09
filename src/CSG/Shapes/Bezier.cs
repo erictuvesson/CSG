@@ -10,13 +10,11 @@ namespace CSG.Shapes
     {
         protected Bezier()
         {
-
         }
         
         protected Bezier(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            
         }
 
         /// <summary>
@@ -156,11 +154,12 @@ namespace CSG.Shapes
         /// </summary>
         static Vector3 BezierInterpolate(Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, float t)
         {
-            Vector3 result = new Vector3();
-
-            result.X = BezierInterpolate(p1.X, p2.X, p3.X, p4.X, t);
-            result.Y = BezierInterpolate(p1.Y, p2.Y, p3.Y, p4.Y, t);
-            result.Z = BezierInterpolate(p1.Z, p2.Z, p3.Z, p4.Z, t);
+            Vector3 result = new Vector3
+            {
+                X = BezierInterpolate(p1.X, p2.X, p3.X, p4.X, t),
+                Y = BezierInterpolate(p1.Y, p2.Y, p3.Y, p4.Y, t),
+                Z = BezierInterpolate(p1.Z, p2.Z, p3.Z, p4.Z, t)
+            };
 
             return result;
         }
@@ -185,11 +184,12 @@ namespace CSG.Shapes
         static Vector3 BezierTangent(Vector3 p1, Vector3 p2,
                                      Vector3 p3, Vector3 p4, float t)
         {
-            Vector3 result = new Vector3();
-
-            result.X = BezierTangent(p1.X, p2.X, p3.X, p4.X, t);
-            result.Y = BezierTangent(p1.Y, p2.Y, p3.Y, p4.Y, t);
-            result.Z = BezierTangent(p1.Z, p2.Z, p3.Z, p4.Z, t);
+            Vector3 result = new Vector3
+            {
+                X = BezierTangent(p1.X, p2.X, p3.X, p4.X, t),
+                Y = BezierTangent(p1.Y, p2.Y, p3.Y, p4.Y, t),
+                Z = BezierTangent(p1.Z, p2.Z, p3.Z, p4.Z, t)
+            };
 
             result = Vector3.Normalize(result);
 

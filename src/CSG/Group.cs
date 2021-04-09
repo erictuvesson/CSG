@@ -1,7 +1,6 @@
 ﻿namespace CSG
 {
     using System;
-    using System.Runtime.Serialization;
 
     [Serializable]
     public class Group : IEquatable<Group>
@@ -18,7 +17,7 @@
             this.Value1 = value1;
             this.Value2 = value2;
         }
-        
+
         public GeneratedShape Do()
         {
             if (Value1 == null || Value2 == null)
@@ -31,8 +30,8 @@
 
         public bool Equals(Group other)
         {
-            return Value1.Equals(other.Value1) && 
-                   Value2.Equals(other.Value2) && 
+            return Value1.Equals(other.Value1) &&
+                   Value2.Equals(other.Value2) &&
                    Operation == other.Operation;
         }
     }

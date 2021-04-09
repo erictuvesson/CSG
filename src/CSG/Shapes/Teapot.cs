@@ -124,7 +124,7 @@
         /// <summary>
         /// Static data array defines the bezier patches that make up the teapot.
         /// </summary>
-        static TeapotPatch[] TeapotPatches =
+        static readonly TeapotPatch[] TeapotPatches =
         {
             // Rim.
             new TeapotPatch(true, new int[]
@@ -188,7 +188,7 @@
         /// <summary>
         /// Static array defines the control point positions that make up the teapot.
         /// </summary>
-        static Vector3[] TeapotControlPoints = 
+        static readonly Vector3[] TeapotControlPoints = 
         {
             new Vector3(0f, 0.345f, -0.05f),
             new Vector3(-0.028f, 0.345f, -0.05f),

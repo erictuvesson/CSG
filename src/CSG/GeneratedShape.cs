@@ -22,7 +22,8 @@
             this.Polygons = polygons.ToArray();
         }
 
-        public override Polygon[] CreatePolygons() => Polygons;
+        public override Polygon[] CreatePolygons()
+            => this.Polygons;
 
         protected override void OnBuild(IShapeBuilder builder)
         {
