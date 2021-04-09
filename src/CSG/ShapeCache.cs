@@ -8,9 +8,9 @@
     public struct ShapeCache : IEquatable<ShapeCache>
     {
         public readonly Vertex[] Vertices;
-        public readonly ushort[] Indices;
+        public readonly uint[] Indices;
 
-        public ShapeCache(Vertex[] vertices, ushort[] indices)
+        public ShapeCache(Vertex[] vertices, uint[] indices)
         {
             this.Vertices = vertices;
             this.Indices = indices;
@@ -37,6 +37,7 @@
                    this.Indices == other.Indices;
         }
 
-        public override string ToString() => $"Vertices: {Vertices.Length}, Indices: {Indices.Length}";
+        public override string ToString()
+            => $"Vertices: {Vertices.Length}, Indices: {Indices.Length}";
     }
 }

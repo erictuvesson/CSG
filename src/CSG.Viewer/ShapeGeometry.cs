@@ -3,7 +3,7 @@ namespace CSG.Viewer
     using CSG.Viewer.Framework;
     using CSG.Viewer.Framework.Rendering;
 
-    public class ShapeGeometry : Geometry<Vertex, ushort>
+    public class ShapeGeometry : Geometry<Vertex, uint>
     {
         public Shape Shape
         {

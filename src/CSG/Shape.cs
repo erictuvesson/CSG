@@ -24,7 +24,7 @@
         }
 
         public Vertex[] Vertices => Cache.Vertices;
-        public ushort[] Indices => Cache.Indices;
+        public uint[] Indices => Cache.Indices;
 
         public ShapeCache Cache => cache ?? (cache = BuildCache()).Value;
 

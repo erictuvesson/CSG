@@ -89,7 +89,7 @@ namespace CSG.Viewer.Framework.Rendering
 
             if (indexCount > 0)
             {
-                var iBufferDesc = new BufferDescription(sizeof(ushort) * indexCount, BufferUsage.IndexBuffer);
+                var iBufferDesc = new BufferDescription(sizeof(uint) * indexCount, BufferUsage.IndexBuffer);
                 indexBuffer = drawingContext.ResourceFactory.CreateBuffer(iBufferDesc);
                 indexBuffer.Name = $"{this} Index Buffer";
             }
