@@ -11,19 +11,24 @@
         public Matrix4x4 View { get; set; } = Matrix4x4.Identity;
         public Matrix4x4 World { get; set; } = Matrix4x4.Identity;
 
-        private Texture _surfaceTexture;
-        private TextureView _surfaceTextureView;
-        private Pipeline _pipeline;
-        private ResourceSet _projViewSet;
-        private ResourceSet _worldTextureSet;
+        public bool TwoSided { get; private set; }
 
-        private DeviceBuffer _projectionBuffer;
-        private DeviceBuffer _viewBuffer;
-        private DeviceBuffer _worldBuffer;
+        private readonly Texture _surfaceTexture;
+        private readonly TextureView _surfaceTextureView;
+        private readonly Pipeline _pipeline;
+        private readonly ResourceSet _projViewSet;
+        private readonly ResourceSet _worldTextureSet;
 
-        public BasicMaterial(DrawingContext context, Texture2D texture)
+        private readonly DeviceBuffer _projectionBuffer;
+        private readonly DeviceBuffer _viewBuffer;
+        private readonly DeviceBuffer _worldBuffer;
+
+        public BasicMaterial(DrawingContext context, Texture2D texture, bool twoSided = false)
             : base(context)
         {
+            // NOTE: Quick solution to draw without culling
+            this.TwoSided = twoSided;
+
             _projectionBuffer = context.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
             _viewBuffer = context.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
             _worldBuffer = context.ResourceFactory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer));
@@ -59,7 +64,7 @@
             _pipeline = context.ResourceFactory.CreateGraphicsPipeline(new GraphicsPipelineDescription(
                 BlendStateDescription.SingleOverrideBlend,
                 DepthStencilStateDescription.DepthOnlyLessEqual,
-                RasterizerStateDescription.Default,
+                twoSided ? RasterizerStateDescription.CullNone : RasterizerStateDescription.Default,
                 PrimitiveTopology.TriangleList,
                 shaderSet,
                 new[] { projViewLayout, worldTextureLayout },

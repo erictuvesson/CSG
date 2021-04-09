@@ -18,7 +18,7 @@
         protected override void CreateResources(ResourceFactory factory)
         {
             var texture = TextureLoader.Load("v:checker").GetAwaiter().GetResult();
-            basicMaterial = new BasicMaterial(DrawingContext, texture);
+            basicMaterial = new BasicMaterial(DrawingContext, texture, true);
 
             // var shape1 = new Cube(new Vector3(0, 0, 0), new Vector3(1, 1, 1));
             // var shape2 = new Cube(new Vector3(0.8f, 0.8f, 0), new Vector3(1, 1, 1));
@@ -49,6 +49,7 @@
 
                 ImGui.TextColored(new Vector4(0, 0, 0, 1), "Vertices: " + this.shapeGeometry.Shape.Vertices.Length);
                 ImGui.TextColored(new Vector4(0, 0, 0, 1), "Indices: " + this.shapeGeometry.Shape.Indices.Length);
+                ImGui.TextColored(new Vector4(0, 0, 0, 1), "Triangles: " + this.shapeGeometry.Shape.Indices.Length / 3);
             }
 
             _ticks += deltaSeconds * 1000f;
