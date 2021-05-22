@@ -65,7 +65,7 @@
             var hasLocalPosition = this.LocalPosition != Vector3.Zero;
             var hasLocalScale = this.LocalScale != Vector3.One;
             
-            if (hasLocalPosition && hasLocalScale)
+            if (hasLocalPosition || hasLocalScale)
             {
                 var transformVertices = this.Vertices.Select(x =>
                 {
