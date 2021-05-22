@@ -13,7 +13,7 @@ namespace CSG.Shapes
         }
 
         [Theory]
-        // TODO: Enable again [InlineData(ShapeOperation.Intersect)]
+        [InlineData(ShapeOperation.Intersect)]
         [InlineData(ShapeOperation.Subtract)]
         [InlineData(ShapeOperation.Union)]
         public void ShapeOperations(ShapeOperation operation)

@@ -1,13 +1,14 @@
 ﻿namespace CSG.Shapes
 {
     using System;
+    using System.ComponentModel;
     using System.Numerics;
     using System.Runtime.Serialization;
 
     [Serializable]
     public class Cube : Shape, IEquatable<Cube>
     {
-        private static readonly Vector3[] normals = new []
+        private static readonly Vector3[] normals = new[]
         {
             new Vector3(+0, +0, +1),
             new Vector3(+0, +0, -1),
@@ -17,8 +18,7 @@
             new Vector3(+0, -1, +0),
         };
 
-        public Vector3 Position { get; set; }
-
+        [Category("Transform")]
         public Vector3 Size { get; set; }
 
         public Cube(Vector3? position = null, Vector3? size = null)
@@ -30,7 +30,6 @@
         public Cube(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.Position = (Vector3)info.GetValue("position", typeof(Vector3));
             this.Size = (Vector3)info.GetValue("size", typeof(Vector3));
         }
 
@@ -51,24 +50,22 @@
                 builder.AddIndex(builder.CurrentVertex + 2);
                 builder.AddIndex(builder.CurrentVertex + 3);
 
-                builder.AddVertex(new Vertex(Position + (((normal - side1 - side2) / 2) * Size), normal, Vector2.Zero));
-                builder.AddVertex(new Vertex(Position + (((normal - side1 + side2) / 2) * Size), normal, Vector2.UnitX));
-                builder.AddVertex(new Vertex(Position + (((normal + side1 + side2) / 2) * Size), normal, Vector2.One));
-                builder.AddVertex(new Vertex(Position + (((normal + side1 - side2) / 2) * Size), normal, Vector2.UnitY));
+                builder.AddVertex(((normal - side1 - side2) / 2) * Size, normal, Vector2.Zero);
+                builder.AddVertex(((normal - side1 + side2) / 2) * Size, normal, Vector2.UnitX);
+                builder.AddVertex(((normal + side1 + side2) / 2) * Size, normal, Vector2.One);
+                builder.AddVertex(((normal + side1 - side2) / 2) * Size, normal, Vector2.UnitY);
             }
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("position", Position);
-            info.AddValue("size", Size);
+            info.AddValue("size", this.Size);
         }
 
         public bool Equals(Cube other)
         {
-            return base.Equals(other as Shape) && 
-                   Position == other.Position && 
+            return base.Equals(other) &&
                    Size == other.Size;
         }
 
@@ -77,10 +74,10 @@
             if (obj == null || GetType() != obj.GetType()) return false;
             return Equals(obj as Cube);
         }
-        
+
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^ Position.GetHashCode() ^ Size.GetHashCode();
+            return base.GetHashCode() ^ Size.GetHashCode();
         }
     }
 }

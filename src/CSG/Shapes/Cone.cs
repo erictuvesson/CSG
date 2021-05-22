@@ -1,6 +1,8 @@
 ﻿namespace CSG.Shapes
 {
     using System;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Numerics;
     using System.Runtime.Serialization;
 
@@ -13,12 +15,14 @@
         /// <remarks>
         /// Minimum value is 3.
         /// </remarks>
+        [Category("Shape")]
+        [Range(3, int.MaxValue)]
         public int Tessellation
         {
             get => tessellation;
             set
             {
-                tessellation = CSG.Algorithms.Helpers.Clamp(value, 3);
+                tessellation = Algorithms.Helpers.Clamp(value, 3);
             }
         }
         private int tessellation;
@@ -46,7 +50,7 @@
                 Vector3 normal = GetCircleVector(i, Tessellation);
 
                 builder.AddVertex(normal + offset, normal);
-                
+
                 builder.AddIndex(0);
                 builder.AddIndex(2 + i);
                 builder.AddIndex(2 + (i + 1) % Tessellation);
@@ -65,7 +69,7 @@
 
         public bool Equals(Cone other)
         {
-            return base.Equals(other as Shape) && 
+            return base.Equals(other as Shape) &&
                    Tessellation == other.Tessellation;
         }
 

@@ -1,9 +1,11 @@
 ﻿namespace CSG.Shapes
 {
     using System;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics;
     using System.Numerics;
     using System.Runtime.Serialization;
-    using System.Diagnostics;
 
     [Serializable]
     public class Teapot : Bezier, IEquatable<Teapot>
@@ -14,12 +16,14 @@
         /// <remarks>
         /// Minimum value is 3.
         /// </remarks>
+        [Category("Shape")]
+        [Range(3, int.MaxValue)]
         public int Tessellation
         {
             get => tessellation;
             set
             {
-                tessellation = CSG.Algorithms.Helpers.Clamp(value, 3);
+                tessellation = Algorithms.Helpers.Clamp(value, 3);
             }
         }
         private int tessellation;
@@ -43,7 +47,7 @@
 
         public bool Equals(Teapot other)
         {
-            return base.Equals(other as Shape) && 
+            return base.Equals(other as Shape) &&
                    Tessellation == other.Tessellation;
         }
 
@@ -52,7 +56,7 @@
             if (obj == null || GetType() != obj.GetType()) return false;
             return Equals(obj as Teapot);
         }
-        
+
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ Tessellation.GetHashCode();
@@ -134,21 +138,21 @@
 
             // Body.
             new TeapotPatch (true, new int[]
-            { 
+            {
                 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
             }),
 
             new TeapotPatch(true, new int[]
-            { 
+            {
                 24, 25, 26, 27, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40
             }),
 
             // Lid.
             new TeapotPatch(true, new int[]
-            { 
+            {
                 96, 96, 96, 96, 97, 98, 99, 100, 101, 101, 101, 101, 0, 1, 2, 3
             }),
-            
+
             new TeapotPatch(true, new int[]
             {
                 0, 1, 2, 3, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117
@@ -161,24 +165,24 @@
             }),
 
             new TeapotPatch(false, new int[]
-            { 
+            {
                 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 28, 65, 66, 67
             }),
 
             // Spout.
             new TeapotPatch(false, new int[]
-            { 
+            {
                 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83
             }),
 
             new TeapotPatch(false, new int[]
-            { 
+            {
                 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95
             }),
 
             // Bottom.
             new TeapotPatch(true, new int[]
-            { 
+            {
                 118, 118, 118, 118, 124, 122, 119, 121,
                 123, 126, 125, 120, 40, 39, 38, 37
             }),
@@ -188,7 +192,7 @@
         /// <summary>
         /// Static array defines the control point positions that make up the teapot.
         /// </summary>
-        static readonly Vector3[] TeapotControlPoints = 
+        static readonly Vector3[] TeapotControlPoints =
         {
             new Vector3(0f, 0.345f, -0.05f),
             new Vector3(-0.028f, 0.345f, -0.05f),

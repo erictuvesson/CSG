@@ -9,7 +9,12 @@
     public struct Vertex : IEquatable<Vertex>
     {
         public static readonly uint SizeInBytes = 48;
-    
+
+        public static readonly int PositionOffset = 0;
+        public static readonly int NormalOffset = 12;
+        public static readonly int TexCoordsOffset = 24;
+        public static readonly int ColorOffset = 32;
+
         public readonly Vector3 Position;
         public readonly Vector3 Normal;
         public readonly Vector2 TexCoords;
@@ -22,11 +27,6 @@
 
         public Vertex(Vector3 position, Vector2 texCoords, Vector4 color)
             : this(position, Vector3.Zero, texCoords, color)
-        {
-        }
-
-        public Vertex(Vector3 position, Vector3 normal, Vector2 texCoords)
-            : this(position, normal, texCoords, Vector4.One)
         {
         }
 

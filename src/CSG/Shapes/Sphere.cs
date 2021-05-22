@@ -1,6 +1,8 @@
 ﻿namespace CSG.Shapes
 {
     using System;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Numerics;
     using System.Runtime.Serialization;
 
@@ -17,12 +19,14 @@
         /// <remarks>
         /// Minimum value is 3.
         /// </remarks>
+        [Category("Shape")]
+        [Range(3, int.MaxValue)]
         public int Tessellation
         {
             get => tessellation;
             set
             {
-                tessellation = CSG.Algorithms.Helpers.Clamp(value, 3);
+                tessellation = Algorithms.Helpers.Clamp(value, 3);
             }
         }
         private int tessellation;
@@ -135,7 +139,7 @@
 
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^ Position.GetHashCode() ^ 
+            return base.GetHashCode() ^ Position.GetHashCode() ^
                    Radius.GetHashCode() ^ Tessellation.GetHashCode();
         }
     }
