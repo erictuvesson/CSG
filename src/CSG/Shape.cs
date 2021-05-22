@@ -2,14 +2,20 @@
 {
     using CSG.Algorithms;
     using System;
+    using System.ComponentModel;
     using System.Numerics;
     using System.Runtime.Serialization;
 
     [Serializable]
     public abstract class Shape : IEquatable<Shape>, ISerializable
     {
+        [Category("Default")]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the default color.
+        /// </summary>
+        [Category("Material")]
         public Vector4 Color
         {
             get => color;
@@ -23,9 +29,34 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the shape position.
+        /// </summary>
+        [Category("Transform")]
+        public Vector3 Position { get; set; } = Vector3.Zero;
+
+        /// <summary>
+        /// Gets or sets the shape scale.
+        /// </summary>
+        [Category("Transform")]
+        public Vector3 Scale { get; set; } = Vector3.One;
+
+        /// <summary>
+        /// Gets the vertices from the <see cref="Shape"/>.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public Vertex[] Vertices => Cache.Vertices;
+
+        /// <summary>
+        /// Gets the indices from the <see cref="Shape"/>.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public uint[] Indices => Cache.Indices;
 
+        /// <summary>
+        /// Gets the <see cref="ShapeCache"/>.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public ShapeCache Cache => cache ?? (cache = BuildCache()).Value;
 
         private ShapeCache? cache = null;
@@ -38,6 +69,8 @@
         protected Shape(SerializationInfo info, StreamingContext context)
         {
             this.Name = info.GetString("name");
+            this.Position = (Vector3)info.GetValue("position", typeof(Vector3));
+            this.Scale = (Vector3)info.GetValue("scale", typeof(Vector3));
             this.Color = (Vector4)info.GetValue("color", typeof(Vector4));
         }
 
@@ -85,6 +118,9 @@
         private ShapeCache BuildCache()
         {
             var builder = ShapeBuilderPool.CurrentBuilder();
+            builder.DefaultColor = this.Color;
+            builder.LocalPosition = this.Position;
+            builder.LocalScale = this.Scale;
 
             // Make sure that it is clean.
             builder.Clear();
@@ -103,14 +139,18 @@
 
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("name", Name);
-            info.AddValue("color", color);
+            info.AddValue("name", this.Name);
+            info.AddValue("position", this.Position);
+            info.AddValue("scale", this.Scale);
+            info.AddValue("color", this.color);
         }
 
         public bool Equals(Shape other)
         {
-            return Name == other.Name &&
-                   Color == other.Color;
+            return this.Name == other.Name &&
+                   this.Position == other.Position &&
+                   this.Scale == other.Scale &&
+                   this.Color == other.Color;
         }
 
         public static GeneratedShape Union(Shape lhs, Shape rhs)

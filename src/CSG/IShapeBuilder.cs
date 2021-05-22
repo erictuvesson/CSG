@@ -11,6 +11,21 @@
         int CurrentVertex { get; }
 
         /// <summary>
+        /// Gets or sets the default color.
+        /// </summary>
+        Vector4 DefaultColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the local position.
+        /// </summary>
+        Vector3 LocalPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the local scale.
+        /// </summary>
+        Vector3 LocalScale { get; set; }
+
+        /// <summary>
         /// Add a new vertex.
         /// </summary>
         /// <param name="vertex"></param>
@@ -30,6 +45,14 @@
         /// <param name="normal">The vertex normal.</param>
         /// <param name="color">The vertex color.</param>
         void AddVertex(Vector3 position, Vector3 normal, Vector4 color);
+
+        /// <summary>
+        /// Add a new vertex with position, normal, texture coordinate.
+        /// </summary>
+        /// <param name="position">The vertex position.</param>
+        /// <param name="normal">The vertex normal.</param>
+        /// <param name="texCoords">The vertex texture coordinate.</param>
+        void AddVertex(Vector3 position, Vector3 normal, Vector2 texCoords);
 
         /// <summary>
         /// Add a new vertex with position, normal, texture coordinate and color.

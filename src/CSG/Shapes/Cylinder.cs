@@ -1,6 +1,8 @@
 ﻿namespace CSG.Shapes
 {
     using System;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Numerics;
     using System.Runtime.Serialization;
 
@@ -17,16 +19,20 @@
         /// <remarks>
         /// Minimum value is 3.
         /// </remarks>
-        public int Tessellation 
+        [Category("Shape")]
+        [Range(3, int.MaxValue)]
+        public int Tessellation
         {
             get => tessellation;
             set
             {
-                tessellation = CSG.Algorithms.Helpers.Clamp(value, 3);
+                tessellation = Algorithms.Helpers.Clamp(value, 3);
             }
         }
         private int tessellation;
 
+        [Category("Shape")]
+        [Range(0.1f, float.MaxValue)]
         public float Radius { get; set; }
 
         public Cylinder(Vector3? start = null, Vector3? end = null,
@@ -37,7 +43,7 @@
             this.Radius = radius;
             this.Tessellation = tessellation;
         }
-        
+
         public Cylinder(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
@@ -102,8 +108,8 @@
 
         public override int GetHashCode()
         {
-            return base.GetHashCode() ^ 
-                   Start.GetHashCode() ^ End.GetHashCode() ^ 
+            return base.GetHashCode() ^
+                   Start.GetHashCode() ^ End.GetHashCode() ^
                    Radius.GetHashCode() ^ Tessellation.GetHashCode();
         }
 

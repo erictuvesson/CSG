@@ -1,9 +1,9 @@
 namespace CSG.Shapes
 {
     using System;
+    using System.Diagnostics;
     using System.Numerics;
     using System.Runtime.Serialization;
-    using System.Diagnostics;
 
     [Serializable]
     public abstract class Bezier : Shape
@@ -11,7 +11,7 @@ namespace CSG.Shapes
         protected Bezier()
         {
         }
-        
+
         protected Bezier(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

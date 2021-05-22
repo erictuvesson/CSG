@@ -1,7 +1,6 @@
 ﻿namespace CSG.Shapes
 {
     using System;
-    using System.Numerics;
 
     class Dome : Shape, IEquatable<Dome>
     {

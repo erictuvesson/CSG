@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Numerics;
 
     class ShapeBuilder : IShapeBuilder
@@ -11,6 +12,15 @@
 
         /// <inheritdoc />
         public int CurrentVertex => Vertices.Count;
+
+        /// <inheritdoc />
+        public Vector4 DefaultColor { get; set; } = Vector4.One;
+
+        /// <inheritdoc />
+        public Vector3 LocalPosition { get; set; } = Vector3.Zero;
+
+        /// <inheritdoc />
+        public Vector3 LocalScale { get; set; } = Vector3.One;
 
         public ShapeBuilder(int initialVertexCount = 256, int initialIndexCount = 512)
         {
@@ -24,11 +34,15 @@
 
         /// <inheritdoc />
         public void AddVertex(Vector3 position, Vector3 normal)
-            => AddVertex(position, normal, Vector4.One);
+            => AddVertex(position, normal, this.DefaultColor);
 
         /// <inheritdoc />
         public void AddVertex(Vector3 position, Vector3 normal, Vector4 color)
             => AddVertex(new Vertex(position, normal, CalculateTexCoordsFromNormal(normal), color));
+
+        /// <inheritdoc />
+        public void AddVertex(Vector3 position, Vector3 normal, Vector2 texCoords)
+            => AddVertex(position, normal, texCoords, this.DefaultColor);
 
         /// <inheritdoc />
         public void AddVertex(Vector3 position, Vector3 normal, Vector2 texCoords, Vector4 color)
@@ -47,14 +61,35 @@
 
         /// <inheritdoc />
         public ShapeCache CreateCache()
-            => new ShapeCache(Vertices.ToArray(), Indices.ToArray());
+        {
+            var hasLocalPosition = this.LocalPosition != Vector3.Zero;
+            var hasLocalScale = this.LocalScale != Vector3.One;
+            
+            if (hasLocalPosition || hasLocalScale)
+            {
+                var transformVertices = this.Vertices.Select(x =>
+                {
+                    return new Vertex(
+                        this.LocalPosition + (x.Position * this.LocalScale),
+                        x.Normal,
+                        x.TexCoords,
+                        x.Color
+                    );
+                }).ToArray();
+
+                return new ShapeCache(transformVertices, this.Indices.ToArray());
+            }
+
+            return new ShapeCache(this.Vertices.ToArray(), this.Indices.ToArray());
+        }
 
         /// <inheritdoc />
         public ShapeCache CreateCache(Matrix4x4 transform)
         {
             for (int i = 0; i < this.Vertices.Count; i++)
             {
-                var newPosition = Vector3.Transform(this.Vertices[i].Position, transform);
+                var newPosition = this.LocalPosition + (this.Vertices[i].Position * this.LocalScale);
+                newPosition = Vector3.Transform(newPosition, transform);
                 if (newPosition != this.Vertices[i].Position)
                 {
                     this.Vertices[i] = new Vertex(
