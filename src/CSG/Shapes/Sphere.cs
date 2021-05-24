@@ -52,6 +52,19 @@
         private int tessellation = 12;
         private float radius = 1.0f;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sphere"/> class.
+        /// </summary>
+        public Sphere()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Sphere"/> class.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="radius"></param>
+        /// <param name="tessellation"></param>
         public Sphere(Vector3? position = null, float radius = 1, int tessellation = 12)
         {
             this.Position = position ?? Vector3.Zero;
@@ -67,6 +80,7 @@
             this.Tessellation = info.GetInt32("tessellation");
         }
 
+        /// <inheritdoc />
         protected override void OnBuild(IShapeBuilder builder)
         {
             int verticalSegments = Tessellation;
@@ -136,6 +150,7 @@
             }
         }
 
+        /// <inheritdoc />
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
@@ -144,6 +159,7 @@
             info.AddValue("tessellation", Tessellation);
         }
 
+        /// <inheritdoc />
         public bool Equals(Sphere other)
         {
             return base.Equals(other as Shape) &&
@@ -152,12 +168,14 @@
                    Tessellation == other.Tessellation;
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
             return Equals(obj as Sphere);
         }
-
+        
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ Position.GetHashCode() ^

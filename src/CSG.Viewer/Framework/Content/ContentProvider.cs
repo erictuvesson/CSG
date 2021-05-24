@@ -27,7 +27,7 @@
         private readonly Lazy<HttpClient> http;
 
         /// <summary>
-        /// Initialize a new <see cref="ContentProvider"/>.
+        /// Initializes a new instance of the <see cref="ContentProvider"/> class.
         /// </summary>
         /// <param name="messageHandler"></param>
         public ContentProvider(HttpMessageHandler messageHandler = null)

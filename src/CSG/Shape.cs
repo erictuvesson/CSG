@@ -100,15 +100,36 @@
             this.Color = (Vector4)info.GetValue("color", typeof(Vector4));
         }
 
+        /// <summary>
+        /// Perform an operation with <paramref name="other"/> shape.
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public GeneratedShape Do(ShapeOperation operation, Shape other)
             => Do(operation, this, other);
 
+        /// <summary>
+        /// Perform a <see cref="ShapeOperation.Union"/> operation with <paramref name="other"/> shape.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public GeneratedShape Union(Shape other)
             => Union(this, other);
 
+        /// <summary>
+        /// Perform a <see cref="ShapeOperation.Subtract"/> operation with <paramref name="other"/> shape.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public GeneratedShape Subtract(Shape other)
             => Subtract(this, other);
 
+        /// <summary>
+        /// Perform a <see cref="ShapeOperation.Intersect"/> operation with <paramref name="other"/> shape.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public GeneratedShape Intersect(Shape other)
             => Intersect(this, other);
 
@@ -158,6 +179,7 @@
             info.AddValue("color", this.color);
         }
 
+        /// <inheritdoc />
         public bool Equals(Shape other)
         {
             return this.Name == other.Name &&
@@ -166,6 +188,13 @@
                    this.Color == other.Color;
         }
 
+        /// <summary>
+        /// Perform an operation on the two shapes.
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static GeneratedShape Do(ShapeOperation operation, Shape lhs, Shape rhs)
         {
             switch (operation)
@@ -182,6 +211,12 @@
             }
         }
 
+        /// <summary>
+        /// Perform a <see cref="ShapeOperation.Union"/> operation on two shapes.
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static GeneratedShape Union(Shape lhs, Shape rhs)
         {
             var a = new BSPNode(lhs.CreatePolygons());
@@ -190,6 +225,12 @@
             return new GeneratedShape(polygons);
         }
 
+        /// <summary>
+        /// Perform a <see cref="ShapeOperation.Subtract"/> operation on two shapes.
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static GeneratedShape Subtract(Shape lhs, Shape rhs)
         {
             var a = new BSPNode(lhs.CreatePolygons());
@@ -198,6 +239,12 @@
             return new GeneratedShape(polygons);
         }
 
+        /// <summary>
+        /// Perform a <see cref="ShapeOperation.Intersect"/> operation on two shapes.
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        /// <returns></returns>
         public static GeneratedShape Intersect(Shape lhs, Shape rhs)
         {
             var a = new BSPNode(lhs.CreatePolygons());

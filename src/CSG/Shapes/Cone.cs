@@ -14,6 +14,7 @@
         /// </summary>
         /// <remarks>
         /// Minimum value is 3.
+        /// Default: 32.
         /// </remarks>
         [Category("Shape")]
         [Range(3, int.MaxValue)]
@@ -33,7 +34,18 @@
 
         private int tessellation = 32;
 
-        public Cone(int tessellation = 32)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cone"/> class.
+        /// </summary>
+        public Cone()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cone"/> class.
+        /// </summary>
+        /// <param name="tessellation"></param>
+        public Cone(int tessellation)
         {
             this.Tessellation = tessellation;
         }
@@ -44,6 +56,7 @@
             this.Tessellation = info.GetInt32("tessellation");
         }
 
+        /// <inheritdoc />
         protected override void OnBuild(IShapeBuilder builder)
         {
             var offset = new Vector3(0, -0.25f, 0);
@@ -67,24 +80,28 @@
             }
         }
 
+        /// <inheritdoc />
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
             info.AddValue("tessellation", Tessellation);
         }
 
+        /// <inheritdoc />
         public bool Equals(Cone other)
         {
             return base.Equals(other as Shape) &&
                    Tessellation == other.Tessellation;
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
             return Equals(obj as Cone);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ Tessellation.GetHashCode();
@@ -93,7 +110,7 @@
         // <summary>
         /// Helper method computes a point on a circle.
         /// </summary>
-        static Vector3 GetCircleVector(int i, int tessellation)
+        private static Vector3 GetCircleVector(int i, int tessellation)
         {
             float angle = i * Algorithms.Helpers.TwoPi / tessellation;
 

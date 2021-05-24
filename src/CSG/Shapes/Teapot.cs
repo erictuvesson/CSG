@@ -15,6 +15,7 @@
         /// </summary>
         /// <remarks>
         /// Minimum value is 3.
+        /// Default: 8.
         /// </remarks>
         [Category("Shape")]
         [Range(3, int.MaxValue)]
@@ -34,7 +35,18 @@
 
         private int tessellation = 8;
 
-        public Teapot(int tessellation = 8)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Teapot"/> class.
+        /// </summary>
+        public Teapot()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Teapot"/> class.
+        /// </summary>
+        /// <param name="tessellation"></param>
+        public Teapot(int tessellation)
         {
             this.Tessellation = tessellation;
         }
@@ -45,24 +57,28 @@
             this.Tessellation = info.GetInt32("tessellation");
         }
 
+        /// <inheritdoc />
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
             info.AddValue("tessellation", Tessellation);
         }
 
+        /// <inheritdoc />
         public bool Equals(Teapot other)
         {
             return base.Equals(other as Shape) &&
                    Tessellation == other.Tessellation;
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
             return Equals(obj as Teapot);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ Tessellation.GetHashCode();

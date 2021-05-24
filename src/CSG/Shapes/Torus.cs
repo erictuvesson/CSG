@@ -33,7 +33,18 @@
 
         private int tessellation = 32;
 
-        public Torus(int tessellation = 32)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Torus"/> class.
+        /// </summary>
+        public Torus()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Torus"/> class.
+        /// </summary>
+        /// <param name="tessellation"></param>
+        public Torus(int tessellation)
         {
             this.Tessellation = tessellation;
         }
@@ -44,29 +55,34 @@
             this.Tessellation = info.GetInt32("tessellation");
         }
 
+        /// <inheritdoc />
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
             info.AddValue("tessellation", Tessellation);
         }
 
+        /// <inheritdoc />
         public bool Equals(Torus other)
         {
             return base.Equals(other as Shape) &&
                    Tessellation == other.Tessellation;
         }
 
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType()) return false;
             return Equals(obj as Torus);
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return base.GetHashCode() ^ Tessellation.GetHashCode();
         }
 
+        /// <inheritdoc />
         protected override void OnBuild(IShapeBuilder builder)
         {
             // First we loop around the main ring of the torus.

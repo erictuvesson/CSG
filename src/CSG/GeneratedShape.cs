@@ -14,7 +14,7 @@
         public readonly Polygon[] Polygons;
 
         /// <summary>
-        /// Initialize a new <see cref="GeneratedShape"/>.
+        /// Initializes a new instance of the <see cref="GeneratedShape"/> class.
         /// </summary>
         /// <param name="polygons"></param>
         public GeneratedShape(IEnumerable<Polygon> polygons)
@@ -22,9 +22,11 @@
             this.Polygons = polygons.ToArray();
         }
 
+        /// <inheritdoc />
         public override Polygon[] CreatePolygons()
             => this.Polygons;
 
+        /// <inheritdoc />
         protected override void OnBuild(IShapeBuilder builder)
         {
             int p = 0;

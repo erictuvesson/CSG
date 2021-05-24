@@ -86,6 +86,20 @@
         private int tessellation = 32;
         private float radius = 1.0f;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cylinder"/> class.
+        /// </summary>
+        public Cylinder()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cylinder"/> class.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="radius"></param>
+        /// <param name="tessellation"></param>
         public Cylinder(Vector3? start = null, Vector3? end = null,
             float radius = 1, int tessellation = 32)
         {
