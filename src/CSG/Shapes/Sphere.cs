@@ -9,10 +9,6 @@
     [Serializable]
     public class Sphere : Shape, IEquatable<Sphere>
     {
-        public Vector3 Position { get; set; }
-
-        public float Radius { get; set; }
-
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
         /// </summary>
@@ -23,13 +19,38 @@
         [Range(3, int.MaxValue)]
         public int Tessellation
         {
-            get => tessellation;
+            get => this.tessellation;
             set
             {
-                tessellation = Algorithms.Helpers.Clamp(value, 3);
+                var newValue = Algorithms.Helpers.Clamp(value, 3);
+                if (this.tessellation != newValue)
+                {
+                    this.tessellation = newValue;
+                    Invalidate();
+                }
             }
         }
-        private int tessellation;
+
+        /// <summary>
+        /// Gets or sets the radius.
+        /// </summary>
+        [Category("Shape")]
+        [Range(0.1f, float.MaxValue)]
+        public float Radius
+        {
+            get => this.radius;
+            set
+            {
+                if (this.radius != value)
+                {
+                    this.radius = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        private int tessellation = 12;
+        private float radius = 1.0f;
 
         public Sphere(Vector3? position = null, float radius = 1, int tessellation = 12)
         {
