@@ -20,13 +20,19 @@
         [Range(3, int.MaxValue)]
         public int Tessellation
         {
-            get => tessellation;
+            get => this.tessellation;
             set
             {
-                tessellation = Algorithms.Helpers.Clamp(value, 3);
+                var newValue = Algorithms.Helpers.Clamp(value, 3);
+                if (this.tessellation != newValue)
+                {
+                    this.tessellation = newValue;
+                    Invalidate();
+                }
             }
         }
-        private int tessellation;
+
+        private int tessellation = 8;
 
         public Teapot(int tessellation = 8)
         {

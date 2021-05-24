@@ -9,9 +9,37 @@
     [Serializable]
     public class Cylinder : Shape, IEquatable<Cylinder>
     {
-        public Vector3 Start { get; set; }
+        /// <summary>
+        /// Gets or sets the start position.
+        /// </summary>
+        public Vector3 Start
+        {
+            get => this.start;
+            set
+            {
+                if (this.start != value)
+                {
+                    this.start = value;
+                    Invalidate();
+                }
+            }
+        }
 
-        public Vector3 End { get; set; }
+        /// <summary>
+        /// Gets or sets the end position.
+        /// </summary>
+        public Vector3 End
+        {
+            get => this.end;
+            set
+            {
+                if (this.end != value)
+                {
+                    this.end = value;
+                    Invalidate();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the tessellation of this primitive.
@@ -23,17 +51,40 @@
         [Range(3, int.MaxValue)]
         public int Tessellation
         {
-            get => tessellation;
+            get => this.tessellation;
             set
             {
-                tessellation = Algorithms.Helpers.Clamp(value, 3);
+                var newValue = Algorithms.Helpers.Clamp(value, 3);
+                if (this.tessellation != newValue)
+                {
+                    this.tessellation = newValue;
+                    Invalidate();
+                }
             }
         }
-        private int tessellation;
 
+        /// <summary>
+        /// Gets or sets the radius.
+        /// </summary>
         [Category("Shape")]
         [Range(0.1f, float.MaxValue)]
-        public float Radius { get; set; }
+        public float Radius
+        {
+            get => this.radius;
+            set
+            {
+                if (this.radius != value)
+                {
+                    this.radius = value;
+                    Invalidate();
+                }
+            }
+        }
+
+        private Vector3 start;
+        private Vector3 end;
+        private int tessellation = 32;
+        private float radius = 1.0f;
 
         public Cylinder(Vector3? start = null, Vector3? end = null,
             float radius = 1, int tessellation = 32)

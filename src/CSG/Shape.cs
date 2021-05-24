@@ -1,6 +1,7 @@
 ﻿namespace CSG
 {
     using CSG.Algorithms;
+    using CSG.Attributes;
     using System;
     using System.ComponentModel;
     using System.Numerics;
@@ -16,9 +17,10 @@
         /// Gets or sets the default color.
         /// </summary>
         [Category("Material")]
+        [Color]
         public Vector4 Color
         {
-            get => color;
+            get => this.color;
             set
             {
                 if (this.color != value)
@@ -33,13 +35,35 @@
         /// Gets or sets the shape position.
         /// </summary>
         [Category("Transform")]
-        public Vector3 Position { get; set; } = Vector3.Zero;
+        public Vector3 Position
+        {
+            get => this.position;
+            set
+            {
+                if (this.position != value)
+                {
+                    this.position = value;
+                    Invalidate();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the shape scale.
         /// </summary>
         [Category("Transform")]
-        public Vector3 Scale { get; set; } = Vector3.One;
+        public Vector3 Scale
+        {
+            get => this.scale;
+            set
+            {
+                if (this.scale != value)
+                {
+                    this.scale = value;
+                    Invalidate();
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the vertices from the <see cref="Shape"/>.
@@ -61,6 +85,8 @@
 
         private ShapeCache? cache = null;
         private Vector4 color = Vector4.One;
+        private Vector3 position = Vector3.Zero;
+        private Vector3 scale = Vector3.One;
 
         protected Shape()
         {
@@ -75,20 +101,7 @@
         }
 
         public GeneratedShape Do(ShapeOperation operation, Shape other)
-        {
-            switch (operation)
-            {
-                default:
-                case ShapeOperation.Intersect:
-                    return Intersect(other);
-
-                case ShapeOperation.Subtract:
-                    return Subtract(other);
-
-                case ShapeOperation.Union:
-                    return Union(other);
-            }
-        }
+            => Do(operation, this, other);
 
         public GeneratedShape Union(Shape other)
             => Union(this, other);
@@ -151,6 +164,22 @@
                    this.Position == other.Position &&
                    this.Scale == other.Scale &&
                    this.Color == other.Color;
+        }
+
+        public static GeneratedShape Do(ShapeOperation operation, Shape lhs, Shape rhs)
+        {
+            switch (operation)
+            {
+                default:
+                case ShapeOperation.Intersect:
+                    return Intersect(lhs, rhs);
+
+                case ShapeOperation.Subtract:
+                    return Subtract(lhs, rhs);
+
+                case ShapeOperation.Union:
+                    return Union(lhs, rhs);
+            }
         }
 
         public static GeneratedShape Union(Shape lhs, Shape rhs)

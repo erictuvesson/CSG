@@ -18,8 +18,24 @@
             new Vector3(+0, -1, +0),
         };
 
+        /// <summary>
+        /// Gets or sets the cube size.
+        /// </summary>
         [Category("Transform")]
-        public Vector3 Size { get; set; }
+        public Vector3 Size
+        {
+            get => this.size;
+            set
+            {
+                if (this.size != value)
+                {
+                    this.size = value;
+                    Invalidate();
+                }
+            }
+        }
+        
+        private Vector3 size;
 
         public Cube(Vector3? position = null, Vector3? size = null)
         {
