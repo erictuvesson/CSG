@@ -68,19 +68,22 @@
         /// <summary>
         /// Gets the vertices from the <see cref="Shape"/>.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public Vertex[] Vertices => Cache.Vertices;
 
         /// <summary>
         /// Gets the indices from the <see cref="Shape"/>.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public uint[] Indices => Cache.Indices;
+
+        /// <summary>
+        /// Gets whether the shape is invalidated, and is required to be rebuilt.
+        /// </summary>
+        public bool IsInvalidated => this.cache == null;
 
         /// <summary>
         /// Gets the <see cref="ShapeCache"/>.
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public ShapeCache Cache => cache ?? (cache = BuildCache()).Value;
 
         private ShapeCache? cache = null;
