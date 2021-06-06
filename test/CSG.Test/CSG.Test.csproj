@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CSG</RootNamespace>
     <ParallelizeAssemblies>true</ParallelizeAssemblies>
     <ParallelizeTestCollections>true</ParallelizeTestCollections>
@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\CSG\CSG.csproj" />
+    <ProjectReference Include="..\..\src\CSG\CSG.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,34 +24,31 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\assets\models\3DBenchy.stl" Link="assets\models\3DBenchy.stl">
+    <None Include="..\..\assets\models\3DBenchy.stl" Link="assets\models\3DBenchy.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_cone.stl" Link="assets\models\shape_cone.stl">
+    <None Include="..\..\assets\models\shape_cone.stl" Link="assets\models\shape_cone.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_cube.stl" Link="assets\models\shape_cube.stl">
+    <None Include="..\..\assets\models\shape_cube.stl" Link="assets\models\shape_cube.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_cylinder.stl" Link="assets\models\shape_cylinder.stl">
+    <None Include="..\..\assets\models\shape_cylinder.stl" Link="assets\models\shape_cylinder.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_operation_intersect.stl" Link="assets\models\shape_operation_intersect.stl">
+    <None Include="..\..\assets\models\shape_operation_intersect.stl" Link="assets\models\shape_operation_intersect.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_operation_subtract.stl" Link="assets\models\shape_operation_subtract.stl">
+    <None Include="..\..\assets\models\shape_operation_subtract.stl" Link="assets\models\shape_operation_subtract.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_operation_union.stl" Link="assets\models\shape_operation_union.stl">
+    <None Include="..\..\assets\models\shape_operation_union.stl" Link="assets\models\shape_operation_union.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_sphere.stl" Link="assets\models\shape_sphere.stl">
+    <None Include="..\..\assets\models\shape_sphere.stl" Link="assets\models\shape_sphere.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\assets\models\shape_teapot.stl" Link="assets\models\shape_teapot.stl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\assets\models\shape_torus.stl" Link="assets\models\shape_torus.stl">
+    <None Include="..\..\assets\models\shape_torus.stl" Link="assets\models\shape_torus.stl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
