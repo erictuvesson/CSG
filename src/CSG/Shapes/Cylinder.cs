@@ -120,33 +120,7 @@
 
         protected override void OnBuild(IShapeBuilder builder)
         {
-            builder.AddVertex(Start * 0.5f, Start);
-            builder.AddVertex(-End * 0.5f, -End);
-
-            float diameter = Radius / 2;
-            for (int i = 0; i < this.Tessellation; ++i)
-            {
-                Vector3 normal = GetCircleVector(i, Tessellation);
-
-                builder.AddVertex(normal + (diameter * Start), normal);
-                builder.AddVertex(normal - (diameter * Start), normal);
-
-                builder.AddIndex(0);
-                builder.AddIndex(2 + (i * 2));
-                builder.AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
-
-                builder.AddIndex(2 + (i * 2));
-                builder.AddIndex(2 + (i * 2) + 1);
-                builder.AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
-
-                builder.AddIndex(1);
-                builder.AddIndex(2 + (((i * 2) + 3) % (Tessellation * 2)));
-                builder.AddIndex(2 + (i * 2) + 1);
-
-                builder.AddIndex(2 + (i * 2) + 1);
-                builder.AddIndex(2 + (((i * 2) + 3) % (Tessellation * 2)));
-                builder.AddIndex(2 + (((i * 2) + 2) % (Tessellation * 2)));
-            }
+            Geometry.Cylinder.CreateSolid(builder, this.Start, this.End, this.Radius, this.tessellation);
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

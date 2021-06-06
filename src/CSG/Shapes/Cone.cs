@@ -59,25 +59,7 @@
         /// <inheritdoc />
         protected override void OnBuild(IShapeBuilder builder)
         {
-            var offset = new Vector3(0, -0.25f, 0);
-
-            builder.AddVertex(Vector3.UnitY + offset, Vector3.UnitY);
-            builder.AddVertex(Vector3.Zero + offset, -Vector3.UnitY);
-
-            for (int i = 0; i < Tessellation; ++i)
-            {
-                Vector3 normal = GetCircleVector(i, Tessellation);
-
-                builder.AddVertex(normal + offset, normal);
-
-                builder.AddIndex(0);
-                builder.AddIndex(2 + i);
-                builder.AddIndex(2 + (i + 1) % Tessellation);
-
-                builder.AddIndex(1);
-                builder.AddIndex(2 + (i + 1) % Tessellation);
-                builder.AddIndex(2 + i);
-            }
+            Geometry.Cone.CreateSolid(builder, this.Tessellation);
         }
 
         /// <inheritdoc />
