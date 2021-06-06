@@ -13,7 +13,6 @@
         [InlineData("./assets/models/shape_cube.stl", 36, 36)]
         [InlineData("./assets/models/shape_cylinder.stl", 384, 384)]
         [InlineData("./assets/models/shape_sphere.stl", 1584, 1584)]
-        [InlineData("./assets/models/shape_teapot.stl", 12288, 12288)]
         [InlineData("./assets/models/shape_torus.stl", 6144, 6144)]
         public void Read(string modelPath, int expectedVertices, int expectedIndicies)
         {
@@ -38,7 +37,6 @@
         [InlineData("./assets/models/shape_cube.stl")]
         [InlineData("./assets/models/shape_cylinder.stl")]
         [InlineData("./assets/models/shape_sphere.stl")]
-        [InlineData("./assets/models/shape_teapot.stl")]
         [InlineData("./assets/models/shape_torus.stl")]
         public void ReadWrite(string modelPath)
         {
