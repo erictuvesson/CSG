@@ -1,5 +1,6 @@
 ﻿namespace CSG.Algorithms
 {
+    using CSG.Exceptions;
     using System.Collections.Generic;
     using System.Numerics;
 

@@ -1,6 +1,7 @@
 ﻿namespace CSG.GitHub
 {
     using CSG.Content.STL;
+    using CSG.Exceptions;
     using System;
     using System.Collections.Generic;
     using System.Globalization;
@@ -23,21 +24,55 @@
         public void Reproduce()
         {
             // Parse the vertices data
-            List<Vector3> vertices1 = ReadVertices(hash1);
-            List<Vector3> vertices2 = ReadVertices(hash2);
+            List<Vector3> points1 = ReadVertices(hash1);
+            List<Vector3> points2 = ReadVertices(hash2);
 
-            Assert.NotEmpty(vertices1);
-            Assert.NotEmpty(vertices2);
+            Assert.NotEmpty(points1);
+            Assert.NotEmpty(points2);
 
-            // Create polygons, assume that 3 vertices make a triangles. (bad solution)
+            // Assume that 3 vertices make a triangles. (bad solution)
+            List<Vertex> vertices1 = points1.Select(x => new Vertex(x, new Vector4(0, 0, 1, 1))).ToList();
+            List<Vertex> vertices2 = points2.Select(x => new Vertex(x, new Vector4(1, 0, 0, 1))).ToList();
+
+            // Create polygons
+            Polygon polygon1 = new Polygon(vertices1);
+            Polygon polygon2 = new Polygon(vertices2);
+
+            // Create shapes
+            Shape shape1 = new GeneratedShape(new[] { polygon1 });
+            Shape shape2 = new GeneratedShape(new[] { polygon2 });
+
+            // Execute operation
+            Assert.Throws<BSPNodeMaxDepthException>(() =>
+            {
+                shape1.Subtract(shape2);
+            });
+        }
+
+        [Fact]
+        public void Solution()
+        {
+            // Parse the vertices data
+            List<Vector3> points1 = ReadVertices(hash1);
+            List<Vector3> points2 = ReadVertices(hash2);
+
+            Assert.NotEmpty(points1);
+            Assert.NotEmpty(points2);
+
+            // Assume that 3 vertices make a triangles. (bad solution)
+            List<Vertex> vertices1 = points1.Select(x => new Vertex(x, new Vector4(0, 0, 1, 1))).ToList();
+            List<Vertex> vertices2 = points2.Select(x => new Vertex(x, new Vector4(1, 0, 0, 1))).ToList();
+
+            // Create polygons
             List<Polygon> polygons1 = vertices1.Chunk(3)
-                .Select(x => new Polygon(x.Select(x => new Vertex(x, new Vector4(0, 0, 1, 1)))))
+                .Select(x => new Polygon(x))
                 .ToList();
 
             List<Polygon> polygons2 = vertices2.Chunk(3)
-                .Select(x => new Polygon(x.Select(x => new Vertex(x, new Vector4(0, 0, 1, 1)))))
+                .Select(x => new Polygon(x))
                 .ToList();
 
+            // Create shapes
             Shape shape1 = new GeneratedShape(polygons1);
             Shape shape2 = new GeneratedShape(polygons2);
 
