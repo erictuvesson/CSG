@@ -1,39 +1,55 @@
 ﻿namespace CSG.Algorithms
 {
+    using CSG.Exceptions;
     using System.Collections.Generic;
 
     class BSPNode
     {
+        // Throw an exception with the max depth is reached.
+        // Have to look into what is the most optimal max depth.
+        // 
+        // This can also be an issue when computing very big shapes using BSP.
+        const int MAX_DEPTH = 1000;
+
         public List<Polygon> Polygons;
 
-        public BSPNode Parent;
+        public readonly BSPNode Parent;
+        public readonly int Depth;
+
         public BSPNode Front;
-		public BSPNode Back;
+        public BSPNode Back;
 
         public Plane Plane;
 
-        public BSPNode()
+        public BSPNode(BSPNode parent)
         {
+            this.Parent = parent;
+            this.Depth = parent != null ? parent.Depth + 1 : 0;
             this.Front = null;
             this.Back = null;
         }
 
         public BSPNode(IEnumerable<Polygon> list)
         {
+            this.Parent = null;
+            this.Depth = 0;
+
             Build(new List<Polygon>(list));
         }
 
-        public BSPNode(List<Polygon> list, Plane plane, BSPNode front, BSPNode back)
+        public BSPNode(BSPNode parent, List<Polygon> list, Plane plane, BSPNode front, BSPNode back)
         {
+            this.Parent = parent;
+            this.Depth = parent != null ? parent.Depth + 1 : 0;
             this.Polygons = list;
             this.Plane = plane;
             this.Front = front;
             this.Back = back;
         }
 
-        public BSPNode Clone()
+        public BSPNode Clone(BSPNode parent = null)
         {
-            return new BSPNode(this.Polygons, this.Plane, this.Front, this.Back);
+            return new BSPNode(parent, this.Polygons, this.Plane, this.Front, this.Back);
         }
 
         public void ClipTo(BSPNode other)
@@ -92,9 +108,12 @@
             if (list_front.Count > 0)
             {
                 if (this.Front == null)
-                {
-                    this.Front = new BSPNode { Parent = this };
-                }
+                    this.Front = new BSPNode(this);
+
+                var depth = this.Front.Depth;
+                if (depth >= MAX_DEPTH)
+                    throw new BSPNodeMaxDepthException();
+
                 this.Front.Build(list_front);
             }
 
@@ -102,8 +121,13 @@
             {
                 if (this.Back == null)
                 {
-                    this.Back = new BSPNode { Parent = this };
+                    this.Back = new BSPNode(this);
                 }
+
+                var depth = this.Back.Depth;
+                if (depth >= MAX_DEPTH)
+                    throw new BSPNodeMaxDepthException();
+
                 this.Back.Build(list_back);
             }
         }
