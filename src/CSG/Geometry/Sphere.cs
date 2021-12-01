@@ -17,7 +17,7 @@
             int horizontalSegments = tessellation * 2;
 
             // Start with a single vertex at the bottom of the sphere.
-            builder.AddVertex(Vector3.UnitY, -Vector3.UnitY);
+            builder.AddVertex(-Vector3.UnitY * radius, -Vector3.UnitY * radius);
 
             // Create rings of vertices at progressively higher latitudes.
             for (int i = 0; i < verticalSegments - 1; ++i)
@@ -42,7 +42,7 @@
             }
 
             // Finish with a single vertex at the top of the sphere.
-            builder.AddVertex(Vector3.UnitY, Vector3.UnitY);
+            builder.AddVertex(Vector3.UnitY * radius, Vector3.UnitY * radius);
 
             // Create a fan connecting the bottom vertex to the bottom latitude ring.
             for (int i = 0; i < horizontalSegments; ++i)
