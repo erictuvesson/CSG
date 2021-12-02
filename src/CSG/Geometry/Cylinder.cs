@@ -13,37 +13,60 @@
 
         public static void CreateSolid(this IGeometryBuilder builder, Vector3 start, Vector3 end, float radius, int tessellation)
         {
-            builder.AddVertex(start * 0.5f, start);
-            builder.AddVertex(-end * 0.5f, -end);
+            var dir = start - end;
+            if (dir == Vector3.Zero)
+            {
+                dir = new Vector3(1, 0, 0);
+            }
+            dir = Vector3.Normalize(dir);
 
-            float diameter = radius / 2.0f;
+            builder.AddVertex(start, dir);
+            builder.AddVertex(end, -dir);
+
+            var sTop = 0;
+            var sBottom = 1;
+            var sEdgeTop = 2;
+            var sEdgeBottom = 3;
+
+            var stride = 4;
+
+            int getIndex(int i, int offset)
+            {
+                return 2 + (((i * stride) + offset) % (tessellation * stride));
+            }
+
             for (int i = 0; i < tessellation; ++i)
             {
                 float angle = i * Algorithms.Helpers.TwoPi / tessellation;
 
-                float dx = MathF.Cos(angle);
-                float dz = MathF.Sin(angle);
+                var mat = Matrix4x4.CreateFromAxisAngle(dir, angle);
+                var normal = Vector3.Transform(Vector3.UnitZ, mat);
+                var rotated = normal * radius;
 
-                Vector3 normal = new Vector3(dx, 0.0f, dz);
+                builder.AddVertex(rotated + start, dir); // Top surface
+                builder.AddVertex(rotated + end, -dir); // Bottom surface
+                builder.AddVertex(rotated + start, normal); // Top edge
+                builder.AddVertex(rotated + end, normal); // Bottom edge
 
-                builder.AddVertex(normal + (diameter * start), normal);
-                builder.AddVertex(normal - (diameter * start), normal);
-
+                // Top face
                 builder.AddIndex(0);
-                builder.AddIndex(2 + (i * 2));
-                builder.AddIndex(2 + (((i * 2) + 2) % (tessellation * 2)));
+                builder.AddIndex(getIndex(i + 1, sTop));
+                builder.AddIndex(getIndex(i, sTop));
 
-                builder.AddIndex(2 + (i * 2));
-                builder.AddIndex(2 + (i * 2) + 1);
-                builder.AddIndex(2 + (((i * 2) + 2) % (tessellation * 2)));
-
+                // Bottom face
                 builder.AddIndex(1);
-                builder.AddIndex(2 + (((i * 2) + 3) % (tessellation * 2)));
-                builder.AddIndex(2 + (i * 2) + 1);
+                builder.AddIndex(getIndex(i, sBottom));
+                builder.AddIndex(getIndex(i + 1, sBottom));
 
-                builder.AddIndex(2 + (i * 2) + 1);
-                builder.AddIndex(2 + (((i * 2) + 3) % (tessellation * 2)));
-                builder.AddIndex(2 + (((i * 2) + 2) % (tessellation * 2)));
+                // Side face 1
+                builder.AddIndex(getIndex(i, sEdgeTop));
+                builder.AddIndex(getIndex(i + 1, sEdgeBottom));
+                builder.AddIndex(getIndex(i, sEdgeBottom));
+
+                // Side face 2
+                builder.AddIndex(getIndex(i + 1, sEdgeBottom));
+                builder.AddIndex(getIndex(i, sEdgeTop));
+                builder.AddIndex(getIndex(i + 1, sEdgeTop));
             }
         }
     }
