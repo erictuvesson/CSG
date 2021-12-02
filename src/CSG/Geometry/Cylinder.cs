@@ -35,12 +35,13 @@
                 return 2 + (((i * stride) + offset) % (tessellation * stride));
             }
 
+            var perp = Vector3.Normalize(Vector3.Cross(new Vector3(dir.Z, dir.X, dir.Y), dir));
+
             for (int i = 0; i < tessellation; ++i)
             {
                 float angle = i * Algorithms.Helpers.TwoPi / tessellation;
 
-                var mat = Matrix4x4.CreateFromAxisAngle(dir, angle);
-                var normal = Vector3.Transform(Vector3.UnitZ, mat);
+                var normal = Vector3.Transform(perp, Quaternion.CreateFromAxisAngle(dir, angle));
                 var rotated = normal * radius;
 
                 builder.AddVertex(rotated + start, dir); // Top surface
