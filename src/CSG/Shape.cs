@@ -110,7 +110,7 @@
         /// <param name="other"></param>
         /// <returns></returns>
         public GeneratedShape Do(ShapeOperation operation, Shape other)
-            => Do(operation, this, other);
+            => Do(operation, other, this);
 
         /// <summary>
         /// Perform a <see cref="ShapeOperation.Union"/> operation with <paramref name="other"/> shape.
@@ -118,7 +118,7 @@
         /// <param name="other"></param>
         /// <returns></returns>
         public GeneratedShape Union(Shape other)
-            => Union(this, other);
+            => Union(other, this);
 
         /// <summary>
         /// Perform a <see cref="ShapeOperation.Subtract"/> operation with <paramref name="other"/> shape.
@@ -126,7 +126,7 @@
         /// <param name="other"></param>
         /// <returns></returns>
         public GeneratedShape Subtract(Shape other)
-            => Subtract(this, other);
+            => Subtract(other, this);
 
         /// <summary>
         /// Perform a <see cref="ShapeOperation.Intersect"/> operation with <paramref name="other"/> shape.
@@ -134,7 +134,7 @@
         /// <param name="other"></param>
         /// <returns></returns>
         public GeneratedShape Intersect(Shape other)
-            => Intersect(this, other);
+            => Intersect(other, this);
 
         /// <summary>
         /// Create polygons of the <see cref="Shape"/>.
