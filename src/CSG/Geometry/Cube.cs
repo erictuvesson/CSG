@@ -31,10 +31,10 @@
                 builder.AddIndex(builder.CurrentVertex + 2);
                 builder.AddIndex(builder.CurrentVertex + 3);
 
-                builder.AddVertex(((normal - side1 - side2) / 2.0f) * size, normal, Vector2.Zero);
-                builder.AddVertex(((normal - side1 + side2) / 2.0f) * size, normal, Vector2.UnitX);
-                builder.AddVertex(((normal + side1 + side2) / 2.0f) * size, normal, Vector2.One);
-                builder.AddVertex(((normal + side1 - side2) / 2.0f) * size, normal, Vector2.UnitY);
+                builder.AddVertex(((normal - side1 - side2)) * size, normal, Vector2.Zero);
+                builder.AddVertex(((normal - side1 + side2)) * size, normal, Vector2.UnitX);
+                builder.AddVertex(((normal + side1 + side2)) * size, normal, Vector2.One);
+                builder.AddVertex(((normal + side1 - side2)) * size, normal, Vector2.UnitY);
             }
         }
     }
